@@ -1,0 +1,232 @@
+<div id="mySale">
+    <header class="first-page">
+
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">
+                        <img alt="Brand" src="assets/images/man.png">
+                    </a>
+                </div>
+                <p class="navbar-text"><span id="span-id-customer">0</span> - <span id="spam-name-customer">Cliente (Não Identificado)</span>
+                </p>
+                <p class="navbar-text navbar-right"><a class="btn add-client">+</a></p>
+            </div>
+        </nav>
+
+        <!-- Divide a tela em 2 partes -->
+        <div class="row">
+            <div id="order-div">
+                <label for="order">Encomenda </label>
+                <input type="checkbox" name="order" id="order">
+            </div>
+
+            <!-- Parte da esquerda -->
+            <div class="col-md-6 up-page">
+                <h1>Adicione o produto</h1>
+                <!-- Painel -->
+                <div class="panel-block">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <span class="h2">CAMISETA MANGA CURTA 00</span>
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <p class="h2">ID</p>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="number" name="quant[2]" class="form-control"
+                                           placeholder="ID" min="1" readonly>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="row pull-right">
+                                <div class="col-sm-12">
+                                    <input type="number" value="1" class="form-control text-center" min="1">
+                                </div>
+                            </div>
+                            <div class="row pull-right">
+                                <div class="col-sm-12">
+                                    <button type="button" class="btn btn-default" id="btnAdd">
+                                        Adicionar
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="produto">
+                    <h1>Produto</h1>
+                    <div class="field pesquisa">
+                        <div class="form-group">
+                            <label class="sr-only" for="inputSearch">Pesquisar</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="inputSearch" placeholder="Produto">
+                                <div class="input-group-addon"><span class="icon is-small is-right">
+                                                <i class="fas fa-search"></i>
+                                        </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-size" id="product">
+
+                        <table class="table table-hover table-bordered table-striped" id="tableSearch">
+                            <thead>
+                            <tr>
+                                <th><abbr title="Codigo">C</abbr></th>
+                                <th>Descricao</th>
+                                <th>Tamanho</th>
+                                <th>R$</th>
+                            </tr>
+                            </thead>
+                            <tbody class="search-table">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="col-md-6 to-right up-page">
+                <h1>Vendas</h1>
+                <div class="table-size" id="sale">
+                    <table class="table table-hover table-bordered table-striped">
+                        <thead>
+                        <tr>
+                            <th><abbr title="Codigo">C</abbr></th>
+                            <th>Descricao</th>
+                            <th><abbr title="Tamanho">T</abbr></th>
+                            <th><abbr title="Quantidade">Qnt</abbr></th>
+                            <th>R$</th>
+                        </tr>
+                        </thead>
+                        <tfoot>
+                        <tr>
+                            <th><abbr title="Position"></abbr></th>
+                            <th></th>
+                            <th></th>
+                            <th>Total:</th>
+                            <th id="totalValueSale">0,00</th>
+                        </tr>
+                        </tfoot>
+                        <tbody id="saleTable">
+                        </tbody>
+                    </table>
+                </div>
+                <a class="btn btn-default finish-sale">Finaliza venda</a>
+
+            </div>
+
+        </div>
+    </header>
+    <!-- Aqui  -->
+
+    <div class="second-page">
+
+        <div id="myModal2" class="modal">
+
+            <!-- Modal content -->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="close">&times;</span>
+                    <h2 class="modal-h2">Dar Desconto</h2>
+                </div>
+                <div class="modal-body2">
+                    <div class="slidecontainer">
+                        <input type="range" min="0" max="6" value="0" class="slider" id="myRange" name="myRange"
+                               oninput="amount.value=myRange.value">
+                        <output id="amount" name="amount" for="myRange">0</output>
+                        %
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <p class="btn btn-lg btn-orange" id="btnAddDesconto"> Dar Desconto </p>
+                </div>
+            </div>
+        </div>
+
+        <h2>R$ <span id="to-pay">00.00</span><span id="new-value"></span></h2>
+        <a class="h-link" id="desconto"> Dar desconto </a>
+
+        <!-- <h1>Selecione a forma de pagamento</h1> -->
+
+        <div class="btn-toolbar" data-toggle="buttons">
+
+            <label class="btn btn-default opt active" id="Dinheiro" value=1>
+                <input type="radio" name="options"> <img src="assets/images/Dinheiro.png" alt=""> <br> Dinheiro
+            </label>
+            <label class="btn btn-default opt" id="Cheque" value=2>
+                <input type="radio" name="options"> <img src="assets/images/Cheque.png" alt=""> <br> Cheque
+            </label>
+
+            <label class="btn btn-default opt" id="Débito" value=3>
+                <input type="radio" name="options"> <img src="assets/images/Debito.png" alt=""> <br> Débito
+            </label>
+
+            <label class="btn btn-default opt" id="Crédito" value=4>
+                <input type="radio" name="options"> <img src="assets/images/Credito.png" alt=""> <br> Crédito
+            </label>
+
+            <label class="btn btn-default opt" id="Transferência" value=5>
+                <input type="radio" name="options"> <img src="assets/images/money-transfer.png" alt=""> <br>
+                Transferência
+            </label>
+
+        </div>
+
+        <div class="form-inline">
+            <div class="form-group">
+                <div class="input-group" id="paymentMethod">
+                    <div class="input-group-addon">$</div>
+                    <input type="text" class="form-control" id="lblValor" placeholder="Valor">
+                </div>
+            </div>
+            <p class="btn btn-default" id="add-payment">Adicionar</p>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 vendas">
+                <h1>Pagamentos</h1>
+                <div class="table-size" id="payment">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th><abbr title="Codigo">C</abbr></th>
+                            <th>Forma de pagamento</th>
+                            <th>R$</th>
+                        </tr>
+                        </thead>
+                        <tfoot>
+                        <tr>
+                            <th><abbr title="Position"></abbr></th>
+                            <th>Total:</th>
+                            <th id="totalValuePayment">0,00</th>
+                        </tr>
+                        </tfoot>
+                        <tbody id="paymentTable">
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+            <div class="col-md-6 money-labels">
+                <h3>Recebido: <span id="red" class="red">R$ <span id="received"> 00.00</span> </span></h3>
+                <h3>Falta Receber: <span class="green">R$ <span id="to-receive"> 00.00</span> </span></h3>
+                <h3>Troco: <span class="green">R$ <span id="change"> 00.00</span> </span></h3>
+            </div>
+
+        </div>
+
+
+        <div class="final-btn">
+            <a class="btn btn-default" id="back-sale"><img src="assets/images/return.png" alt=""> Voltar a tela</a>
+
+            <a class="btn btn-default" id="end-sale"><img src="assets/images/Cofre.png" alt=""> Finaliza venda</a>
+        </div>
+    </div>
+</div>

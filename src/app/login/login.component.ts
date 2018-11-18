@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
 
   onSubmit(form: NgForm) {
     console.log(form.value);
-    this.router.navigate(['/seller']);
+    this.router.navigate(['/seller', 'menu']);
   }
 
 }

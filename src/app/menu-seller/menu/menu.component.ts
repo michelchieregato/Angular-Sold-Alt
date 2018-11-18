@@ -12,4 +12,8 @@ export class MenuComponent implements OnInit {
   ngOnInit() {
   }
 
+  onClick() {
+      console.log(123)
+  }
+
 }

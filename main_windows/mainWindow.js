@@ -42,23 +42,16 @@ exports.createWindow = (args) => {
     this.win = new BrowserWindow(windowOptions);
 
     // Load main window content
-    // this.win.loadURL('http://localhost:4200/');
-    // this.win.loadURL('file:///C:\\Users\\miche\\Desktop\\Projetos\\Sold Alt\\angular_sold_alt\\angular-sold-alt\\dist\\index.html#seller')
-    console.log(url.format({
-        //__dirname is the current working dir
-        pathname: path.join(__dirname, '..', 'dist', 'index.html'),
-        protocol: 'file:',
-        slashes: true,
-        hash: 'seller'
-    }))
+    this.win.loadURL('http://localhost:4200/');
 
-    this.win.loadURL(url.format({
-        //__dirname is the current working dir
-        pathname: path.join(__dirname, '..', 'dist', 'index.html'),
-        protocol: 'file:',
-        slashes: true,
-        // hash: 'seller'
-    }));
+    // this.win.loadURL(url.format({
+    //     pathname: path.join(__dirname, '..', 'angular', 'index.html'),
+    //     protocol: 'file:',
+    //     slashes: true,
+    //     // hash: 'seller'
+    // }));
+
+    this.win.webContents.openDevTools();
     // // Handle window closed
     this.win.on('closed', () => {
         this.win = null
