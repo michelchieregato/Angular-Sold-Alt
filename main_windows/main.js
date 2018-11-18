@@ -41,7 +41,7 @@ const mainWindow = require('./mainWindow');
 //     return text
 // }
 
-global['default_url'] = 'http://127.0.0.1:8000/';
+global['default_url'] = '/api/';
 // global['default_url'] = 'http://www.pueristore.com.br/django_sold_alt/';
 global['Vendedor'] = '';
 global['Vendedor_id'] = 0;

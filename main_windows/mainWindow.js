@@ -30,28 +30,22 @@ exports.createWindow = (args) => {
         fullscreen: false,
     };
 
-    const someArgs = args;
-    const indexPath = path.resolve('http://localhost:4200', '');
     const indexUrl = url.format({
         protocol: 'file',
         pathname: 'http://localhost:4200',
         slashes: true,
-        hash: encodeURIComponent(JSON.stringify(someArgs))
+        // hash: 'seller'
     });
 
     this.win = new BrowserWindow(windowOptions);
 
-    // Load main window content
+    // With ng serve
     this.win.loadURL('http://localhost:4200/');
 
-    // this.win.loadURL(url.format({
-    //     pathname: path.join(__dirname, '..', 'angular', 'index.html'),
-    //     protocol: 'file:',
-    //     slashes: true,
-    //     // hash: 'seller'
-    // }));
+    // Production
+    // this.win.loadURL(indexUrl);
 
-    this.win.webContents.openDevTools();
+    // this.win.webContents.openDevTools();
     // // Handle window closed
     this.win.on('closed', () => {
         this.win = null

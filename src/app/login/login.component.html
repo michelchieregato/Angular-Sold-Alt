@@ -10,7 +10,7 @@
 
             <div class="form-group" id='div-user' [ngClass]="{'has-error': username.invalid && loginForm.submitted}">
                 <label for="name">Usuário</label>
-                <input type="text" class="form-control" name="username"
+                <input type="text" class="form-control" name="name"
                        placeholder="Usuário"
                        ngModel required #username="ngModel">
                 <span *ngIf="username.invalid && loginForm.submitted" class="help-block">Preencha o usuário.</span>
