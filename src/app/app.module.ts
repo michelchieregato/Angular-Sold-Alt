@@ -10,6 +10,9 @@ import {MenuSellerComponent} from './menu-seller/menu-seller.component';
 import {MenuComponent} from './menu-seller/menu/menu.component';
 import {SaleComponent} from './menu-seller/sale/sale.component';
 import {HttpClientModule} from '@angular/common/http';
+import {PopupComponent} from './modals/popup/popup.component';
+import {MatDialog, MatDialogModule} from '@angular/material/dialog';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -19,16 +22,20 @@ import {HttpClientModule} from '@angular/common/http';
         NavbarSellerComponent,
         MenuSellerComponent,
         MenuComponent,
-        SaleComponent
+        SaleComponent,
+        PopupComponent
     ],
     imports: [
         BrowserModule,
         AppRoutingModule,
         FormsModule,
-        HttpClientModule
+        HttpClientModule,
+        MatDialogModule,
+        BrowserAnimationsModule
     ],
-    providers: [],
-    bootstrap: [AppComponent]
+    providers: [MatDialog],
+    bootstrap: [AppComponent],
+    entryComponents: [PopupComponent]
 })
 export class AppModule {
 }

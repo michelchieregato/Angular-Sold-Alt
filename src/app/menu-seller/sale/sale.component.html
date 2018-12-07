@@ -27,29 +27,20 @@
                 <!-- Painel -->
                 <div class="panel-block">
                     <div class="row">
-                        <div class="col-sm-8">
-                            <span class="h2">CAMISETA MANGA CURTA 00</span>
-                            <div class="row">
-                                <div class="col-sm-2">
-                                    <p class="h2">ID</p>
-                                </div>
-                                <div class="col-sm-6">
-                                    <input type="number" name="quant[2]" class="form-control"
-                                           placeholder="ID" min="1" readonly>
-                                </div>
-                            </div>
-
+                        <div class="col-sm-12">
+                            <span class="h2">{{ product.name }} {{ product.size }}</span>
                         </div>
-                        <div class="col-sm-4">
-                            <div class="row pull-right">
-                                <div class="col-sm-12">
-                                    <input type="number" value="1" class="form-control text-center" min="1">
+                        <div class="col-sm-6">
+                            <div class="row">
+                                <div class="col-sm-7">
+                                    <label>
+                                        <input type="number" value="1" class="form-control text-center"
+                                               min="1" [(ngModel)]="qnt" (keyup.enter)="addProduct()">
+                                    </label>
                                 </div>
-                            </div>
-                            <div class="row pull-right">
-                                <div class="col-sm-12">
-                                    <button type="button" class="btn btn-default" id="btnAdd">
-                                        Adicionar
+                                <div class="col-sm-5">
+                                    <button type="button" class="btn btn-default" id="btnAdd" (click)="addProduct()">
+                                        +
                                     </button>
                                 </div>
                             </div>
@@ -59,33 +50,43 @@
                 </div>
                 <div class="produto">
                     <h1>Produto</h1>
-                    <div class="field pesquisa">
-                        <div class="form-group">
-                            <label class="sr-only" for="inputSearch">Pesquisar</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" id="inputSearch" placeholder="Produto">
-                                <div class="input-group-addon"><span class="icon is-small is-right">
-                                                <i class="fas fa-search"></i>
-                                        </span>
-                                </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Produto"
+                                   (keyup)="searchProduct($event.target.value)">
+                            <div class="input-group-addon">
+                                <span class="icon is-small is-right">
+                                    <i class="fas fa-search"></i>
+                                </span>
                             </div>
                         </div>
                     </div>
-                    <div class="table-size" id="product">
-
-                        <table class="table table-hover table-bordered table-striped" id="tableSearch">
-                            <thead>
-                            <tr>
-                                <th><abbr title="Codigo">C</abbr></th>
-                                <th>Descricao</th>
-                                <th>Tamanho</th>
-                                <th>R$</th>
-                            </tr>
-                            </thead>
-                            <tbody class="search-table">
-                            </tbody>
-                        </table>
-                    </div>
+                    <table class="table odd table-product">
+                        <thead>
+                        <tr>
+                            <th class="static-100"><abbr title="Codigo">C</abbr></th>
+                            <th class="static-300">Descricao</th>
+                            <th class="static-200">Tamanho</th>
+                            <th class="static-200">R$</th>
+                        </tr>
+                        </thead>
+                        <tbody class="">
+                        <tr *ngFor="let product of displayProducts" (click)="updatePanel(product)">
+                            <td class="static-100">
+                                {{ product.id }}
+                            </td>
+                            <td class="static-300">
+                                {{ product.name }}
+                            </td>
+                            <td class="static-200">
+                                {{ product.size }}
+                            </td>
+                            <td class="static-200">
+                                {{ product.price_sell }}
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
 
             </div>

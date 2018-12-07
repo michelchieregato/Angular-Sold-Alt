@@ -8,7 +8,7 @@ const mainWindow = require('./mainWindow');
 // const mainAlert = require('./mainAlert');
 // const mainMenu_admin = require('./mainMenu_admin');
 // const mainReport = require('./mainReport');
-// const mainSale = require('./mainSale');
+const mainSale = require('./mainSale');
 // const mainClient = require('./mainClient');
 // const updater = require('./updater');
 // const Store = require('./storage.js');
@@ -108,43 +108,13 @@ ipcMain.on('menu_not_admin', (e, args) => {
     global['is_admin'] = false;
 });
 
-// Comunicacao add-client
-ipcMain.on('add-client-to-sale', (e, args) => {
-    global['Cliente'] = args['name'];
-    global['Client_id'] = args['id'];
-});
-
-// Tela de criar cliente
-ipcMain.on('new-client', (e, args) => {
-    mainClient.createWindow({'url': 'client_create.html'})
-});
-
 // Tela de venda
-ipcMain.on('new-sale', (e, args) => {
-    mainSale.createWindow(args)
+ipcMain.on('open-sale-screen', (e, args) => {
+    mainSale.createWindow()
 });
-
-ipcMain.on('new-main-screen', (e, args) => {
-    mainWindow.createWindow(args)
-});
-
-// Comunicacao menu normal
-ipcMain.on('menu', (e, args) => {
-    mainWindow.createWindow(args)
-});
-
-// Comunicacao menu sangria
-ipcMain.on('sangria', (e, args) => {
-    mainWithdraw.createWindow({'url': 'withdraw.html'})
-});
-
 // Tela pdf
 ipcMain.on('pdf', (e, args) => {
     mainReport.createWindow(args);
-});
-
-ipcMain.on('update-window', (e, args) => {
-    mainWindow.showUrl(args);
 });
 
 ipcMain.on('update-json', (e, args) => {

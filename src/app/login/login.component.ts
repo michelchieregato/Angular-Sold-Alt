@@ -2,6 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {Router} from '@angular/router';
 import {ClientServer} from '../services/client.server';
+import {MatDialog} from '@angular/material/dialog';
+import {PopupComponent} from '../modals/popup/popup.component';
+
 
 declare const window: any;
 
@@ -14,20 +17,48 @@ declare const window: any;
     styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+    disabled = false;
 
-    constructor(private router: Router, private clientServer: ClientServer) {
+    constructor(private router: Router, private clientServer: ClientServer, public dialog: MatDialog) {
     }
 
     ngOnInit() {
     }
 
     onSubmit(form: NgForm) {
+        this.disabled = true;
         this.clientServer.login(form.value).subscribe(
             (response) => {
-                console.log(response);
-                // this.router.navigate(['/seller', 'menu']);
+                switch (response) {
+                    case 'Administrador':
+                        this.router.navigate(['/seller', 'menu']);
+                        break;
+                    case 'Vendedor':
+                        break;
+                    default:
+                        this.disabled = false;
+                        this.router.navigate(['/seller', 'menu']);
+                        this.dialog.open(PopupComponent, {
+                            data: {
+                                'type': 'sad',
+                                'title': 'Acesso negado',
+                                'text': 'Usuário ou senha incorretos'
+                            }
+                        });
+                        break;
+
+                }
             },
-            (error) => console.log(error)
+            (error) => {
+                this.disabled = false;
+                this.dialog.open(PopupComponent, {
+                    data: {
+                        'type': 'sad',
+                        'title': 'Erro',
+                        'text': 'Verifique a conexão'
+                    }
+                });
+            }
         );
 
     }

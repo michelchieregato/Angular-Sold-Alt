@@ -6,13 +6,13 @@ import {MenuComponent} from './menu-seller/menu/menu.component';
 import {SaleComponent} from './menu-seller/sale/sale.component';
 
 const appRoutes: Routes = [
-    {path: '', component: LoginComponent},
     {
         path: 'seller', component: MenuSellerComponent, children: [
             {path: 'menu', component: MenuComponent}
         ]
     },
-    {path: 'sale', component: SaleComponent}
+    {path: 'sale', component: SaleComponent},
+    {path: '', component: LoginComponent},
 ];
 
 @NgModule({

@@ -1,0 +1,16 @@
+<div id="popup">
+    <div class='jumbotron' [ngClass]="data.type">
+        <img src="assets/images/{{ data.type }}.png" alt="">
+    </div>
+    <h2>
+        {{ data.title }}
+    </h2>
+    <p>
+        {{ data.text }}
+    </p>
+    <div id='field'>
+        <button class="btn" [ngClass]="data.type" (click)="closeModal()">
+            Ok
+        </button>
+    </div>
+</div>
