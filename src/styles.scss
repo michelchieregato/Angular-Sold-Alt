@@ -126,6 +126,12 @@ body {
     table-layout: fixed;
     width: 100%;
 
+    &.able-click {
+        td {
+            cursor: pointer;
+        }
+    }
+
     th {
         font-size: 0.8em;
         background-color: transparent;
@@ -162,6 +168,9 @@ body {
         &.static-300 {
             width: 300px;
         }
+        &.static-400 {
+            width: 400px;
+        }
     }
 
     > thead > tr > th {
@@ -177,7 +186,6 @@ body {
         overflow-wrap: break-word;
         vertical-align: middle !important;
         text-align: center;
-        cursor: pointer;
 
         .btn {
             font-size: 0.8em;

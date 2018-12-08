@@ -61,7 +61,7 @@
                             </div>
                         </div>
                     </div>
-                    <table class="table odd table-product">
+                    <table class="table odd table-product able-click">
                         <thead>
                         <tr>
                             <th class="static-100"><abbr title="Codigo">C</abbr></th>
@@ -97,25 +97,28 @@
                 <table class="table odd table-sale">
                     <thead>
                     <tr>
-                        <th class="static-300">Descricao</th>
+                        <th class="static-400">Descricao</th>
                         <th class="static-200">Tamanho</th>
                         <th class="static-200">Qnt</th>
-                        <th class="static-200">R$</th>
+                        <th class="static-100">R$</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr *ngFor="let product of saleProducts">
-                        <td class="static-300">
+                        <td class="static-400">
+                            <span class="del" (click)="removeProduct(product.id)">
+                                <i class="fas fa-trash-alt"></i>
+                            </span>
                             {{ product.name }}
                         </td>
                         <td class="static-200">
                             {{ product.size }}
                         </td>
                         <td class="static-200">
-                            {{ product.price_sell }}
+                            {{ product.quantity }}
                         </td>
                         <td class="static-100">
-                            {{ product.id }}
+                            {{ product.price_sell }}
                         </td>
                     </tr>
                     </tbody>
@@ -124,7 +127,7 @@
                         <th class="static-300"></th>
                         <th class="static-200"></th>
                         <th class="static-200">Total:</th>
-                        <th class="static-100">0,00</th>
+                        <th class="static-100">{{ total }}</th>
                     </tr>
                     </tfoot>
                 </table>

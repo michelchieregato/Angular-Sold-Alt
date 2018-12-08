@@ -13,6 +13,7 @@ export class SaleComponent implements OnInit {
     saleProducts = [];
     product = new Product({});
     qnt = 1;
+    total = 0;
 
     constructor(private clientServer: ClientServer, private elRef: ElementRef) {
         elRef.nativeElement.ownerDocument.body.style.overflow = 'hidden';
@@ -39,9 +40,31 @@ export class SaleComponent implements OnInit {
         });
     }
 
+    private getProductOnSaleList(id) {
+        return this.saleProducts.filter(saleProduct => {
+            return saleProduct.id === id;
+        });
+    }
+
     addProduct() {
-        this.product.quantity = this.qnt;
-        this.saleProducts.push(this.product);
+        if (this.getProductOnSaleList(this.product.id).length) {
+            this.getProductOnSaleList(this.product.id)[0].quantity += this.qnt;
+        } else {
+            this.product.quantity = this.qnt;
+            this.saleProducts.push(this.product);
+        }
+    }
+
+    removeProduct(id: number) {
+        this.saleProducts = this.saleProducts.filter(saleProduct => {
+            return saleProduct.id !== id;
+        });
+    }
+
+    getSaleValue() {
+        return this.saleProducts.reduce(saleProduct => {
+            return saleProduct.qnt;
+        });
     }
 
 }

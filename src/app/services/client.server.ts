@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import 'rxjs-compat/add/operator/map';
 import {Product} from '../models/product.model';
+import 'rxjs-compat/add/operator/map';
 
 declare const window: any;
 const { remote } = window.require('electron');

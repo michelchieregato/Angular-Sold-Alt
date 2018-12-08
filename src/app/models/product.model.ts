@@ -1,6 +1,3 @@
-import {ClientServer} from '../services/client.server';
-
-
 export class Product {
     id: number;
     name: string;
@@ -19,9 +16,4 @@ export class Product {
         this.quantity = 1;
     }
 
-    // public clientServer = ClientServer;
-
-    save() {
-        // this.clientServer.saveProducts.subscribe();
-    }
 }
