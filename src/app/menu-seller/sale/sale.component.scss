@@ -346,6 +346,7 @@ h3 span {
 #order-div {
     text-align: right;
     margin-top: 10px;
+    padding-right: 12px;
 }
 
 #order {
@@ -363,12 +364,12 @@ h3 span {
 
 .table-product {
     tbody {
-        height: 200px;
+        height: 40vh;
     }
 }
 
 .table-sale {
     tbody {
-        height: 325px;
+        height: 58vh;
     }
 }

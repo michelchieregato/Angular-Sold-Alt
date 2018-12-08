@@ -17,8 +17,9 @@
         <!-- Divide a tela em 2 partes -->
         <div class="row">
             <div id="order-div">
-                <label for="order">Encomenda </label>
-                <input type="checkbox" name="order" id="order">
+                <label class="checkbox-inline">
+                    <input type="checkbox" value="">Encomenda
+                </label>
             </div>
 
             <!-- Parte da esquerda -->
@@ -64,17 +65,13 @@
                     <table class="table odd table-product able-click">
                         <thead>
                         <tr>
-                            <th class="static-100"><abbr title="Codigo">C</abbr></th>
                             <th class="static-300">Descricao</th>
                             <th class="static-200">Tamanho</th>
-                            <th class="static-200">R$</th>
+                            <th class="static-200">Preço</th>
                         </tr>
                         </thead>
                         <tbody class="">
                         <tr *ngFor="let product of displayProducts" (click)="updatePanel(product)">
-                            <td class="static-100">
-                                {{ product.id }}
-                            </td>
                             <td class="static-300">
                                 {{ product.name }}
                             </td>
@@ -82,7 +79,7 @@
                                 {{ product.size }}
                             </td>
                             <td class="static-200">
-                                {{ product.price_sell }}
+                               R$ {{ product.price_sell }}
                             </td>
                         </tr>
                         </tbody>
@@ -100,7 +97,7 @@
                         <th class="static-400">Descricao</th>
                         <th class="static-200">Tamanho</th>
                         <th class="static-200">Qnt</th>
-                        <th class="static-100">R$</th>
+                        <th class="static-100">Preço</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -118,7 +115,7 @@
                             {{ product.quantity }}
                         </td>
                         <td class="static-100">
-                            {{ product.price_sell }}
+                            R$ {{ product.price_sell }}
                         </td>
                     </tr>
                     </tbody>
@@ -127,7 +124,7 @@
                         <th class="static-300"></th>
                         <th class="static-200"></th>
                         <th class="static-200">Total:</th>
-                        <th class="static-100">{{ total }}</th>
+                        <th class="static-100">R$ {{ total }}</th>
                     </tr>
                     </tfoot>
                 </table>

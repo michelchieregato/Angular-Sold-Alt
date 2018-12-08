@@ -14,42 +14,40 @@ const mainSale = require('./mainSale');
 // const Store = require('./storage.js');
 
 // para mexer com o config file
-// const ini = require('ini');
-// const fs = require('fs');
-// const path = require('path');
-// const os = require('os');
-// const config_path = path.resolve(__dirname, '..', 'config', 'config.ini');
-// const config = ini.parse(fs.readFileSync(config_path, 'utf-8'));
-// const crypto = require('crypto');
-// const cryptoAlgo = 'aes-128-cbc';
-// const cryptoPassword = 'soldalt';
+const ini = require('ini');
+const fs = require('fs');
+const path = require('path');
+const os = require('os');
+const config_path = path.resolve(__dirname, '..', 'config', 'config.ini');
+const config = ini.parse(fs.readFileSync(config_path, 'utf-8'));
+const crypto = require('crypto');
+const cryptoAlgo = 'aes-128-cbc';
+const cryptoPassword = 'soldalt';
 
 // funções de crypto
-// function encrypt(text)
-// {
-//     let cipher = crypto.createCipher(cryptoAlgo, cryptoPassword);
-//     let crypted = cipher.update(text, 'utf8', 'hex');
-//     crypted += cipher.final('hex');
-//     return crypted
-// }
-//
-// function decrypt(crypted)
-// {
-//     let decipher = crypto.createDecipher(cryptoAlgo, cryptoPassword);
-//     let text = decipher.update(crypted, 'hex', 'utf8');
-//     text += decipher.final('utf8');
-//     return text
-// }
+function encrypt(text)
+{
+    let cipher = crypto.createCipher(cryptoAlgo, cryptoPassword);
+    let crypted = cipher.update(text, 'utf8', 'hex');
+    crypted += cipher.final('hex');
+    return crypted
+}
+
+function decrypt(crypted)
+{
+    let decipher = crypto.createDecipher(cryptoAlgo, cryptoPassword);
+    let text = decipher.update(crypted, 'hex', 'utf8');
+    text += decipher.final('utf8');
+    return text
+}
 
 global['default_url'] = '/api/';
 // global['default_url'] = 'http://www.pueristore.com.br/django_sold_alt/';
 global['Vendedor'] = '';
-global['Vendedor_id'] = 0;
+global['VendedorId'] = 0;
 global['is_admin'] = false;
-global['Cliente'] = 'Cliente';
-global['Cliente_id'] = 0;
-global['LojaNome'] = 'Verbo Divino';//decrypt(config.storeName);
-global['LojaCEP'] = ''; //decrypt(config.storeCEP);
+global['LojaNome'] = decrypt(config.storeName);
+global['LojaCEP'] = decrypt(config.storeCEP);
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -63,17 +61,13 @@ app.on('ready', () => {
 });
 
 // Quit when all windows are closed.
-app.on('window-all-closed', () => {
-    // On OS X it is common for applications and their menu bar
-    // to stay active until the user quits explicitly with Cmd + Q
+app.on('window-all-closed', () => {Q
     if (process.platform !== 'darwin') {
         app.quit()
     }
 });
 
 app.on('activate', () => {
-    // On OS X it's common to re-create a window in the app when the
-    // dock icon is clicked and there are no other windows open.
     if (mainWindow === null) {
         mainWindow.createWindow()
     }
@@ -85,27 +79,6 @@ app.on('activate', () => {
 // Comunicação login
 ipcMain.on('ready', () => {
     mainWindow.createWindow({'url': 'login.html'})
-});
-
-// Comunicação popups
-ipcMain.on('login', (e, args) => {
-    args['url'] = 'popup.html';
-    mainAlert.createWindow(args)
-});
-
-// Comunicacao menu adm
-ipcMain.on('menu_admin', (e, args) => {
-    global['Vendedor'] = args['User'];
-    global['Vendedor_id'] = args['User_id'];
-    global['is_admin'] = true;
-    mainMenu_admin.createWindow(args)
-});
-
-// Comunicacao menu vendedor
-ipcMain.on('menu_not_admin', (e, args) => {
-    global['Vendedor'] = args['User'];
-    global['Vendedor_id'] = args['User_id'];
-    global['is_admin'] = false;
 });
 
 // Tela de venda

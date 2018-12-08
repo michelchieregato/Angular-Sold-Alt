@@ -1,6 +1,7 @@
 import {Component, ElementRef, OnInit} from '@angular/core';
 import {ClientServer} from '../../services/client.server';
 import {Product} from '../../models/product.model';
+import {Sale} from '../../models/sale.model';
 
 @Component({
     selector: 'app-sale',
@@ -31,18 +32,25 @@ export class SaleComponent implements OnInit {
 
     updatePanel(product) {
         this.product = product;
-        this.qnt = 1;
     }
 
     searchProduct(searchValue: string) {
         this.displayProducts = this.products.filter(product => {
-            return product.name.toLowerCase().includes(searchValue);
+            return product.name.toLowerCase().includes(searchValue.toLowerCase());
         });
     }
 
     private getProductOnSaleList(id) {
         return this.saleProducts.filter(saleProduct => {
             return saleProduct.id === id;
+        });
+    }
+
+    private getSaleValue() {
+        this.total =  this.saleProducts.map(saleProduct => {
+            return (saleProduct.quantity * saleProduct.price_sell);
+        }).reduce((a, b) => {
+            return a + b;
         });
     }
 
@@ -53,17 +61,23 @@ export class SaleComponent implements OnInit {
             this.product.quantity = this.qnt;
             this.saleProducts.push(this.product);
         }
+        this.getSaleValue();
+        this.qnt = 1;
     }
 
     removeProduct(id: number) {
         this.saleProducts = this.saleProducts.filter(saleProduct => {
             return saleProduct.id !== id;
         });
+        this.getSaleValue();
     }
 
-    getSaleValue() {
-        return this.saleProducts.reduce(saleProduct => {
-            return saleProduct.qnt;
+    endSale() {
+        let sale = new Sale({
+            client: 1,
+            user: 2,
+            store: 1,
+
         });
     }
 
