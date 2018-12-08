@@ -177,6 +177,7 @@ body {
         overflow-wrap: break-word;
         vertical-align: middle !important;
         text-align: center;
+        cursor: pointer;
 
         .btn {
             font-size: 0.8em;
@@ -207,7 +208,7 @@ body {
 
     &.odd {
         tr:nth-child(odd) td {
-            background-color: rgba(100,200,300, 0.1);
+            background-color: #F0F0F0;
         }
 
         tr:nth-child(even) td {

@@ -12,19 +12,11 @@ export class ClientServer {
 
 
     login(auth: {}) {
-        return this.http.post(remote.getGlobal('default_url') + 'login/', auth).map(
-            (response) => {
-                if (response['isAuth']) {
-                    return response['Permission'];
-                } else {
-                    return false;
-                }
-            }
-        );
+        return this.http.post(remote.getGlobal('default_url') + 'login/', auth);
     }
 
     getProducts() {
-        return this.http.get<Product[]>(remote.getGlobal('default_url') + 'product/read').map(
+        return this.http.get<Product[]>(remote.getGlobal('default_url') + 'product/').map(
             (response) => {
                 return response.map(p => new Product(p));
             }

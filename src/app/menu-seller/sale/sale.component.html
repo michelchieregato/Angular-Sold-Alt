@@ -94,34 +94,43 @@
 
             <div class="col-md-6 to-right up-page">
                 <h1>Vendas</h1>
-                <div class="table-size" id="sale">
-                    <table class="table table-hover table-bordered table-striped">
-                        <thead>
-                        <tr>
-                            <th><abbr title="Codigo">C</abbr></th>
-                            <th>Descricao</th>
-                            <th><abbr title="Tamanho">T</abbr></th>
-                            <th><abbr title="Quantidade">Qnt</abbr></th>
-                            <th>R$</th>
-                        </tr>
-                        </thead>
-                        <tfoot>
-                        <tr>
-                            <th><abbr title="Position"></abbr></th>
-                            <th></th>
-                            <th></th>
-                            <th>Total:</th>
-                            <th id="totalValueSale">0,00</th>
-                        </tr>
-                        </tfoot>
-                        <tbody id="saleTable">
-                        </tbody>
-                    </table>
-                </div>
+                <table class="table odd table-sale">
+                    <thead>
+                    <tr>
+                        <th class="static-300">Descricao</th>
+                        <th class="static-200">Tamanho</th>
+                        <th class="static-200">Qnt</th>
+                        <th class="static-200">R$</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let product of saleProducts">
+                        <td class="static-300">
+                            {{ product.name }}
+                        </td>
+                        <td class="static-200">
+                            {{ product.size }}
+                        </td>
+                        <td class="static-200">
+                            {{ product.price_sell }}
+                        </td>
+                        <td class="static-100">
+                            {{ product.id }}
+                        </td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <th class="static-300"></th>
+                        <th class="static-200"></th>
+                        <th class="static-200">Total:</th>
+                        <th class="static-100">0,00</th>
+                    </tr>
+                    </tfoot>
+                </table>
                 <a class="btn btn-default finish-sale">Finaliza venda</a>
 
             </div>
-
         </div>
     </header>
     <!-- Aqui  -->

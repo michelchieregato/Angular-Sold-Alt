@@ -9,8 +9,8 @@
         <form id="form" (ngSubmit)="onSubmit(loginForm)" #loginForm="ngForm">
 
             <div class="form-group" id='div-user' [ngClass]="{'has-error': username.invalid && loginForm.submitted}">
-                <label for="name">Usuário</label>
-                <input type="text" class="form-control" name="name"
+                <label>Usuário</label>
+                <input type="text" class="form-control" name="username"
                        placeholder="Usuário"
                        ngModel required #username="ngModel">
                 <span *ngIf="username.invalid && loginForm.submitted" class="help-block">Preencha o usuário.</span>

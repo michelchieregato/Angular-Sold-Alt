@@ -29,15 +29,21 @@ export class LoginComponent implements OnInit {
         this.disabled = true;
         this.clientServer.login(form.value).subscribe(
             (response) => {
-                switch (response) {
+                switch (response['groups'][0]) {
                     case 'Administrador':
                         this.router.navigate(['/seller', 'menu']);
                         break;
                     case 'Vendedor':
+                        this.router.navigate(['/seller', 'menu']);
                         break;
                     default:
-                        this.disabled = false;
                         this.router.navigate(['/seller', 'menu']);
+                        break;
+                }
+            },
+            (error) => {
+                switch (error.status) {
+                    case 401:
                         this.dialog.open(PopupComponent, {
                             data: {
                                 'type': 'sad',
@@ -46,18 +52,17 @@ export class LoginComponent implements OnInit {
                             }
                         });
                         break;
-
+                    default:
+                        this.dialog.open(PopupComponent, {
+                            data: {
+                                'type': 'sad',
+                                'title': 'Erro',
+                                'text': 'Verifique a conexão'
+                            }
+                        });
+                        break;
                 }
-            },
-            (error) => {
                 this.disabled = false;
-                this.dialog.open(PopupComponent, {
-                    data: {
-                        'type': 'sad',
-                        'title': 'Erro',
-                        'text': 'Verifique a conexão'
-                    }
-                });
             }
         );
 
