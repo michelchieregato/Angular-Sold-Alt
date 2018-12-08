@@ -1,9 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {Router} from '@angular/router';
-import {ClientServer} from '../services/client.server';
+import {ClientService} from '../services/client.service';
 import {MatDialog} from '@angular/material/dialog';
 import {PopupComponent} from '../modals/popup/popup.component';
+import {MainCommunicationService} from '../services/main-communication.service';
+import {User} from '../models/user.model';
 
 
 declare const window: any;
@@ -19,7 +21,8 @@ declare const window: any;
 export class LoginComponent implements OnInit {
     disabled = false;
 
-    constructor(private router: Router, private clientServer: ClientServer, public dialog: MatDialog) {
+    constructor(private router: Router, private clientServer: ClientService, private mainCommunicationService: MainCommunicationService,
+                public dialog: MatDialog) {
     }
 
     ngOnInit() {
@@ -29,6 +32,7 @@ export class LoginComponent implements OnInit {
         this.disabled = true;
         this.clientServer.login(form.value).subscribe(
             (response) => {
+                this.mainCommunicationService.setUser(new User(response));
                 switch (response['groups'][0]) {
                     case 'Administrador':
                         this.router.navigate(['/seller', 'menu']);

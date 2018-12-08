@@ -7,7 +7,7 @@ declare const window: any;
 const { remote } = window.require('electron');
 
 @Injectable({providedIn: 'root'})
-export class ClientServer {
+export class ClientService {
     constructor(private http: HttpClient) {}
 
 

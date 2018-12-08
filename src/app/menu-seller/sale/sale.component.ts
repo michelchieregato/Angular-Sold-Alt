@@ -1,7 +1,10 @@
 import {Component, ElementRef, OnInit} from '@angular/core';
-import {ClientServer} from '../../services/client.server';
+import {ClientService} from '../../services/client.service';
 import {Product} from '../../models/product.model';
 import {Sale} from '../../models/sale.model';
+import {MainCommunicationService} from '../../services/main-communication.service';
+import {SaleCommunicationService} from '../../services/sale-communication.service';
+import {Client} from '../../models/client.model';
 
 @Component({
     selector: 'app-sale',
@@ -16,7 +19,8 @@ export class SaleComponent implements OnInit {
     qnt = 1;
     total = 0;
 
-    constructor(private clientServer: ClientServer, private elRef: ElementRef) {
+    constructor(private clientServer: ClientService, private mainCommunicationService: MainCommunicationService,
+                private saleCommunicationService: SaleCommunicationService, private elRef: ElementRef) {
         elRef.nativeElement.ownerDocument.body.style.overflow = 'hidden';
     }
 
@@ -27,6 +31,12 @@ export class SaleComponent implements OnInit {
                 this.displayProducts = this.products;
                 this.product = this.products[0];
             }
+        );
+
+        this.saleCommunicationService.setClient(
+            new Client({
+                'id': 0
+            })
         );
     }
 
@@ -74,10 +84,9 @@ export class SaleComponent implements OnInit {
 
     endSale() {
         let sale = new Sale({
-            client: 1,
-            user: 2,
-            store: 1,
-
+            client: this.saleCommunicationService.getClient(),
+            user: this.mainCommunicationService.getUser(),
+            store: this.mainCommunicationService.getStore(),
         });
     }
 

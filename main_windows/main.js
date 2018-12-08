@@ -43,8 +43,7 @@ function decrypt(crypted)
 
 global['default_url'] = '/api/';
 // global['default_url'] = 'http://www.pueristore.com.br/django_sold_alt/';
-global['Vendedor'] = '';
-global['VendedorId'] = 0;
+global['Vendedor'] = {};
 global['is_admin'] = false;
 global['LojaNome'] = decrypt(config.storeName);
 global['LojaCEP'] = decrypt(config.storeCEP);

@@ -1,6 +1,8 @@
+import {User} from './user.model';
+
 export class Sale {
     client: number;
-    user: string;
+    user: User;
     store: number;
     datetime: number;
     value: number;
