@@ -1,7 +1,8 @@
 import {User} from './user.model';
+import {Client} from './client.model';
 
 export class Sale {
-    client: number;
+    client: Client;
     user: User;
     store: number;
     datetime: number;
@@ -15,6 +16,16 @@ export class Sale {
         this.datetime = saleInfo.datetime;
         this.value = saleInfo.value;
         this.finish_later = saleInfo.finish_later;
+    }
+
+    public prepareToSendSale() {
+        return {
+            client: this.client.id,
+            user: this.user.id,
+            store: this.store,
+            value: this.value,
+            finish_later: this.finish_later
+        }
     }
 
 }

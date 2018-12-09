@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {SaleCommunicationService} from '../../../services/sale-communication.service';
 import {ClientService} from '../../../services/client.service';
 import {Client} from '../../../models/client.model';
+import {Subject} from 'rxjs';
 
 @Component({
     selector: 'app-client-search',
@@ -13,7 +14,11 @@ export class ClientSearchComponent implements OnInit {
     clients = [];
     client = new Client({
         id: 0,
-        name: 'Cliente'
+        name: 'Cliente (Não Identificado)'
+    });
+    clientSelected = new Client({
+        id: 0,
+        name: 'Cliente (Não Identificado)'
     });
     selectedRow;
 
@@ -23,15 +28,14 @@ export class ClientSearchComponent implements OnInit {
     ngOnInit() {
         this.saleCommunicationService.isModalOpen.subscribe(
             (bool) => {
-                console.log(bool)
                 this.isModalOpen = bool;
-            }
+            } // TODO desnecessário ser assim, podia ser na tela msm mas pra eu lembrar como usa Subject deixei. Quando colocar um q for necessário eu tiro
         );
 
     }
 
-    toggleModal() {
-        this.saleCommunicationService.toggleModal(false);
+    toggleModal(onOrOff: boolean) {
+        this.saleCommunicationService.toggleModal(onOrOff);
     }
 
     searchClients(searchValue: string) {
@@ -48,8 +52,14 @@ export class ClientSearchComponent implements OnInit {
     }
 
     selectClient(client: Client, index: number) {
-        this.client = client;
+        this.clientSelected = client;
         this.selectedRow = index;
+    }
+
+    addToSale() {
+        this.client = this.clientSelected;
+        this.saleCommunicationService.setClient(this.clientSelected);
+        this.toggleModal(false);
     }
 
 }

@@ -88,7 +88,13 @@ export class SaleComponent implements OnInit {
             client: this.saleCommunicationService.getClient(),
             user: this.mainCommunicationService.getUser(),
             store: this.mainCommunicationService.getStore(),
+            value: this.total,
+            finish_later: false // TODO
         });
+        console.log(sale);
+        console.log(sale.prepareToSendSale());
+        this.saleCommunicationService.setSale(sale);
+
     }
 
     toggleModal() {

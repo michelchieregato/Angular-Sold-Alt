@@ -1,7 +1,22 @@
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">
+                <img alt="Brand" src="assets/images/man.png">
+            </a>
+        </div>
+        <p class="navbar-text"> {{ client.name }}
+        </p>
+        <p class="navbar-text navbar-right">
+            <a class="btn add-client" (click)="toggleModal(true)">+</a>
+        </p>
+    </div>
+</nav>
+
 <div id="myModal" class="modal" [ngClass]="{'visible': isModalOpen}">
     <div class="modal-content">
         <div class="modal-header">
-            <span class="pull-right" (click)="toggleModal()">X</span>
+            <span class="pull-right close" (click)="toggleModal(false)">&times;</span>
             <h2 class="modal-h2">Consultar Cliente</h2>
         </div>
         <div class="modal-body">
@@ -37,7 +52,7 @@
         </div>
         <div class="modal-footer">
             <p class="btn btn-lg btn-orange"> Adicionar Novo </p>
-            <p class="btn btn-lg btn-orange"> Adicionar a venda </p>
+            <p class="btn btn-lg btn-orange" (click)="addToSale()"> Adicionar a venda </p>
         </div>
     </div>
 </div>

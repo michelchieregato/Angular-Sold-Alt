@@ -1,20 +1,5 @@
 <div id="mySale">
     <header class="first-page">
-
-        <nav class="navbar navbar-default">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="#">
-                        <img alt="Brand" src="assets/images/man.png">
-                    </a>
-                </div>
-                <p class="navbar-text"> {{ client.id }} {{ client.name }}
-                </p>
-                <p class="navbar-text navbar-right">
-                    <a class="btn add-client" (click)="toggleModal()">+</a>
-                </p>
-            </div>
-        </nav>
         <app-client-search></app-client-search>
         <!-- Divide a tela em 2 partes -->
         <div class="row">
@@ -130,7 +115,7 @@
                     </tr>
                     </tfoot>
                 </table>
-                <a class="btn btn-default finish-sale">Finaliza venda</a>
+                <a class="btn btn-default finish-sale" (click)="endSale()">Finaliza venda</a>
 
             </div>
         </div>

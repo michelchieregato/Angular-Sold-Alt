@@ -1,3 +1,44 @@
+/* Navbar */
+
+.navbar-default {
+    background-color: #ff8a37;
+    margin: -1px !important;
+    max-width: 100%;
+    border-color: #ff8a37;
+}
+
+.navbar-brand {
+    padding: 20% 20%;
+}
+
+.navbar-text {
+    color: white !important;
+    font-size: 1.25em !important;
+}
+
+.navbar-right {
+    margin-right: 15px !important;
+    margin-bottom: 3px !important;
+    margin-top: 3px !important;
+}
+
+.add-client {
+    font-size: 1em;
+    margin-bottom: 3px !important;
+    margin-top: 3px !important;
+    background: transparent;
+    color: white;
+    border-color: white !important;
+}
+
+nav img {
+    width: 30px;
+    margin: .3em;
+}
+
+
+
+
 /* Modal Content */
 .modal-content {
     position: relative;
@@ -38,6 +79,11 @@
 }
 
 .table tr.active td {
-    background-color:#123456 !important;
+    background-color: #afffbd !important;
     color: white;
+}
+
+span.close {
+    font-size: 20px;
+    cursor: pointer;
 }
