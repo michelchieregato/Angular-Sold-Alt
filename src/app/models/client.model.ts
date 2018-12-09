@@ -1,4 +1,5 @@
 export class Client {
+    id: number;
     cpf: number;
     name: string;
     email: string;
@@ -6,9 +7,10 @@ export class Client {
     cep: string;
 
     constructor(clientInfo: any) {
-        this.cpf = clientInfo.id;
-        this.name = clientInfo.first_name;
-        this.email = clientInfo.last_name;
+        this.id = clientInfo.id;
+        this.cpf = clientInfo.cpf;
+        this.name = clientInfo.name;
+        this.email = clientInfo.email;
         this.tel = clientInfo.tel;
         this.cep = clientInfo.cep;
     }

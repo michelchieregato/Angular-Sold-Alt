@@ -16,6 +16,7 @@ export class SaleComponent implements OnInit {
     displayProducts = [];
     saleProducts = [];
     product = new Product({});
+    client = new Client({});
     qnt = 1;
     total = 0;
 
@@ -88,6 +89,10 @@ export class SaleComponent implements OnInit {
             user: this.mainCommunicationService.getUser(),
             store: this.mainCommunicationService.getStore(),
         });
+    }
+
+    toggleModal() {
+        this.saleCommunicationService.toggleModal(true);
     }
 
 }

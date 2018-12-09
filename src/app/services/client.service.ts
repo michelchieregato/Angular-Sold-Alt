@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Product} from '../models/product.model';
 import 'rxjs-compat/add/operator/map';
+import {Client} from '../models/client.model';
 
 declare const window: any;
 const { remote } = window.require('electron');
@@ -23,7 +24,11 @@ export class ClientService {
         );
     }
 
-    saveProducts(product: Product) {
-        return this.http.post(remote.getGlobal('default_url') + 'product/create', product);
+    getClients(query: string) {
+        return this.http.get<Client[]>(remote.getGlobal('default_url') + 'client/?search=' + query).map(
+            (response) => {
+                return response.map(p => new Client(p));
+            }
+        );
     }
 }

@@ -13,6 +13,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {PopupComponent} from './modals/popup/popup.component';
 import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { ClientSearchComponent } from './menu-seller/sale/client-search/client-search.component';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
         MenuSellerComponent,
         MenuComponent,
         SaleComponent,
-        PopupComponent
+        PopupComponent,
+        ClientSearchComponent
     ],
     imports: [
         BrowserModule,

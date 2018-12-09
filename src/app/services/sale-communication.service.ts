@@ -1,12 +1,16 @@
 import {Injectable} from '@angular/core';
 import {Client} from '../models/client.model';
 import {Sale} from '../models/sale.model';
+import {Subject} from 'rxjs';
 
 @Injectable({providedIn: 'root'})
 export class SaleCommunicationService {
     client: Client;
     sale: Sale;
-    constructor() {}
+    isModalOpen = new Subject();
+
+    constructor() {
+    }
 
     setClient(client: Client) {
         this.client = client;
@@ -22,5 +26,9 @@ export class SaleCommunicationService {
 
     getSale() {
         return this.sale;
+    }
+
+    toggleModal(bool: boolean) {
+        this.isModalOpen.next(bool);
     }
 }

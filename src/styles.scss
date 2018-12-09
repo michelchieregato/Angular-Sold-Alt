@@ -121,6 +121,8 @@ body {
     width: 500px !important;
 }
 
+// TABLES
+
 .table {
     display: block;
     table-layout: fixed;
@@ -223,4 +225,8 @@ body {
             background-color: transparent;
         }
     }
+}
+
+.visible {
+    display: block;
 }

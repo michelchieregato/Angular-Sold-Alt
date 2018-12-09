@@ -8,12 +8,14 @@
                         <img alt="Brand" src="assets/images/man.png">
                     </a>
                 </div>
-                <p class="navbar-text"><span id="span-id-customer">0</span> - <span id="spam-name-customer">Cliente (Não Identificado)</span>
+                <p class="navbar-text"> {{ client.id }} {{ client.name }}
                 </p>
-                <p class="navbar-text navbar-right"><a class="btn add-client">+</a></p>
+                <p class="navbar-text navbar-right">
+                    <a class="btn add-client" (click)="toggleModal()">+</a>
+                </p>
             </div>
         </nav>
-
+        <app-client-search></app-client-search>
         <!-- Divide a tela em 2 partes -->
         <div class="row">
             <div id="order-div">
@@ -137,27 +139,27 @@
 
     <div class="second-page">
 
-        <div id="myModal2" class="modal">
+        <!--<div id="myModal2" class="modal">-->
 
-            <!-- Modal content -->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <span class="close">&times;</span>
-                    <h2 class="modal-h2">Dar Desconto</h2>
-                </div>
-                <div class="modal-body2">
-                    <div class="slidecontainer">
-                        <input type="range" min="0" max="6" value="0" class="slider" id="myRange" name="myRange"
-                               oninput="amount.value=myRange.value">
-                        <output id="amount" name="amount" for="myRange">0</output>
-                        %
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <p class="btn btn-lg btn-orange" id="btnAddDesconto"> Dar Desconto </p>
-                </div>
-            </div>
-        </div>
+            <!--&lt;!&ndash; Modal content &ndash;&gt;-->
+            <!--<div class="modal-content">-->
+                <!--<div class="modal-header">-->
+                    <!--<span class="close">&times;</span>-->
+                    <!--<h2 class="modal-h2">Dar Desconto</h2>-->
+                <!--</div>-->
+                <!--<div class="modal-body2">-->
+                    <!--<div class="slidecontainer">-->
+                        <!--<input type="range" min="0" max="6" value="0" class="slider" id="myRange" name="myRange"-->
+                               <!--oninput="amount.value=myRange.value">-->
+                        <!--<output id="amount" name="amount" for="myRange">0</output>-->
+                        <!--%-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="modal-footer">-->
+                    <!--<p class="btn btn-lg btn-orange" id="btnAddDesconto"> Dar Desconto </p>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
 
         <h2>R$ <span id="to-pay">00.00</span><span id="new-value"></span></h2>
         <a class="h-link" id="desconto"> Dar desconto </a>
