@@ -4,11 +4,11 @@ import {Router} from '@angular/router';
 import {ClientService} from '../services/client.service';
 import {MatDialog} from '@angular/material/dialog';
 import {PopupComponent} from '../modals/popup/popup.component';
-import {MainCommunicationService} from '../services/main-communication.service';
 import {User} from '../models/user.model';
 
 
 declare const window: any;
+const { ipcRenderer } = window.require('electron');
 
 // Selector: normal -> app-login, seleciona vira tag. Com [] seleciona adicionando na div.
 // Com . adiciona via classe
@@ -21,7 +21,7 @@ declare const window: any;
 export class LoginComponent implements OnInit {
     disabled = false;
 
-    constructor(private router: Router, private clientServer: ClientService, private mainCommunicationService: MainCommunicationService,
+    constructor(private router: Router, private clientServer: ClientService,
                 public dialog: MatDialog) {
     }
 
@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
         this.disabled = true;
         this.clientServer.login(form.value).subscribe(
             (response) => {
-                this.mainCommunicationService.setUser(new User(response));
+                ipcRenderer.send('setUser', new User(response));
                 switch (response['groups'][0]) {
                     case 'Administrador':
                         this.router.navigate(['/seller', 'menu']);

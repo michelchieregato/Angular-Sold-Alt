@@ -1,334 +1,36 @@
-/* Propriedades do html */
-
-header {
-    height: 100vh !important;
-}
-
-/* Titulos */
-
-h1 {
-    background-color: #ff8a37;
-    color: white;
-    margin: 0;
-    padding: 10px 20px;
-    text-transform: uppercase;
-    font-size: 24px;
-    font-weight: normal;
-    border-radius: 3px;
-}
-
-/* Colunas da página de cima */
-
-.up-page {
-    padding: 5px 10px 10px 30px;
-}
-
-/* Limita tamanho da tabela */
-
-#sale {
-    height: 420px;
-    overflow: auto;
-    background: white;
-}
-
-#payment {
-    height: 150px;
-    overflow: auto;
-    background: white;
-}
-
-
-tr .del {
-    cursor: pointer;
-    background-color: #e74c3c;
-    margin-right: 0;
-    text-align: center;
-    color: white;
-    width: 0;
-    display: inline-block;
-    opacity: 0;
-    transition: .2s linear;
-}
-
-tr:hover .del {
-    width: 20px;
-    height: 20px;
-    margin-right: 10px;
-    opacity: 1.0;
-}
-
-.second-page h2 {
-    padding: 10px;
-}
-
-/* Para a tabela não mudar com textos muito grandes */
-
-.table .text {
-    position: relative;
-    border-radius: 5px;
-}
-
-.table .text .text-el {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    position: absolute;
-    left: .75em;
-    right: 0;
-}
-
-.text:before {
-    content: '';
-    display: inline-block;
-}
-
-/* Painel - Adicionar o Produto */
-
-.panel-heading {
-    width: 100%;
-    margin-top: -52px;
-}
-
-.panel-block {
-    border-bottom: 2px dashed lightgrey;
-    border-left: 2px dashed lightgrey;
-    border-right: 2px dashed lightgrey;
-    background: white;
-    height: 120px;
-    padding: 20px;
-}
-
-.h2 {
-    margin-top: 0px;
-    display: block;
-    font-size: 16px;
-    padding: 0 0 5px 0;
-    color: lightslategray;
-}
-
-.select {
-    font-size: 15px;
-}
-
-.second-page {
-    height: 100vh;
-}
-
-.field {
-    display: inline-block;
-}
-
-.is-small {
-    width: 1em !important;
-}
-
-.is-right {
-    right: 10px !important;
-}
-
-.produto {
-    margin-top: 50px;
-}
-
-.form-group {
-    margin-bottom: 0 !important;
-}
-
-/* Botao da sale */
-
-.finish-sale {
-    margin-top: 2em;
-    width: 100%;
-    background: #ff8a37;
-    color: white;
-    border-color: #ff8a37;
-}
-
-.finish-sale:hover {
-    background: #ff8a37;
-    color: white;
-    border-color: #ff8a37;
-}
-
-/* Pagina 2 */
-
-h2 {
-    color: green;
-    font-size: 5em;
-    text-align: center;
-}
-
-img {
-    width: 90px;
-    margin: .3em;
-}
-
-.btn-toolbar {
-    padding-left: 5%;
-    padding-right: 5%;
-    width: 100%;
-    margin: auto;
-    align-content: center;
-}
-
-.opt {
-    width: 17.5% !important;
-    margin: 1.25% !important;
-}
-
-.form-inline {
-    padding-left: 6%;
-}
-
-.vendas {
-    padding-left: 6%;
-    padding-top: 3%;
-}
-
-.green {
-    color: green;
-    font-size: 2em;
-}
-
-.red {
-    color: red;
-    font-size: 2em;
-}
-
-.right {
-    float: right;
-    margin-right: 3%;
-}
-
-h3 {
-    text-align: center;
-    float: left;
-    width: 100%;
-    overflow: hidden;
-}
-
-h3 span {
-    float: right;
-}
-
-.final-btn {
-    /* align-content: center; */
-    text-align: center;
-    margin-bottom: 10px;
-}
-
-.final-btn a {
-    margin-left: 50px;
-    margin-right: 50px;
-}
-
-.final-btn img {
-    width: 70px;
-}
-
-.active {
-    border-radius: 5px !important;
-    border: 2px solid green !important;
-}
-
-.money-labels {
-    padding-right: 5%;
-}
-
-#customerTable tr:hover {
-    background: lightgray;
-    cursor: pointer;
-}
-
-/* Add Animation */
-@keyframes animatetop {
-    from {
-        top: -300px;
-        opacity: 0
+#mySale {
+    h1 {
+        background-color: #ff8a37;
+        color: white;
+        margin: 0;
+        padding: 10px 20px;
+        text-transform: uppercase;
+        font-size: 24px;
+        font-weight: normal;
+        border-radius: 3px;
     }
-    to {
-        top: 0;
-        opacity: 1
+
+    tr .del {
+        cursor: pointer;
+        background-color: #e74c3c;
+        margin-right: 0;
+        text-align: center;
+        color: white;
+        width: 0;
+        display: inline-block;
+        opacity: 0;
+        transition: .2s linear;
     }
-}
 
-#desconto {
-    display: block;
-    margin-top: 1px;
-}
-
-.slidecontainer {
-    width: 100%; /* Width of the outside container */
-}
-
-.slider {
-    -webkit-appearance: none;
-    width: 100%;
-    height: 15px;
-    border-radius: 5px;
-    background: #d3d3d3;
-    outline: none;
-    opacity: 0.7;
-    -webkit-transition: .2s;
-    transition: opacity .2s;
-}
-
-.slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    background: #4CAF50;
-    cursor: pointer;
-}
-
-.slider::-moz-range-thumb {
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    background: #4CAF50;
-    cursor: pointer;
-}
-
-#amount {
-    display: inline-block;
-    margin: 5px 0 0 7px;
-    color: white;
-    font-size: 20px;
-}
-
-.line-through {
-    text-decoration: line-through;
-}
-
-#order-div {
-    text-align: right;
-    margin-top: 10px;
-    padding-right: 12px;
-}
-
-#order {
-    margin-right: 10px;
-}
-
-.row {
-    width: 100%;
-    margin-bottom: 2px;
-
-    .btn {
-        width: 100%;
+    tr:hover .del {
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
+        opacity: 1.0;
     }
-}
 
-.table-product {
-    tbody {
-        height: 40vh;
+    .second-page {
+        height: 100vh;
     }
-}
 
-.table-sale {
-    tbody {
-        height: 58vh;
-    }
 }

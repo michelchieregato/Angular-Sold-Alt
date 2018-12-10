@@ -1,0 +1,110 @@
+<div class="row">
+    <div id="order-div">
+        <label class="checkbox-inline">
+            <input type="checkbox" value="">Encomenda
+        </label>
+    </div>
+    <div class="col-md-6 up-page">
+        <h1>Adicione o produto</h1>
+        <div class="panel-block">
+            <div class="row">
+                <div class="col-sm-12">
+                    <span class="h2">{{ product.name }} {{ product.size }}</span>
+                </div>
+                <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-sm-7">
+                            <label>
+                                <input type="number" value="1" class="form-control text-center"
+                                       min="1" [(ngModel)]="qnt" (keyup.enter)="addProduct()">
+                            </label>
+                        </div>
+                        <div class="col-sm-5">
+                            <button type="button" class="btn btn-default" id="btnAdd" (click)="addProduct()">
+                                +
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="produto">
+            <h1>Produto</h1>
+            <div class="form-group">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Produto"
+                           (keyup)="searchProduct($event.target.value)">
+                    <div class="input-group-addon">
+                        <span class="icon search-icon">
+                            <i class="fas fa-search"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <table class="table odd table-product able-click">
+                <thead>
+                <tr>
+                    <th class="static-300">Descricao</th>
+                    <th class="static-200">Tamanho</th>
+                    <th class="static-200">Preço</th>
+                </tr>
+                </thead>
+                <tbody class="">
+                <tr *ngFor="let product of displayProducts" (click)="updatePanel(product)">
+                    <td class="static-300">
+                        {{ product.name }}
+                    </td>
+                    <td class="static-200">
+                        {{ product.size }}
+                    </td>
+                    <td class="static-200">
+                        R$ {{ product.price_sell }}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="col-md-6 to-right up-page">
+        <h1>Vendas</h1>
+        <table class="table odd table-sale">
+            <thead>
+            <tr>
+                <th class="static-400">Descricao</th>
+                <th class="static-200">Tamanho</th>
+                <th class="static-200">Qnt</th>
+                <th class="static-100">Preço</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let product of saleProducts">
+                <td class="static-400">
+                            <span class="del" (click)="removeProduct(product.id)">
+                                <i class="fas fa-trash-alt"></i>
+                            </span>
+                    {{ product.name }}
+                </td>
+                <td class="static-200">
+                    {{ product.size }}
+                </td>
+                <td class="static-200">
+                    {{ product.quantity }}
+                </td>
+                <td class="static-100">
+                    R$ {{ product.price_sell }}
+                </td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <th class="static-300"></th>
+                <th class="static-200"></th>
+                <th class="static-200">Total:</th>
+                <th class="static-100">R$ {{ total }}</th>
+            </tr>
+            </tfoot>
+        </table>
+        <a class="btn btn-default finish-sale" (click)="endSale()">Finaliza venda</a>
+    </div>
+</div>

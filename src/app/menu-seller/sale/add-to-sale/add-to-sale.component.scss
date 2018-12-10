@@ -1,0 +1,78 @@
+/* Titulos */
+
+.up-page {
+    padding: 5px 10px 10px 30px;
+}
+
+.panel-block {
+    border-bottom: 2px dashed lightgrey;
+    border-left: 2px dashed lightgrey;
+    border-right: 2px dashed lightgrey;
+    background: white;
+    height: 120px;
+    padding: 20px;
+}
+
+.h2 {
+    margin-top: 0;
+    display: block;
+    font-size: 16px;
+    padding: 0 0 5px 0;
+    color: lightslategray;
+}
+
+.search-icon {
+    width: 1em !important;
+    right: 10px !important;
+}
+
+.produto {
+    margin-top: 50px;
+}
+
+.form-group {
+    margin-bottom: 0 !important;
+}
+
+/* Botao da sale */
+
+.finish-sale {
+    margin-top: 2em;
+    width: 100%;
+    background: #ff8a37;
+    color: white;
+    border-color: #ff8a37;
+}
+
+.finish-sale:hover {
+    background: #ff8a37;
+    color: white;
+    border-color: #ff8a37;
+}
+
+#order-div {
+    text-align: right;
+    margin-top: 10px;
+    padding-right: 12px;
+}
+
+.row {
+    width: 100%;
+    margin-bottom: 2px;
+
+    .btn {
+        width: 100%;
+    }
+}
+
+.table-product {
+    tbody {
+        height: 40vh;
+    }
+}
+
+.table-sale {
+    tbody {
+        height: 58vh;
+    }
+}

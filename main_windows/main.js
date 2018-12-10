@@ -43,10 +43,9 @@ function decrypt(crypted)
 
 global['default_url'] = '/api/';
 // global['default_url'] = 'http://www.pueristore.com.br/django_sold_alt/';
-global['Vendedor'] = {};
-global['is_admin'] = false;
-global['LojaNome'] = decrypt(config.storeName);
-global['LojaCEP'] = decrypt(config.storeCEP);
+global['user'] = {};
+global['store'] = decrypt(config.storeName);
+// global['LojaCEP'] = decrypt(config.storeCEP);
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -60,7 +59,7 @@ app.on('ready', () => {
 });
 
 // Quit when all windows are closed.
-app.on('window-all-closed', () => {Q
+app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
         app.quit()
     }
@@ -79,6 +78,10 @@ app.on('activate', () => {
 ipcMain.on('ready', () => {
     mainWindow.createWindow({'url': 'login.html'})
 });
+
+ipcMain.on('setUser', ( event, user ) => {
+    global['user'] = user;
+} );
 
 // Tela de venda
 ipcMain.on('open-sale-screen', (e, args) => {

@@ -25,7 +25,7 @@ export class Sale {
             store: this.store,
             value: this.value,
             finish_later: this.finish_later
-        }
+        };
     }
 
 }

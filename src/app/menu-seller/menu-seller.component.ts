@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {MainCommunicationService} from '../services/main-communication.service';
 
 @Component({
   selector: 'app-menu-seller',
@@ -7,7 +6,7 @@ import {MainCommunicationService} from '../services/main-communication.service';
 })
 export class MenuSellerComponent implements OnInit {
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
   }

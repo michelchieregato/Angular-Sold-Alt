@@ -1,0 +1,201 @@
+/* Pagina 2 */
+
+// TODO REFATORAR
+
+h2 {
+    padding: 35px;
+    color: green;
+    font-size: 5em;
+    text-align: center;
+}
+
+img {
+    width: 90px;
+    margin: .3em;
+}
+
+.btn-toolbar {
+    padding-left: 5%;
+    padding-right: 5%;
+    width: 100%;
+    margin: auto;
+    align-content: center;
+}
+
+.opt {
+    width: 17.5% !important;
+    margin: 1.25% !important;
+}
+
+.form-inline {
+    padding-left: 6%;
+}
+
+.vendas {
+    padding-left: 6%;
+    padding-top: 3%;
+}
+
+.green {
+    color: green;
+    font-size: 2em;
+}
+
+.red {
+    color: red;
+    font-size: 2em;
+}
+
+.right {
+    float: right;
+    margin-right: 3%;
+}
+
+h3 {
+    text-align: center;
+    float: left;
+    width: 100%;
+    overflow: hidden;
+}
+
+h3 span {
+    float: right;
+}
+
+.final-btn {
+    /* align-content: center; */
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.final-btn a {
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+.final-btn img {
+    width: 70px;
+}
+
+.active {
+    border-radius: 5px !important;
+    border: 2px solid green !important;
+}
+
+.money-labels {
+    padding-right: 5%;
+}
+
+.modal-h2 {
+    color: white;
+    text-align: center;
+    align-self: center;
+    font-size: 4em;
+    padding: .25em;
+}
+
+/* Modal Header */
+.modal-header {
+    padding: 2px 16px;
+    background-color: #ff8a37;
+    color: white;
+    border: none;
+}
+
+/* Modal Body */
+.modal-body {
+    padding: 2px 16px;
+}
+
+/* Modal Footer */
+.modal-footer {
+    background-color: #ff8a37;
+    color: white;
+    border: none;
+}
+
+/* Modal Content */
+.modal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 0;
+    border: 1px solid #888;
+    width: 80%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    animation-name: animatetop;
+    animation-duration: 0.4s
+}
+
+#customerTable tr:hover {
+    background: lightgray;
+    cursor: pointer;
+}
+
+/* Add Animation */
+@keyframes animatetop {
+    from {
+        top: -300px;
+        opacity: 0
+    }
+    to {
+        top: 0;
+        opacity: 1
+    }
+}
+
+#desconto {
+    display: block;
+    margin-top: 1px;
+}
+
+.slidecontainer {
+    width: 100%; /* Width of the outside container */
+}
+
+.slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 15px;
+    border-radius: 5px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #4CAF50;
+    cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #4CAF50;
+    cursor: pointer;
+}
+
+.modal-body2 {
+    background: #ff8a37;
+    color: white;
+    font-size: 20px;
+}
+
+#amount {
+    display: inline-block;
+    margin: 5px 0 0 7px;
+    color: white;
+    font-size: 20px;
+}
+
+.line-through {
+    text-decoration: line-through;
+}

@@ -13,7 +13,9 @@ import {HttpClientModule} from '@angular/common/http';
 import {PopupComponent} from './modals/popup/popup.component';
 import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { ClientSearchComponent } from './menu-seller/sale/client-search/client-search.component';
+import {ClientSearchComponent} from './menu-seller/sale/client-search/client-search.component';
+import {AddToSaleComponent} from './menu-seller/sale/add-to-sale/add-to-sale.component';
+import {FinishSaleComponent} from './menu-seller/sale/finish-sale/finish-sale.component';
 
 
 @NgModule({
@@ -25,7 +27,9 @@ import { ClientSearchComponent } from './menu-seller/sale/client-search/client-s
         MenuComponent,
         SaleComponent,
         PopupComponent,
-        ClientSearchComponent
+        ClientSearchComponent,
+        AddToSaleComponent,
+        FinishSaleComponent
     ],
     imports: [
         BrowserModule,

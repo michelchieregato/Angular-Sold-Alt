@@ -6,8 +6,9 @@ import {Subject} from 'rxjs';
 @Injectable({providedIn: 'root'})
 export class SaleCommunicationService {
     client: Client;
-    sale: Sale;
-    isModalOpen = new Subject();
+    sale = new Sale({});
+    saleSubject = new Subject();
+    element = new Subject();
 
     constructor() {
     }
@@ -21,14 +22,12 @@ export class SaleCommunicationService {
     }
 
     setSale(sale: Sale) {
+        this.saleSubject.next(sale);
         this.sale = sale;
     }
 
-    getSale() {
-        return this.sale;
+    movePage(direction: boolean) {
+        this.element.next(direction);
     }
 
-    toggleModal(bool: boolean) {
-        this.isModalOpen.next(bool);
-    }
 }
