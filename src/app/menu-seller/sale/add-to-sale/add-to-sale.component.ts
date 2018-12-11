@@ -91,13 +91,13 @@ export class AddToSaleComponent implements OnInit {
         this.getSaleValue();
     }
 
-    endSale(element) {
+    endSale(isOrder) {
         const sale = new Sale({
             client: this.saleCommunicationService.getClient(),
             user: new User(remote.getGlobal('user')),
             store: remote.getGlobal('store'),
             value: this.total,
-            finish_later: false // TODO
+            finish_later: isOrder.checked
         });
         this.saleCommunicationService.setSale(sale);
         this.saleCommunicationService.movePage(true);

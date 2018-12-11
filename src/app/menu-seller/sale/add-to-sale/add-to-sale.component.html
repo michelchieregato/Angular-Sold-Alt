@@ -2,7 +2,7 @@
 <div class="row">
     <div id="order-div">
         <label class="checkbox-inline">
-            <input type="checkbox" value="">Encomenda
+            <input type="checkbox" value="" #orderInput>Encomenda
         </label>
     </div>
     <div class="col-md-6 up-page">
@@ -59,7 +59,7 @@
                         {{ product.size }}
                     </td>
                     <td class="static-200">
-                        R$ {{ product.price_sell }}
+                        R$ {{ product.price_sell | number : '1.2-2' }}
                     </td>
                 </tr>
                 </tbody>
@@ -93,7 +93,7 @@
                     {{ product.quantity }}
                 </td>
                 <td class="static-100">
-                    R$ {{ product.price_sell }}
+                    {{ product.price_sell | currency : 'BRL' }}
                 </td>
             </tr>
             </tbody>
@@ -102,10 +102,10 @@
                 <th class="static-300"></th>
                 <th class="static-200"></th>
                 <th class="static-200">Total:</th>
-                <th class="static-100">R$ {{ total }}</th>
+                <th class="static-100">R$ {{ total | number : '1.2-2' }}</th>
             </tr>
             </tfoot>
         </table>
-        <a class="btn btn-default finish-sale" (click)="endSale()">Finaliza venda</a>
+        <a class="btn btn-default finish-sale" (click)="endSale(orderInput)">Finaliza venda</a>
     </div>
 </div>
