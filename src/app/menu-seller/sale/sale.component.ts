@@ -18,7 +18,7 @@ export class SaleComponent implements OnInit {
     ngOnInit() {
         this.saleCommunicationService.element.subscribe(
             (element) => {
-                const el = document.getElementById('second-page')
+                const el = document.getElementById('second-page');
                 el.scrollIntoView();
             }
         );

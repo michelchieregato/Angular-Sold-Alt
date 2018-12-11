@@ -18,7 +18,8 @@ export class FinishSaleComponent implements OnInit {
     ngOnInit() {
         this.saleCommunicationService.saleSubject.subscribe(
             (sale) => {
-                this.sale = sale;
+                console.log(sale)
+                this.sale = new Sale(sale);
             }
         );
     }

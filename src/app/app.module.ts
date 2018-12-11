@@ -16,6 +16,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ClientSearchComponent} from './menu-seller/sale/client-search/client-search.component';
 import {AddToSaleComponent} from './menu-seller/sale/add-to-sale/add-to-sale.component';
 import {FinishSaleComponent} from './menu-seller/sale/finish-sale/finish-sale.component';
+import { LoadingMaskComponent } from './loading-mask/loading-mask.component';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import {FinishSaleComponent} from './menu-seller/sale/finish-sale/finish-sale.co
         PopupComponent,
         ClientSearchComponent,
         AddToSaleComponent,
-        FinishSaleComponent
+        FinishSaleComponent,
+        LoadingMaskComponent
     ],
     imports: [
         BrowserModule,

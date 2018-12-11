@@ -22,6 +22,7 @@ export class AddToSaleComponent implements OnInit {
     client = new Client({});
     qnt = 1;
     total = 0;
+    ready = false;
 
     constructor(private clientServer: ClientService,
                 private saleCommunicationService: SaleCommunicationService) {
@@ -33,6 +34,7 @@ export class AddToSaleComponent implements OnInit {
                 this.products = response;
                 this.displayProducts = this.products;
                 this.product = this.products[0];
+                this.ready = true;
             }
         );
 

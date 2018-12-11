@@ -52,4 +52,8 @@ export class ClientSearchComponent implements OnInit {
         this.isModalOpen = false;
     }
 
+    toggleModal(isOpen: boolean) {
+        this.isModalOpen = isOpen;
+    }
+
 }
