@@ -2,9 +2,14 @@ import {Component, OnInit} from '@angular/core';
 import {Product} from '../../../models/product.model';
 import {Client} from '../../../models/client.model';
 import {ClientService} from '../../../services/client.service';
-import {SaleCommunicationService} from '../../../services/sale-communication.service';
 import {Sale} from '../../../models/sale.model';
 import {User} from '../../../models/user.model';
+import {Store} from '@ngrx/store';
+import {Observable} from 'rxjs';
+import {AddSale, MovePage} from '../state/sale.actions';
+import {AppState} from '../state/sale.reducers';
+import {PopupComponent} from '../../../modals/popup/popup.component';
+import {MatDialog} from '@angular/material/dialog';
 
 declare const window: any;
 const { remote } = window.require('electron');
@@ -19,14 +24,10 @@ export class AddToSaleComponent implements OnInit {
     displayProducts = [];
     saleProducts = [];
     product = new Product({});
-    client = new Client({});
+    client: Observable<AppState>;
     qnt = 1;
     total = 0;
     ready = false;
-
-    constructor(private clientServer: ClientService,
-                private saleCommunicationService: SaleCommunicationService) {
-    }
 
     ngOnInit() {
         this.clientServer.getProducts().subscribe(
@@ -37,12 +38,9 @@ export class AddToSaleComponent implements OnInit {
                 this.ready = true;
             }
         );
+    }
 
-        this.saleCommunicationService.setClient(
-            new Client({
-                'id': 0
-            })
-        );
+    constructor(private clientServer: ClientService, private store: Store<AppState>, public dialog: MatDialog) {
     }
 
     updatePanel(product) {
@@ -92,16 +90,24 @@ export class AddToSaleComponent implements OnInit {
     }
 
     endSale(isOrder) {
+        if (!this.saleProducts.length) {
+            this.dialog.open(PopupComponent, {
+                data: {
+                    'type': 'ok-face',
+                    'title': 'Venda algum produto!',
+                    'text': 'Não se esqueça de adicionar produtos a venda.'
+                }
+            });
+            return;
+        }
         const sale = new Sale({
-            client: this.saleCommunicationService.getClient(),
             user: new User(remote.getGlobal('user')),
             store: remote.getGlobal('store'),
             value: this.total,
             finish_later: isOrder.checked
         });
-        this.saleCommunicationService.setSale(sale);
-        this.saleCommunicationService.movePage(true);
-
+        this.store.dispatch(new AddSale(sale));
+        this.store.dispatch(new MovePage(true));
     }
 
 }

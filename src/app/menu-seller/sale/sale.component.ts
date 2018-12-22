@@ -1,6 +1,7 @@
 import {Component, ElementRef, OnInit, ViewEncapsulation} from '@angular/core';
 import {ClientService} from '../../services/client.service';
-import {SaleCommunicationService} from '../../services/sale-communication.service';
+import {Store} from '@ngrx/store';
+import {AppState} from './state/sale.reducers';
 
 @Component({
     selector: 'app-sale',
@@ -10,16 +11,20 @@ import {SaleCommunicationService} from '../../services/sale-communication.servic
 })
 export class SaleComponent implements OnInit {
 
-    constructor(private clientServer: ClientService,
-                private saleCommunicationService: SaleCommunicationService, private elRef: ElementRef) {
+    constructor(private clientServer: ClientService, private store: Store<AppState>, private elRef: ElementRef) {
         elRef.nativeElement.ownerDocument.body.style.overflow = 'hidden';
     }
 
     ngOnInit() {
-        this.saleCommunicationService.element.subscribe(
+        this.store.select('sale').subscribe(
             (element) => {
-                const el = document.getElementById('second-page');
-                el.scrollIntoView();
+                if (element.pageDown) {
+                    const el = document.getElementById('second-page');
+                    el.scrollIntoView();
+                } else {
+                    const el = document.getElementById('first-page');
+                    el.scrollIntoView();
+                }
             }
         );
     }

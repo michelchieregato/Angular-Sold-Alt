@@ -1,8 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {SaleCommunicationService} from '../../../services/sale-communication.service';
 import {ClientService} from '../../../services/client.service';
 import {Client} from '../../../models/client.model';
-import {Subject} from 'rxjs';
+import {Observable} from 'rxjs';
+import {Store} from '@ngrx/store';
+import {AddClient} from '../state/sale.actions';
+import {AppState, State} from '../state/sale.reducers';
 
 @Component({
     selector: 'app-client-search',
@@ -12,20 +14,18 @@ import {Subject} from 'rxjs';
 export class ClientSearchComponent implements OnInit {
     isModalOpen = false;
     clients = [];
-    client = new Client({
-        id: 0,
-        name: 'Cliente (Não Identificado)'
-    });
+    client: Observable<State>;
     clientSelected = new Client({
         id: 0,
         name: 'Cliente (Não Identificado)'
     });
     selectedRow;
 
-    constructor(private saleCommunicationService: SaleCommunicationService, private clientServer: ClientService) {
+    constructor(private clientServer: ClientService, private store: Store<AppState>) {
     }
 
     ngOnInit() {
+        this.client = this.store.select('sale');
     }
 
     searchClients(searchValue: string) {
@@ -47,8 +47,7 @@ export class ClientSearchComponent implements OnInit {
     }
 
     addToSale() {
-        this.client = this.clientSelected;
-        this.saleCommunicationService.setClient(this.clientSelected);
+        this.store.dispatch(new AddClient(this.clientSelected));
         this.isModalOpen = false;
     }
 

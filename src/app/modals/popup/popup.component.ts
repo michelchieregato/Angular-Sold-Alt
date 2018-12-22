@@ -18,7 +18,6 @@ export class PopupComponent implements OnInit {
     }
 
     ngOnInit() {
-        console.log(this.data);
     }
 
     closeModal(): void {

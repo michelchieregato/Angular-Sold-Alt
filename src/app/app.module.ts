@@ -17,6 +17,8 @@ import {ClientSearchComponent} from './menu-seller/sale/client-search/client-sea
 import {AddToSaleComponent} from './menu-seller/sale/add-to-sale/add-to-sale.component';
 import {FinishSaleComponent} from './menu-seller/sale/finish-sale/finish-sale.component';
 import { LoadingMaskComponent } from './loading-mask/loading-mask.component';
+import {StoreModule} from '@ngrx/store';
+import {saleReducer} from './menu-seller/sale/state/sale.reducers';
 
 
 @NgModule({
@@ -39,7 +41,10 @@ import { LoadingMaskComponent } from './loading-mask/loading-mask.component';
         FormsModule,
         HttpClientModule,
         MatDialogModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        StoreModule.forRoot({
+            sale: saleReducer
+        }),
     ],
     providers: [MatDialog],
     bootstrap: [AppComponent],

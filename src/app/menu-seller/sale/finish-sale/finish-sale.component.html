@@ -1,45 +1,31 @@
-<!--<div id="myModal2" class="modal">-->
-
-    <!--&lt;!&ndash; Modal content &ndash;&gt;-->
-    <!--<div class="modal-content">-->
-        <!--<div class="modal-header">-->
-            <!--<span class="close">&times;</span>-->
-            <!--<h2 class="modal-h2">Dar Desconto</h2>-->
-        <!--</div>-->
-        <!--<div class="modal-body2">-->
-            <!--<div class="slidecontainer">-->
-                <!--<input type="range" min="0" max="6" value="0" class="slider" id="myRange" name="myRange" oninput="amount.value=myRange.value">-->
-                <!--<output id="amount" name="amount" for="myRange">0</output>%-->
-            <!--</div>-->
-        <!--</div>-->
-        <!--<div class="modal-footer">-->
-            <!--<p class="btn btn-lg btn-orange" id="btnAddDesconto"> Dar Desconto  </p>-->
-        <!--</div>-->
-    <!--</div>-->
-<!--</div>-->
-<h2>R$ <span id="to-pay">00.00</span><span id="new-value"></span></h2>
+<h2>
+    {{ sale.value | currency : 'BRL' }}
+</h2>
 <a class="h-link" id="desconto"> Dar desconto </a>
-
-<!-- <h1>Selecione a forma de pagamento</h1> -->
 
 <div class="btn-toolbar" data-toggle="buttons">
 
-    <label class="btn btn-default opt active" id="Dinheiro" value=1>
+    <label class="btn btn-default opt" id="Dinheiro" [ngClass]="{active: btnSelected == 'Dinheiro'}"
+           (click)="selectButton('Dinheiro')">
         <input type="radio" name="options"> <img src="assets/images//Dinheiro.png" alt=""> <br> Dinheiro
     </label>
-    <label class="btn btn-default opt" id="Cheque" value=2>
+    <label class="btn btn-default opt" id="Cheque" [ngClass]="{active: btnSelected == 'Cheque'}"
+           (click)="selectButton('Cheque')">
         <input type="radio" name="options"> <img src="assets/images//Cheque.png" alt=""> <br> Cheque
     </label>
 
-    <label class="btn btn-default opt" id="Débito" value=3>
+    <label class="btn btn-default opt" id="Débito" [ngClass]="{active: btnSelected == 'Débito'}"
+           (click)="selectButton('Débito')">
         <input type="radio" name="options"> <img src="assets/images//Debito.png" alt=""> <br> Débito
     </label>
 
-    <label class="btn btn-default opt" id="Crédito" value=4>
+    <label class="btn btn-default opt" id="Crédito" [ngClass]="{active: btnSelected == 'Crédito'}"
+           (click)="selectButton('Crédito')">
         <input type="radio" name="options"> <img src="assets/images//Credito.png" alt=""> <br> Crédito
     </label>
 
-    <label class="btn btn-default opt" id="Transferência" value=5>
+    <label class="btn btn-default opt" id="Transferência" [ngClass]="{active: btnSelected == 'Transferência'}"
+           (click)="selectButton('Transferência')">
         <input type="radio" name="options"> <img src="assets/images//money-transfer.png" alt=""> <br> Transferência
     </label>
 
@@ -47,64 +33,77 @@
 
 <div class="form-inline">
     <div class="form-group">
-        <div class="input-group" id="paymentMethod">
+        <div class="input-group">
             <div class="input-group-addon">$</div>
-            <input type="text" class="form-control" id="lblValor" placeholder="Valor">
+            <input type="text" class="form-control" placeholder="Valor" #inputValue>
         </div>
     </div>
-    <!-- <div class='input-group date' id='datepicker'>
-        <input type='date' class="form-control" />
-        <span class="input-group-addon">
-            <span class="glyphicon glyphicon-calendar"></span>
-        </span>
-    </div>
-    <div class="form-group">
-        <select class="form-control" id="exampleFormControlSelect1">
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-        </select>
-    </div> -->
-    <p class="btn btn-default" id="add-payment">Adicionar</p>
+    <p class="btn btn-default" (click)="addToSale(inputValue)">Adicionar</p>
 </div>
 
 <div class="row">
     <div class="col-md-6 vendas">
         <h1>Pagamentos</h1>
-        <div class="table-size" id="payment">
-            <table class="table">
-                <thead>
-                <tr>
-                    <th><abbr title="Codigo">C</abbr></th>
-                    <th>Forma de pagamento</th>
-                    <th>R$</th>
-                </tr>
-                </thead>
-                <tfoot>
-                <tr>
-                    <th><abbr title="Position"></abbr></th>
-                    <th>Total:</th>
-                    <th id="totalValuePayment">0,00</th>
-                </tr>
-                </tfoot>
-                <tbody id="paymentTable">
-                </tbody>
-            </table>
-        </div>
+        <table class="table odd table-payment">
+            <thead>
+            <tr>
+                <th class="static-400">Forma de Pagamento</th>
+                <th class="static-200">Valor</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let payment of payments">
+                <td class="static-400">
+                    <span class="del" (click)="removePayment(payment.type)">
+                        <i class="fas fa-trash-alt"></i>
+                    </span>
+                    {{ payment.type }}
+                </td>
+                <td class="static-200">
+                    R$ {{ payment.value | number : '1.2-2'}}
+                </td>
+            </tbody>
+            <tfoot>
+            <tr>
+                <th class="static-400">Total:</th>
+                <th class="static-200">R$ {{ cashReceived | number : '1.2-2' }}</th>
+            </tr>
+            </tfoot>
+        </table>
 
     </div>
 
     <div class="col-md-6 money-labels">
-        <h3>Recebido: <span id="red" class="red">R$ <span id="received"> 00.00</span> </span></h3>
-        <h3>Falta Receber: <span class="green">R$ <span id="to-receive"> 00.00</span> </span></h3>
-        <h3>Troco: <span class="green">R$ <span id="change"> 00.00</span> </span></h3>
+        <h3>
+            Recebido:
+            <span [ngClass]="(cashReceived >= sale.value) ? 'green' : 'red'">
+                {{ cashReceived | currency : 'BRL' }}
+            </span>
+        </h3>
+        <h3>
+            Falta Receber:
+            <span class="green">
+                {{ cashToReceive | currency : 'BRL' }}
+            </span>
+        </h3>
+        <h3>
+            Troco:
+            <span class="green">
+                {{ change | currency : 'BRL' }}
+            </span>
+        </h3>
     </div>
 
 </div>
 
 
 <div class="final-btn">
-    <a class="btn btn-default" id="back-sale"><img src="assets/images//return.png" alt=""> Voltar a tela</a>
+    <a class="btn btn-default" (click)="backPage()">
+        <img src="assets/images//return.png" alt=""> Voltar a tela
+    </a>
 
-    <a class="btn btn-default" id="end-sale"><img src="assets/images//Cofre.png" alt=""> Finaliza venda</a>
+    <a class="btn btn-default" id="end-sale" (click)="finalizeSale()">
+        <img src="assets/images//Cofre.png">
+        Finaliza venda
+    </a>
 </div>

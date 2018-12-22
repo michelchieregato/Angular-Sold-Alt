@@ -31,4 +31,14 @@ export class ClientService {
             }
         );
     }
+
+    finishSale(sale: any) {
+        return this.http.post(remote.getGlobal('default_url') + 'sale/', sale).map(
+            (response) => {
+                console.log(response);
+                return response;
+                // return response.map(p => new Client(p));
+            }
+        );
+    }
 }
