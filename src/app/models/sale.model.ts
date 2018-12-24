@@ -9,6 +9,7 @@ export class Sale {
     value: number;
     finish_later: boolean;
     products: any;
+    discount: number;
 
     constructor(saleInfo: any) {
         this.client = saleInfo.client;
@@ -18,6 +19,7 @@ export class Sale {
         this.value = saleInfo.value;
         this.finish_later = saleInfo.finish_later;
         this.products = saleInfo.products;
+        this.discount = saleInfo.discount;
     }
 
     public prepareToSendSale(paymentsList) {

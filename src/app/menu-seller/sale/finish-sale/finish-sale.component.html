@@ -1,6 +1,11 @@
 <app-loading-mask [loading]="sending"></app-loading-mask>
 <h2>
-    {{ sale.value | currency : 'BRL' }}
+    <span [ngClass]="{'line-through': (afterDiscount != sale.value)}">
+        {{ sale.value | currency : 'BRL' }}
+    </span>
+    <span *ngIf="afterDiscount != sale.value">
+        {{ afterDiscount | currency : 'BRL' }}
+    </span>
 </h2>
 <a class="h-link block" (click)="openDiscountModal()"> Dar desconto </a>
 

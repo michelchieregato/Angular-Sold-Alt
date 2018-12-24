@@ -26,5 +26,5 @@ export const selectTotal = createSelector(
 
 export const selectDiscount = createSelector(
     selectSales,
-    (state: SaleState) => state.discount
+    (state: SaleState) => state.sale.discount
 );

@@ -7,7 +7,6 @@ const {remote} = window.require('electron');
 
 export interface SaleState {
     sale: Sale;
-    discount: number;
     pageDown: boolean;
 }
 
@@ -21,7 +20,7 @@ export const initialSaleState = {
         store: remote.getGlobal('store'),
         value: 0,
         products: [],
+        discount: 0
     }),
-    discount: 0,
     pageDown: false
 };

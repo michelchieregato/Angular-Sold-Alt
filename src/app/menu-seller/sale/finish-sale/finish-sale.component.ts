@@ -6,7 +6,7 @@ import {MovePage, RestartSale} from '../../../store/actions/sale.actions';
 import {MatDialog} from '@angular/material/dialog';
 import {PopupComponent} from '../../../modals/popup/popup.component';
 import {AppState} from '../../../store/state/app.state';
-import {selectSale} from '../../../store/selectors/sale.selectors';
+import {selectDiscount, selectSale} from '../../../store/selectors/sale.selectors';
 import {DiscountComponent} from '../discount/discount.component';
 
 @Component({
@@ -16,6 +16,7 @@ import {DiscountComponent} from '../discount/discount.component';
 })
 export class FinishSaleComponent implements OnInit {
     saleObserver = this.store.pipe(select(selectSale));
+    afterDiscount: number;
     sale: Sale;
     payments = [];
     btnSelected = 'Dinheiro';
@@ -31,7 +32,8 @@ export class FinishSaleComponent implements OnInit {
         this.saleObserver.subscribe(
             (sale) => {
                 this.sale = new Sale(sale);
-                this.cashToReceive = (this.sale.value - this.cashReceived) > 0 ? (this.sale.value - this.cashReceived) : 0;
+                this.afterDiscount = Math.round((sale.value * (1 - sale.discount / 100)) * 100) / 100;
+                this.cashToReceive = (this.afterDiscount - this.cashReceived) > 0 ? (this.afterDiscount - this.cashReceived) : 0;
             }
         );
     }
@@ -69,8 +71,8 @@ export class FinishSaleComponent implements OnInit {
         } else {
             this.cashReceived = 0;
         }
-        this.change = (this.sale.value - this.cashReceived) < 0 ? -1 * (this.sale.value - this.cashReceived) : 0;
-        this.cashToReceive = (this.sale.value - this.cashReceived) > 0 ? (this.sale.value - this.cashReceived) : 0;
+        this.change = (this.afterDiscount - this.cashReceived) < 0 ? -1 * (this.afterDiscount - this.cashReceived) : 0;
+        this.cashToReceive = (this.afterDiscount - this.cashReceived) > 0 ? (this.afterDiscount - this.cashReceived) : 0;
     }
 
     removePayment(type: string) {
@@ -98,6 +100,12 @@ export class FinishSaleComponent implements OnInit {
     }
 
     private restartSale() {
+        this.cashReceived = 0;
+        this.cashToReceive = 0;
+        this.change = 0;
+        this.payments = [];
+        this.btnSelected = 'Dinheiro';
+        this.afterDiscount = 0;
         this.store.dispatch(new RestartSale());
     }
 

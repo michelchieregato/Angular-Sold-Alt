@@ -68,12 +68,13 @@ export function saleReducer(state = initialSaleState, action: SaleActions) {
                 ...state
             };
         case SaleEnumActions.UPDATE_DISCOUNT:
+            state.sale = new Sale({...state.sale, discount: action.payload});
             return {
-                ...state,
-                discount: action.payload
+                ...state
             };
         case SaleEnumActions.RESTART_PAGE:
             state = initialSaleState;
+            state.sale.products = [];
             return {
                 ...state
             };
