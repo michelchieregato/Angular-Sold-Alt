@@ -18,8 +18,9 @@ import {AddToSaleComponent} from './menu-seller/sale/add-to-sale/add-to-sale.com
 import {FinishSaleComponent} from './menu-seller/sale/finish-sale/finish-sale.component';
 import { LoadingMaskComponent } from './loading-mask/loading-mask.component';
 import {StoreModule} from '@ngrx/store';
-import {saleReducer} from './menu-seller/sale/state/sale.reducers';
-
+import {saleReducer} from './store/reducers/sale.reducers';
+import {appReducers} from './store/reducers/app.reducers';
+import { DiscountComponent } from './menu-seller/sale/discount/discount.component';
 
 @NgModule({
     declarations: [
@@ -33,7 +34,8 @@ import {saleReducer} from './menu-seller/sale/state/sale.reducers';
         ClientSearchComponent,
         AddToSaleComponent,
         FinishSaleComponent,
-        LoadingMaskComponent
+        LoadingMaskComponent,
+        DiscountComponent
     ],
     imports: [
         BrowserModule,
@@ -42,13 +44,11 @@ import {saleReducer} from './menu-seller/sale/state/sale.reducers';
         HttpClientModule,
         MatDialogModule,
         BrowserAnimationsModule,
-        StoreModule.forRoot({
-            sale: saleReducer
-        }),
+        StoreModule.forRoot(appReducers),
     ],
     providers: [MatDialog],
     bootstrap: [AppComponent],
-    entryComponents: [PopupComponent]
+    entryComponents: [PopupComponent, DiscountComponent]
 })
 export class AppModule {
 }

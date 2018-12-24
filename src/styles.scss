@@ -117,8 +117,6 @@ body {
 
 .mat-dialog-container {
     padding: 0 !important;
-    height: 400px !important;
-    width: 500px !important;
 }
 
 // TABLES
@@ -229,4 +227,9 @@ body {
 
 .visible {
     display: block;
+}
+
+// For modal
+.cdk-global-scrollblock {
+    overflow-y: inherit !important;
 }

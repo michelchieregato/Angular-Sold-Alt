@@ -1,7 +1,8 @@
+<app-loading-mask [loading]="sending"></app-loading-mask>
 <h2>
     {{ sale.value | currency : 'BRL' }}
 </h2>
-<a class="h-link" id="desconto"> Dar desconto </a>
+<a class="h-link block" (click)="openDiscountModal()"> Dar desconto </a>
 
 <div class="btn-toolbar" data-toggle="buttons">
 
@@ -35,7 +36,7 @@
     <div class="form-group">
         <div class="input-group">
             <div class="input-group-addon">$</div>
-            <input type="text" class="form-control" placeholder="Valor" #inputValue>
+            <input type="text" class="form-control" placeholder="Valor" (keyup.enter)="addToSale(inputValue)" #inputValue>
         </div>
     </div>
     <p class="btn btn-default" (click)="addToSale(inputValue)">Adicionar</p>

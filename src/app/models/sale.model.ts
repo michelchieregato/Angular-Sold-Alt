@@ -8,6 +8,7 @@ export class Sale {
     datetime: number;
     value: number;
     finish_later: boolean;
+    products: any;
 
     constructor(saleInfo: any) {
         this.client = saleInfo.client;
@@ -16,15 +17,26 @@ export class Sale {
         this.datetime = saleInfo.datetime;
         this.value = saleInfo.value;
         this.finish_later = saleInfo.finish_later;
+        this.products = saleInfo.products;
     }
 
-    public prepareToSendSale() {
+    public prepareToSendSale(paymentsList) {
+        const products = {};
+        const payments = {};
+        this.products.forEach(product => {
+            products[product.id] = product.quantity;
+        });
+        paymentsList.forEach(payment => {
+            payments[payment.type] = payment.value;
+        });
         return {
             client: this.client.id,
             user: this.user.id,
             store: this.store,
             value: this.value,
-            finish_later: this.finish_later
+            finish_later: this.finish_later,
+            products: products,
+            payments: payments
         };
     }
 

@@ -5,7 +5,7 @@
                 <img alt="Brand" src="assets/images/man.png">
             </a>
         </div>
-        <p class="navbar-text"> {{ (client | async).client.name }}
+        <p class="navbar-text"> {{ (client | async).name }}
         </p>
         <p class="navbar-text navbar-right">
             <a class="btn add-client" (click)="toggleModal(true)">+</a>

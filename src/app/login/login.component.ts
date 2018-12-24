@@ -49,6 +49,8 @@ export class LoginComponent implements OnInit {
                 switch (error.status) {
                     case 401:
                         this.dialog.open(PopupComponent, {
+                            height: '400px',
+                            width: '500px',
                             data: {
                                 'type': 'sad',
                                 'title': 'Acesso negado',
@@ -58,6 +60,8 @@ export class LoginComponent implements OnInit {
                         break;
                     default:
                         this.dialog.open(PopupComponent, {
+                            height: '400px',
+                            width: '500px',
                             data: {
                                 'type': 'sad',
                                 'title': 'Erro',

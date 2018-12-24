@@ -1,7 +1,7 @@
 import {Component, ElementRef, OnInit, ViewEncapsulation} from '@angular/core';
 import {ClientService} from '../../services/client.service';
 import {Store} from '@ngrx/store';
-import {AppState} from './state/sale.reducers';
+import {AppState} from '../../store/state/app.state';
 
 @Component({
     selector: 'app-sale',

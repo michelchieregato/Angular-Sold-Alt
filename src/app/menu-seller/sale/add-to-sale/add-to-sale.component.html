@@ -79,11 +79,11 @@
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let product of saleProducts">
+            <tr *ngFor="let product of (saleProducts | async)">
                 <td class="static-400">
-                            <span class="del" (click)="removeProduct(product.id)">
-                                <i class="fas fa-trash-alt"></i>
-                            </span>
+                    <span class="del" (click)="removeProduct(product.id)">
+                        <i class="fas fa-trash-alt"></i>
+                    </span>
                     {{ product.name }}
                 </td>
                 <td class="static-200">
@@ -102,7 +102,7 @@
                 <th class="static-300"></th>
                 <th class="static-200"></th>
                 <th class="static-200">Total:</th>
-                <th class="static-100">R$ {{ total | number : '1.2-2' }}</th>
+                <th class="static-100">R$ {{ total | async | number : '1.2-2' }}</th>
             </tr>
             </tfoot>
         </table>

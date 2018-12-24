@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {ClientService} from '../../../services/client.service';
 import {Client} from '../../../models/client.model';
-import {Observable} from 'rxjs';
-import {Store} from '@ngrx/store';
-import {AddClient} from '../state/sale.actions';
-import {AppState, State} from '../state/sale.reducers';
+import {select, Store} from '@ngrx/store';
+import {AddClient} from '../../../store/actions/sale.actions';
+import {AppState} from '../../../store/state/app.state';
+import {selectClient} from '../../../store/selectors/sale.selectors';
 
 @Component({
     selector: 'app-client-search',
@@ -14,7 +14,7 @@ import {AppState, State} from '../state/sale.reducers';
 export class ClientSearchComponent implements OnInit {
     isModalOpen = false;
     clients = [];
-    client: Observable<State>;
+    client = this.store.pipe(select(selectClient));
     clientSelected = new Client({
         id: 0,
         name: 'Cliente (Não Identificado)'
@@ -25,7 +25,6 @@ export class ClientSearchComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.client = this.store.select('sale');
     }
 
     searchClients(searchValue: string) {

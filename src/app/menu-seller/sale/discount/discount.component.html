@@ -1,0 +1,11 @@
+<div class="discountModal">
+    <div class="modal-header">
+        <span class="close" (click)="closeModal()">&times;</span>
+        <h2 class="h-text orange">Dar Desconto</h2>
+    </div>
+    <div class="slidecontainer">
+        <input type="range" min="0" max="10" class="slider" [(ngModel)]="discount">
+        <span class="block">{{ discount}} %</span>
+    </div>
+    <p class="btn btn-lg btn-orange pull-right" (click)="applyDiscount()"> Dar Desconto </p>
+</div>
