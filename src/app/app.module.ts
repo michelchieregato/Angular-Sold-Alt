@@ -21,6 +21,8 @@ import {StoreModule} from '@ngrx/store';
 import {saleReducer} from './store/reducers/sale.reducers';
 import {appReducers} from './store/reducers/app.reducers';
 import { DiscountComponent } from './menu-seller/sale/discount/discount.component';
+import { AddClientComponent } from './modals/add-client/add-client.component';
+import {MaskDirective} from './directives/cpf-mask.directive';
 
 @NgModule({
     declarations: [
@@ -35,7 +37,9 @@ import { DiscountComponent } from './menu-seller/sale/discount/discount.componen
         AddToSaleComponent,
         FinishSaleComponent,
         LoadingMaskComponent,
-        DiscountComponent
+        DiscountComponent,
+        AddClientComponent,
+        MaskDirective
     ],
     imports: [
         BrowserModule,
@@ -48,7 +52,7 @@ import { DiscountComponent } from './menu-seller/sale/discount/discount.componen
     ],
     providers: [MatDialog],
     bootstrap: [AppComponent],
-    entryComponents: [PopupComponent, DiscountComponent]
+    entryComponents: [PopupComponent, DiscountComponent, AddClientComponent]
 })
 export class AppModule {
 }

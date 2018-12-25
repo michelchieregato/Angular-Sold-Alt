@@ -1,0 +1,42 @@
+<body>
+
+<div class="client">
+    <div id="client-header">
+        <h1 class="h-text orange">Registrar Cliente</h1>
+    </div>
+
+    <form id="form">
+
+        <div class="form-group" id='div-cpf'>
+            <label for="cpf">CPF</label>
+            <input type="text" class="form-control" name="cpf" id="cpf" placeholder="CPF" aria-describedby="helpBlock"
+                   maxlength="14" required
+                   appMask="999.999.999-99"
+                   [(ngModel)]="lala"
+                   (keyup)="logCpf()">
+        </div>
+        <div class="form-group" id="div-name">
+            <label for="name">Nome Completo</label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="Nome Completo"
+                   aria-describedby="helpBlock" required>
+        </div>
+        <div class="form-group" id="div-email">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="Email"
+                   aria-describedby="helpBlock">
+        </div>
+        <div class="form-group" id="div-telephone">
+            <label for="telephone">Telefone</label>
+            <input type="text" class="form-control" id="telephone" name="telephone" placeholder="DDD + Telefone"
+                   aria-describedby="helpBlock" maxlength="12">
+        </div>
+        <div class="form-group" id="div-cep">
+            <label for="cep">CEP</label>
+            <input type="text" class="form-control" id="cep" name="cep" placeholder="CEP" aria-describedby="helpBlock"
+                   maxlength="9">
+        </div>
+
+        <p class="btn btn-lg orange" id="btnCreate"> Enviar </p>
+    </form>
+
+</div>

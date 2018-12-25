@@ -5,6 +5,9 @@ import {select, Store} from '@ngrx/store';
 import {AddClient} from '../../../store/actions/sale.actions';
 import {AppState} from '../../../store/state/app.state';
 import {selectClient} from '../../../store/selectors/sale.selectors';
+import {MatDialog} from '@angular/material/dialog';
+import {DiscountComponent} from '../discount/discount.component';
+import {AddClientComponent} from '../../../modals/add-client/add-client.component';
 
 @Component({
     selector: 'app-client-search',
@@ -21,8 +24,8 @@ export class ClientSearchComponent implements OnInit {
     });
     selectedRow;
 
-    constructor(private clientServer: ClientService, private store: Store<AppState>) {
-    }
+    constructor(private clientServer: ClientService, private store: Store<AppState>,
+                public dialog: MatDialog) { }
 
     ngOnInit() {
     }
@@ -43,6 +46,14 @@ export class ClientSearchComponent implements OnInit {
     selectClient(client: Client, index: number) {
         this.clientSelected = client;
         this.selectedRow = index;
+    }
+
+    openNewClientModal() {
+        this.isModalOpen = false;
+        this.dialog.open(AddClientComponent, {
+            height: '600px',
+            width: '800px'
+        });
     }
 
     addToSale() {
