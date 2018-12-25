@@ -5,7 +5,7 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
     selector: '[appMask]',
     providers: [{
         provide: NG_VALUE_ACCESSOR,
-        useExisting: CpfMaskDirective,
+        useExisting: MaskDirective,
         multi: true
     }]
 })
@@ -13,7 +13,7 @@ export class MaskDirective implements ControlValueAccessor {
     onTouched: any;
     onChange: any;
 
-    @Input('appCpfMask') maskValue: string;
+    @Input('appMask') maskValue: string;
 
     writeValue(value: any): void {
     }
@@ -60,7 +60,6 @@ export class MaskDirective implements ControlValueAccessor {
         }
 
         $event.target.value = valor;
-        this.maskValue = 'Oi mulecada'
     }
 
     @HostListener('blur', ['$event'])

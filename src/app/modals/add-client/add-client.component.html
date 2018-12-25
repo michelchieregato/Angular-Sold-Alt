@@ -1,42 +1,39 @@
-<body>
-
 <div class="client">
     <div id="client-header">
         <h1 class="h-text orange">Registrar Cliente</h1>
     </div>
 
-    <form id="form">
+    <form id="form" (ngSubmit)="onSubmit(clientForm)" #clientForm="ngForm">
 
-        <div class="form-group" id='div-cpf'>
+        <div class="form-group" [ngClass]="{'has-error': cpf.invalid && clientForm.submitted}">
             <label for="cpf">CPF</label>
-            <input type="text" class="form-control" name="cpf" id="cpf" placeholder="CPF" aria-describedby="helpBlock"
-                   maxlength="14" required
-                   appMask="999.999.999-99"
-                   [(ngModel)]="lala"
-                   (keyup)="logCpf()">
+            <input type="text" class="form-control" name="cpf" placeholder="CPF"
+                   maxlength="14" required ngModel #cpf="ngModel"
+                   appMask="999.999.999-99">
+            <span *ngIf="cpf.invalid && clientForm.submitted" class="help-block">Preencha o cpf.</span>
         </div>
-        <div class="form-group" id="div-name">
+        <div class="form-group" [ngClass]="{'has-error': name.invalid && clientForm.submitted}">
             <label for="name">Nome Completo</label>
-            <input type="text" class="form-control" id="name" name="name" placeholder="Nome Completo"
-                   aria-describedby="helpBlock" required>
+            <input type="text" class="form-control" name="name" placeholder="Nome Completo"
+                    required ngModel #name="ngModel">
+            <span *ngIf="cpf.invalid && clientForm.submitted" class="help-block">Preencha o cpf.</span>
         </div>
-        <div class="form-group" id="div-email">
+        <div class="form-group">
             <label for="email">Email</label>
-            <input type="email" class="form-control" id="email" name="email" placeholder="Email"
-                   aria-describedby="helpBlock">
+            <input type="email" class="form-control" name="email" placeholder="Email"
+                   ngModel #email="ngModel">
         </div>
-        <div class="form-group" id="div-telephone">
+        <div class="form-group">
             <label for="telephone">Telefone</label>
-            <input type="text" class="form-control" id="telephone" name="telephone" placeholder="DDD + Telefone"
-                   aria-describedby="helpBlock" maxlength="12">
+            <input type="text" class="form-control" id="telephone" name="tel" placeholder="DDD + Telefone"
+                   ngModel #tel="ngModel" appMask="(99) 99999-9999">
         </div>
-        <div class="form-group" id="div-cep">
+        <div class="form-group">
             <label for="cep">CEP</label>
-            <input type="text" class="form-control" id="cep" name="cep" placeholder="CEP" aria-describedby="helpBlock"
-                   maxlength="9">
+            <input type="text" class="form-control" id="cep" name="cep" placeholder="CEP"
+                   maxlength="9" ngModel #cep="ngModel">
         </div>
 
-        <p class="btn btn-lg orange" id="btnCreate"> Enviar </p>
+        <button class="btn btn-lg orange" [disabled]="disabled"> Enviar </button>
     </form>
-
 </div>

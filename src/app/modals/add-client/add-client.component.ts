@@ -1,6 +1,12 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {DialogData} from '../popup/popup.component';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {DialogData, PopupComponent} from '../popup/popup.component';
+import {NgForm} from '@angular/forms';
+import {ClientService} from '../../services/client.service';
+import {Client} from '../../models/client.model';
+import {Store} from '@ngrx/store';
+import {AppState} from '../../store/state/app.state';
+import {AddClient} from '../../store/actions/sale.actions';
 
 @Component({
     selector: 'app-add-client',
@@ -8,21 +14,42 @@ import {DialogData} from '../popup/popup.component';
     styleUrls: ['./add-client.component.scss']
 })
 export class AddClientComponent implements OnInit {
-    lala = 'oii';
+    disabled = false;
 
-    constructor(public dialogRef: MatDialogRef<AddClientComponent>,
-                @Inject(MAT_DIALOG_DATA) public data: DialogData) {
+    constructor(public dialogRef: MatDialogRef<AddClientComponent>, private store: Store<AppState>,
+                @Inject(MAT_DIALOG_DATA) public data: DialogData, private clientServer: ClientService,
+                public dialog: MatDialog) {
     }
 
     ngOnInit() {
     }
 
-    closeModal(): void {
-        this.dialogRef.close();
-    }
+    onSubmit(form: NgForm) {
+        if (!form.valid) {
+            return;
+        }
 
-    logCpf() {
-        console.log(this.lala);
+        this.disabled = true;
+
+        this.clientServer.saveClient(form.value).subscribe(
+            (next) => {
+                this.disabled = false;
+                this.store.dispatch(new AddClient(new Client(next)));
+                this.dialogRef.close();
+            },
+            (error) => {
+                this.dialog.open(PopupComponent, {
+                    height: '400px',
+                    width: '500px',
+                    data: {
+                        'type': 'sad',
+                        'title': 'Não foi possível adicionar o cliente.',
+                        'text': 'Verifique a conexão ou se já existe um cliente com esse cpf.'
+                    }
+                });
+                this.disabled = false;
+            }
+        );
     }
 
 }

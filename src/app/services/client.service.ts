@@ -32,6 +32,10 @@ export class ClientService {
         );
     }
 
+    saveClient(client: Client) {
+        return this.http.post(remote.getGlobal('default_url') + 'client/', client);
+    }
+
     finishSale(sale: any) {
         return this.http.post(remote.getGlobal('default_url') + 'sale/', sale).map(
             (response) => {
