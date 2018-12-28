@@ -4,11 +4,13 @@ import {LoginComponent} from './login/login.component';
 import {MenuSellerComponent} from './menu-seller/menu-seller.component';
 import {MenuComponent} from './menu-seller/menu/menu.component';
 import {SaleComponent} from './menu-seller/sale/sale.component';
+import {SearchSaleComponent} from './menu-seller/search-sale/search-sale.component';
 
 const appRoutes: Routes = [
     {
         path: 'seller', component: MenuSellerComponent, children: [
-            {path: 'menu', component: MenuComponent}
+            {path: 'menu', component: MenuComponent},
+            {path: 'search-sale', component: SearchSaleComponent}
         ]
     },
     {path: 'sale', component: SaleComponent},

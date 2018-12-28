@@ -1,0 +1,84 @@
+<div class="div-table">
+    <div class="container-filter">
+        <h2>Filtros</h2>
+        <form (ngSubmit)="onSubmit(searchForm)" #searchForm="ngForm">
+            <div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="inputSearch" placeholder="Nome"
+                        name="name" ngModel #name>
+                        <span class="input-group-addon">
+                        <i class="fas fa-search"></i>
+                    </span>
+                    </div>
+
+                    <div class="input-group">
+                        <mat-form-field>
+                            <input matInput ngModel name="initialDate" #initialDate [matDatepicker]="picker" placeholder="De"
+                            [(ngModel)]="initial_date">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+
+                    <mat-form-field>
+                        <input ngModel name="finalDate" #finalDate matInput [matDatepicker]="picker2" placeholder="Até"
+                               [(ngModel)]="final_date">
+                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                        <mat-datepicker #picker2></mat-datepicker>
+                    </mat-form-field>
+
+                    <div class="input-group">
+                        <label for="order">Só encomenda</label>
+                        <input type="checkbox" name="order" id="order">
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn btn-orange orange" id="btn-pesquisa" [disabled]="disabled">
+                Pesquisar
+                <span *ngIf="disabled">
+                    <i class="fa fa-spinner fa-spin"></i>
+                </span>
+            </button>
+        </form>
+
+    </div>
+
+    <table class="table odd" *ngIf="sales.length">
+        <thead>
+        <tr>
+            <th class="static-150">C</th>
+            <th class="static-200">Data</th>
+            <th class="static-300">CPF</th>
+            <th class="static-400">Cliente</th>
+            <th class="static-200">Valor</th>
+            <th class="static-200">Encomenda</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let sale of sales">
+            <td class="static-150">
+                <img src="assets/images/plus-icon.png" (click)="openSaleDetailModal(sale)">
+                {{ sale.id }}
+            </td>
+            <td class="static-200">
+                {{ sale.datetime | date : 'short'}}
+            </td>
+            <td class="static-300">
+                {{ sale.client.cpf }}
+            </td>
+            <td class="static-400">
+                {{ sale.client.name }}
+            </td>
+            <td class="static-200">
+                {{ sale.value | currency : 'BRL' }}
+            </td>
+            <td class="static-200">
+                <img src="assets/images/checkmark.png" *ngIf="sale.finish_later">
+                <img src="assets/images/not.png" *ngIf="!sale.finish_later">
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

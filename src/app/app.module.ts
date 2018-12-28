@@ -23,6 +23,14 @@ import {appReducers} from './store/reducers/app.reducers';
 import { DiscountComponent } from './menu-seller/sale/discount/discount.component';
 import { AddClientComponent } from './modals/add-client/add-client.component';
 import {MaskDirective} from './directives/cpf-mask.directive';
+import { SearchSaleComponent } from './menu-seller/search-sale/search-sale.component';
+import {
+    MatDatepickerModule,
+    MatFormFieldModule,
+    MatNativeDateModule,
+    MatInputModule, MAT_DATE_LOCALE
+} from '@angular/material';
+import { SaleDetailComponent } from './menu-seller/search-sale/sale-detail/sale-detail.component';
 
 @NgModule({
     declarations: [
@@ -39,7 +47,9 @@ import {MaskDirective} from './directives/cpf-mask.directive';
         LoadingMaskComponent,
         DiscountComponent,
         AddClientComponent,
-        MaskDirective
+        MaskDirective,
+        SearchSaleComponent,
+        SaleDetailComponent
     ],
     imports: [
         BrowserModule,
@@ -49,10 +59,14 @@ import {MaskDirective} from './directives/cpf-mask.directive';
         MatDialogModule,
         BrowserAnimationsModule,
         StoreModule.forRoot(appReducers),
+        MatDatepickerModule,
+        MatFormFieldModule,
+        MatNativeDateModule,
+        MatInputModule
     ],
-    providers: [MatDialog],
+    providers: [MatDialog, MatDatepickerModule, {provide: MAT_DATE_LOCALE, useValue: 'en-GB'}],
     bootstrap: [AppComponent],
-    entryComponents: [PopupComponent, DiscountComponent, AddClientComponent]
+    entryComponents: [PopupComponent, DiscountComponent, AddClientComponent, SaleDetailComponent]
 })
 export class AppModule {
 }

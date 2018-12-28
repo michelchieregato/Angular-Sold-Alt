@@ -1,0 +1,41 @@
+<app-loading-mask [loading]="loading"></app-loading-mask>
+<div class="saleDetailModal">
+    <div class="modal-header">
+        <h1 class="h-text orange">
+            Venda {{ data.sale.id }}
+        </h1>
+    </div>
+    <div class="modal-body">
+        <div class="container-modal">
+            <h2>Cliente: {{ data.sale.client.name }}</h2>
+            <h4>{{ data.sale.value | currency: 'BRL' }}</h4>
+        </div>
+        <table class="table odd table-sale">
+            <thead>
+            <tr>
+                <th class="static-400">Descricao</th>
+                <th class="static-200">Tamanho</th>
+                <th class="static-200">Qnt</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let product of saleProducts">
+                <td class="static-400">
+                    {{ product.name }}
+                </td>
+                <td class="static-200">
+                    {{ product.size }}
+                </td>
+                <td class="static-200">
+                    {{ product.quantity }}
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="modal-footer">
+        <p class="btn btn-lg btn-orange"> Apagar venda </p>
+        <p class="btn btn-lg btn-orange"> Realizar Troca </p>
+        <p class="btn btn-lg btn-orange"> Finalizar venda</p>
+    </div>
+</div>

@@ -2,6 +2,7 @@ import {User} from './user.model';
 import {Client} from './client.model';
 
 export class Sale {
+    id: number;
     client: Client;
     user: User;
     store: number;
@@ -12,6 +13,7 @@ export class Sale {
     discount: number;
 
     constructor(saleInfo: any) {
+        this.id = saleInfo.id;
         this.client = saleInfo.client;
         this.user = saleInfo.user;
         this.store = saleInfo.store;

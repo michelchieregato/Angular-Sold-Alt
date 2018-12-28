@@ -12,7 +12,7 @@
   <div class="vertical-menu" [ngClass]="{open_drawer: open}">
     <div class="border-orange">
       <div class="btn-group btn-group-justified">
-        <a href="#" class="btn" id="menu">Menu</a>
+        <a [routerLink]="['/seller/menu']" class="btn" id="menu">Menu</a>
       </div>
       <div class="btn-group btn-group-justified">
         <a href="#" class="btn" id="withdraw">Fazer Sangria</a>
@@ -21,7 +21,7 @@
         <a href="#" class="btn" id="storage">Transferir Estoque</a>
       </div>
       <div class="btn-group btn-group-justified">
-        <a href="#" class="btn " id="search-sale">Pesquisar Venda</a>
+        <a [routerLink]="['/seller/search-sale']" class="btn " id="search-sale">Pesquisar Venda</a>
       </div>
       <div class="btn-group btn-group-justified">
         <a href="#" class="btn " id="reports-menu">Ver Relatórios</a>
