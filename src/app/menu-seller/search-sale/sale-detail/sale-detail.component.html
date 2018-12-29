@@ -8,7 +8,9 @@
     <div class="modal-body">
         <div class="container-modal">
             <h2>Cliente: {{ data.sale.client.name }}</h2>
-            <h4>{{ data.sale.value | currency: 'BRL' }}</h4>
+            <a [popover]="popTemplate">
+                {{ data.sale.value | currency: 'BRL' }} *
+            </a>
         </div>
         <table class="table odd table-sale">
             <thead>
@@ -39,3 +41,15 @@
         <p class="btn btn-lg btn-orange"> Finalizar venda</p>
     </div>
 </div>
+
+<ng-template #popTemplate>
+    <div class="popover-div">
+        <h1>Pagamentos:</h1>
+        <p *ngFor="let payment of payments">
+            {{ payment.paymentMethod }}: {{ payment.value | currency: 'BRL' }}
+        </p>
+        <p *ngIf="(totalReceived - data.sale.value) > 0">
+            Troco: {{ (totalReceived - data.sale.value) | currency: 'BRL' }}
+        </p>
+    </div>
+</ng-template>

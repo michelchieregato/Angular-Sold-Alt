@@ -4,14 +4,17 @@ import {Product} from '../models/product.model';
 import 'rxjs-compat/add/operator/map';
 import {Client} from '../models/client.model';
 import {Sale} from '../models/sale.model';
+import {Withdraw} from '../models/withdraw.model';
 
 declare const window: any;
-const { remote } = window.require('electron');
+const {remote} = window.require('electron');
 const store = remote.getGlobal('store');
+const user = remote.getGlobal('user');
 
 @Injectable({providedIn: 'root'})
 export class ClientService {
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) {
+    }
 
 
     login(auth: {}) {
@@ -55,8 +58,8 @@ export class ClientService {
         );
     }
 
-    getSaleProducts(id: number) {
-        return this.http.get<Sale[]>(remote.getGlobal('default_url') + 'sale_product/', {params: {saleId: id}}).map(
+    getSaleProducts(id: string) {
+        return this.http.get(remote.getGlobal('default_url') + 'sale_product/', {params: {saleId: id}}).map(
             (response) => {
                 return response.map(p => {
                     const product = new Product(p.product);
@@ -68,12 +71,30 @@ export class ClientService {
         );
     }
 
-    getSalePayments(id: number) {
-        return this.http.get<Sale[]>(remote.getGlobal('default_url') + 'payment/', {params: {saleId: id}}).map(
+    getSalePayments(id: string) {
+        return this.http.get(remote.getGlobal('default_url') + 'payment/', {params: {saleId: id}}).map(
             (response) => {
-                console.log(response)
                 return response;
             }
         );
+    }
+
+    getWithdrawInformation(params: any) {
+        params['store'] = store;
+        return this.http.get(remote.getGlobal('default_url') + 'withdraw/0/', {params: params}).map(
+            (response) => {
+                return new Withdraw(response);
+            }
+        );
+    }
+
+    updateWithdraw(params: Withdraw) {
+        return this.http.put(remote.getGlobal('default_url') + 'withdraw/' + params.id + '/', params);
+    }
+
+    createWithdrawHistory(params: any) {
+        params['store'] = store;
+        params['user'] = user.id;
+        return this.http.post(remote.getGlobal('default_url') + 'withdraw_history/', params);
     }
 }

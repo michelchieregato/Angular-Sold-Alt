@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
-import {PopupComponent} from '../../modals/popup/popup.component';
+import {WithdrawComponent} from '../withdraw/withdraw.component';
 
 declare const window: any;
 const {ipcRenderer} = window.require('electron');
@@ -20,6 +20,13 @@ export class MenuComponent implements OnInit {
 
     openSaleScreen() {
         ipcRenderer.send('open-sale-screen');
+    }
+
+    openWithdrawModal() {
+        this.dialog.open(WithdrawComponent, {
+            maxHeight: '450px',
+            width: '1000px'
+        });
     }
 
 }

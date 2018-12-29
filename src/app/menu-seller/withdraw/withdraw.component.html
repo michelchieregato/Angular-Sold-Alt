@@ -1,0 +1,43 @@
+<app-loading-mask [loading]="loading"></app-loading-mask>
+<div class="h-text orange">
+    <h1>
+        Sangria -
+        <span *ngIf="currentScreen == 'Dinheiro'">Dinheiro</span>
+        <span *ngIf="currentScreen == 'Cheque'">Cheque</span>
+    </h1>
+</div>
+<div id="body-form">
+    <h2> {{ withdraw.quantity | currency: 'BRL' }} *</h2>
+    <h2 class="small-font">*Quantidade em caixa atualmente.</h2>
+    <form>
+        <div class="form-group" id='div-user'>
+            <label for="value">Valor</label>
+            <input class="form-control" name="value" placeholder="R$00,00"
+                   aria-describedby="helpBlock" [(ngModel)]="value" currencyMask
+                   [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' , align: 'center', allowNegative: false}" (keyup)="lala()">
+        </div>
+        <div id='output'>
+            <p id="sent"></p>
+            <p class="btn btn-lg orange" (click)="updateWithdraw(false)">
+                Depositar
+                <span *ngIf="currentScreen == 'Dinheiro'">dinheiro</span>
+                <span *ngIf="currentScreen == 'Cheque'">cheque</span>
+            </p>
+            <p class="btn btn-lg orange" (click)="updateWithdraw(true)">
+                Fazer retirada
+            </p>
+        </div>
+    </form>
+</div>
+<div class="footer">
+    <a (click)="changeScreen('Cheque')">
+        <h3 *ngIf="currentScreen == 'Dinheiro'">
+            VER CHEQUE
+        </h3>
+    </a>
+    <a (click)="changeScreen('Dinheiro')">
+        <h3 *ngIf="currentScreen == 'Cheque'">
+            VER DINHEIRO
+        </h3>
+    </a>
+</div>

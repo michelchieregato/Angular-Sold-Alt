@@ -1,0 +1,56 @@
+<div class="container">
+    <div class="container-filter">
+        <div class="form-group">
+            <label class="sr-only" for="productName">Pesquisar</label>
+            <div class="input-group">
+                <div class="input-group-addon">
+                    <span class="icon is-small">
+                        <i class="fas fa-search"></i>
+                    </span>
+                </div>
+                <input type="text" class="typeahead form-control" id="productName" placeholder="Produto">
+
+            </div>
+
+            <div class='input-group w-10'>
+                <label class="sr-only" for="productQnt">Qnt</label>
+                <input type='text' class="form-control" id="productQnt" placeholder="Qnt" value="1"/>
+            </div>
+
+            <p class="btn btn-orange" id="btn-add"> Adicionar </p>
+        </div>
+    </div>
+    <div class="produto">
+        <div class="table-size" id="product">
+            <table class="table table-hover table-bordered table-striped" id="table">
+                <thead>
+                <tr>
+                    <th><abbr title="Codigo">C</abbr></th>
+                    <th>Descricao</th>
+                    <th>Tamanho</th>
+                    <th>Qnt</th>
+                </tr>
+                </thead>
+                <tbody class="product-table">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="bottom">
+        <h3> Fazer transferência* <br>
+            <span class="small">Ao selecionar a própria unidade, você estará confirmando o recebimento de mercadoria</span>
+        </h3>
+        <div class="form-group select">
+            <label>
+                <select class="form-control" id="select-store">
+                    <option value="Verbo Divino">Verbo Divino</option>
+                    <option value="Aldeia da Serra">Aldeia da Serra</option>
+                    <option value="Aclimação">Aclimação</option>
+                    <option value="Itaim">Itaim</option>
+                </select>
+            </label>
+            <p class="btn btn-orange" id="btn-transfer"> Transferir estoque </p>
+        </div>
+    </div>
+</div>

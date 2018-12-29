@@ -1,0 +1,82 @@
+.title-product {
+    height: 5vh;
+    font-size: 15px;
+}
+
+.container {
+    margin: 10px auto;
+}
+
+.container-filter {
+    width: 100%;
+    height: 120px;
+    border: 2px dashed lightgrey;
+    margin: .5em 0;
+    text-align: center;
+}
+
+.container-filter .input-group {
+    margin-top: 1%;
+    width: 80%;
+    padding: 0 2%;
+    display: inline-table;
+}
+
+.container-filter .w-10 {
+    width: 10%;
+}
+
+.btn {
+    margin: 10px 0;
+    width: 87%;
+}
+
+tr .del {
+    background-color: #e74c3c;
+    margin-right: 0;
+    text-align: center;
+    color: white;
+    width: 0;
+    display: inline-block;
+    opacity: 0;
+    transition: .2s linear;
+}
+
+tr:hover .del {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    opacity: 1.0;
+}
+
+h3 {
+    margin: 0 auto;
+    font-size: 1.5em;
+    text-align: center;
+}
+
+h3 span {
+    white-space: pre-line;
+    word-break: break-word;
+    font-size: .6em;
+}
+
+.select {
+    width: 87%;
+    margin: 1em auto;
+}
+
+.select * {
+    width: 100%;
+}
+
+.bottom {
+    position: absolute;
+    width: 90%;
+    bottom: 10px;
+}
+
+.table-size {
+    height: 250px;
+    overflow-y: auto;
+}

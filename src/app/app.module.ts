@@ -31,6 +31,11 @@ import {
     MatInputModule, MAT_DATE_LOCALE
 } from '@angular/material';
 import { SaleDetailComponent } from './menu-seller/search-sale/sale-detail/sale-detail.component';
+import {NgbModule, NgbPopoverModule} from '@ng-bootstrap/ng-bootstrap';
+import {PopoverModule} from 'ngx-bootstrap';
+import { WithdrawComponent } from './menu-seller/withdraw/withdraw.component';
+import {CurrencyMaskModule} from 'ng2-currency-mask';
+import { StockTransferComponent } from './menu-seller/stock-transfer/stock-transfer.component';
 
 @NgModule({
     declarations: [
@@ -49,7 +54,9 @@ import { SaleDetailComponent } from './menu-seller/search-sale/sale-detail/sale-
         AddClientComponent,
         MaskDirective,
         SearchSaleComponent,
-        SaleDetailComponent
+        SaleDetailComponent,
+        WithdrawComponent,
+        StockTransferComponent
     ],
     imports: [
         BrowserModule,
@@ -62,11 +69,19 @@ import { SaleDetailComponent } from './menu-seller/search-sale/sale-detail/sale-
         MatDatepickerModule,
         MatFormFieldModule,
         MatNativeDateModule,
-        MatInputModule
+        MatInputModule,
+        PopoverModule.forRoot(),
+        CurrencyMaskModule
     ],
     providers: [MatDialog, MatDatepickerModule, {provide: MAT_DATE_LOCALE, useValue: 'en-GB'}],
     bootstrap: [AppComponent],
-    entryComponents: [PopupComponent, DiscountComponent, AddClientComponent, SaleDetailComponent]
+    entryComponents: [
+        PopupComponent,
+        DiscountComponent,
+        AddClientComponent,
+        SaleDetailComponent,
+        WithdrawComponent
+    ]
 })
 export class AppModule {
 }

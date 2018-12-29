@@ -1,5 +1,4 @@
 <div id="menu">
-
     <div id="footer">
         <div class="container-fluid menu">
             <div class="btn-group btn-group-justified">
@@ -7,11 +6,11 @@
                     <img src="assets/images/register.png" alt="">
                     <br><br> Efetuar Venda
                 </a>
-                <a class="btn" id="sangria">
+                <a class="btn" (click)="openWithdrawModal()">
                     <img src="assets/images/money.png" alt="">
                     <br><br> Fazer Sangria
                 </a>
-                <a href="#" class="btn" id="storage">
+                <a href="#" class="btn" [routerLink]="['/seller/stock-transfer']">
                     <img src="assets/images/truck.png" alt="Truck">
                     <br><br> Transferir Estoque
                 </a>

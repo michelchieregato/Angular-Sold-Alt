@@ -33,6 +33,11 @@
 
         &:nth-child(2) {
             background-color: #0099ff;
+
+            &:hover {
+                background-color: #afffbd;
+                color: white;
+            }
         }
     }
 
