@@ -7,6 +7,7 @@ export class Sale {
     user: User;
     store: number;
     datetime: number;
+    original_value: number;
     value: number;
     finish_later: boolean;
     products: any;
@@ -18,6 +19,7 @@ export class Sale {
         this.user = saleInfo.user;
         this.store = saleInfo.store;
         this.datetime = saleInfo.datetime;
+        this.original_value = saleInfo.original_value;
         this.value = saleInfo.value;
         this.finish_later = saleInfo.finish_later;
         this.products = saleInfo.products;
@@ -37,7 +39,8 @@ export class Sale {
             client: this.client.id,
             user: this.user.id,
             store: this.store,
-            value: this.value,
+            original_value: this.original_value,
+            value: this.value ? this.value : this.original_value,
             finish_later: this.finish_later,
             products: products,
             payments: payments

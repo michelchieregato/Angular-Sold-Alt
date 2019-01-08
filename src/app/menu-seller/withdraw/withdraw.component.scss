@@ -1,3 +1,5 @@
+@import "~src/_variables.scss";
+
 h1 {
     text-align: center;
     font-family: "Microsoft JhengHei", serif;
@@ -66,7 +68,7 @@ input, label {
 }
 
 .orange {
-    background-color: #ff8a37;
+    background-color: $primary-color;
     color: white;
 }
 

@@ -2,6 +2,7 @@
 $icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
 @import "~bootstrap-sass/assets/stylesheets/bootstrap";
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import "~src/_variables.scss";
 
 html {
     max-height: 100vh;
@@ -14,8 +15,16 @@ body {
 }
 
 .orange {
-    background-color: #ff8a37;
+    background-color: $primary-color;
     color: white;
+}
+
+button.orange {
+    &:hover {
+        background-color: white;
+        border: 1px solid $primary-color;
+        color: $primary-color;
+    }
 }
 
 .pesquisa {
@@ -62,7 +71,7 @@ body {
 }
 
 .btn-orange {
-    background-color: #ff8a37;
+    background-color: $primary-color;
     color: white;
     padding: .5em;
     border: 1px solid white;
@@ -70,8 +79,8 @@ body {
 
 .btn-orange:hover {
     background-color: white;
-    color: #ff8a37;
-    border: 1px solid #ff8a37;
+    color: $primary-color;
+    border: 1px solid $primary-color;
 }
 
 .line-through {
@@ -175,6 +184,12 @@ body {
         &.static-400 {
             width: 400px;
         }
+        &.static-500 {
+            width: 500px;
+        }
+        &.static-600 {
+            width: 600px;
+        }
     }
 
     > thead > tr > th {
@@ -240,4 +255,8 @@ body {
 
 .fa-spinner {
     margin-left: 10px;
+}
+
+.inline-block {
+    display: inline-block;
 }

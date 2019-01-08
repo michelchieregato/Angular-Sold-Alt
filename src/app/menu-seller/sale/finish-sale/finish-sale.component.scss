@@ -1,4 +1,4 @@
-/* Pagina 2 */
+@import "~src/_variables.scss";
 
 // TODO REFATORAR
 
@@ -64,21 +64,14 @@ h3 span {
 
 .final-btn {
     text-align: center;
-    margin: 10px 0;
-}
+    margin: 20px 0;
 
-.final-btn a {
-    margin-left: 50px;
-    margin-right: 50px;
-}
-
-.final-btn img {
-    width: 70px;
-}
-
-.active {
-    border-radius: 5px !important;
-    border: 2px solid green !important;
+    button {
+        margin: 20px 50px 0 50px;
+        width: 300px;
+        padding: 12px;
+        font-size: 15px;
+    }
 }
 
 .money-labels {

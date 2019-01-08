@@ -17,11 +17,11 @@
             </div>
 
             <div class="btn-group btn-group-justified">
-                <a href="#" class="btn" [routerLink]="['/seller/search-sale']">
+                <a class="btn" [routerLink]="['/seller/search-sale']">
                     <img src="assets/images/search_money.png" alt="">
                     <br><br> Pesquisar Venda
                 </a>
-                <a href="#" class="btn " id="reports-menu">
+                <a class="btn " (click)="openTax()">
                     <img src="assets/images/report.png" alt="">
                     <br><br> Ver Relatórios
                 </a>

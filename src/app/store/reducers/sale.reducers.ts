@@ -12,13 +12,13 @@ function getProductOnSaleList(state, id) {
 
 function getSaleValue(state) {
     if (state.sale.products.length) {
-        state.sale.value = state.sale.products.map(saleProduct => {
+        state.sale.original_value = state.sale.products.map(saleProduct => {
             return (saleProduct.quantity * saleProduct.price_sell);
         }).reduce((a, b) => {
             return a + b;
         });
     } else {
-        state.sale.value = 0;
+        state.sale.original_value = 0;
     }
 }
 

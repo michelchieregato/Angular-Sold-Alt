@@ -1,6 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {LoginComponent} from './login/login.component';
@@ -18,24 +17,23 @@ import {AddToSaleComponent} from './menu-seller/sale/add-to-sale/add-to-sale.com
 import {FinishSaleComponent} from './menu-seller/sale/finish-sale/finish-sale.component';
 import { LoadingMaskComponent } from './loading-mask/loading-mask.component';
 import {StoreModule} from '@ngrx/store';
-import {saleReducer} from './store/reducers/sale.reducers';
 import {appReducers} from './store/reducers/app.reducers';
 import { DiscountComponent } from './menu-seller/sale/discount/discount.component';
 import { AddClientComponent } from './modals/add-client/add-client.component';
 import {MaskDirective} from './directives/cpf-mask.directive';
 import { SearchSaleComponent } from './menu-seller/search-sale/search-sale.component';
+import { SaleDetailComponent } from './menu-seller/search-sale/sale-detail/sale-detail.component';
+import {PopoverModule, TypeaheadModule} from 'ngx-bootstrap';
+import { WithdrawComponent } from './menu-seller/withdraw/withdraw.component';
+import {CurrencyMaskModule} from 'ng2-currency-mask';
+import { StockTransferComponent } from './menu-seller/stock-transfer/stock-transfer.component';
+import { TaxCupomComponent } from './tax-cupom/tax-cupom.component';
 import {
     MatDatepickerModule,
     MatFormFieldModule,
     MatNativeDateModule,
     MatInputModule, MAT_DATE_LOCALE
 } from '@angular/material';
-import { SaleDetailComponent } from './menu-seller/search-sale/sale-detail/sale-detail.component';
-import {NgbModule, NgbPopoverModule} from '@ng-bootstrap/ng-bootstrap';
-import {PopoverModule} from 'ngx-bootstrap';
-import { WithdrawComponent } from './menu-seller/withdraw/withdraw.component';
-import {CurrencyMaskModule} from 'ng2-currency-mask';
-import { StockTransferComponent } from './menu-seller/stock-transfer/stock-transfer.component';
 
 @NgModule({
     declarations: [
@@ -56,7 +54,8 @@ import { StockTransferComponent } from './menu-seller/stock-transfer/stock-trans
         SearchSaleComponent,
         SaleDetailComponent,
         WithdrawComponent,
-        StockTransferComponent
+        StockTransferComponent,
+        TaxCupomComponent
     ],
     imports: [
         BrowserModule,
@@ -71,7 +70,8 @@ import { StockTransferComponent } from './menu-seller/stock-transfer/stock-trans
         MatNativeDateModule,
         MatInputModule,
         PopoverModule.forRoot(),
-        CurrencyMaskModule
+        CurrencyMaskModule,
+        TypeaheadModule.forRoot()
     ],
     providers: [MatDialog, MatDatepickerModule, {provide: MAT_DATE_LOCALE, useValue: 'en-GB'}],
     bootstrap: [AppComponent],

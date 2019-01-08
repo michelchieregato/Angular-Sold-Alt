@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {WithdrawComponent} from '../withdraw/withdraw.component';
+import {Router} from '@angular/router';
 
 declare const window: any;
 const {ipcRenderer} = window.require('electron');
@@ -12,7 +13,7 @@ const {ipcRenderer} = window.require('electron');
 })
 export class MenuComponent implements OnInit {
 
-    constructor(public dialog: MatDialog) {
+    constructor(public dialog: MatDialog, private router: Router) {
     }
 
     ngOnInit() {
@@ -27,6 +28,9 @@ export class MenuComponent implements OnInit {
             maxHeight: '450px',
             width: '1000px'
         });
+    }
+
+    openTax() {
     }
 
 }

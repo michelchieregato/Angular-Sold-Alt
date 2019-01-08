@@ -1,3 +1,5 @@
+@import "~src/_variables.scss";
+
 /* Titulos */
 
 .up-page {
@@ -39,18 +41,11 @@
 .finish-sale {
     margin-top: 2em;
     width: 100%;
-    background: #ff8a37;
-    color: white;
-    border-color: #ff8a37;
 }
 
-.finish-sale:hover {
-    background: #ff8a37;
-    color: white;
-    border-color: #ff8a37;
-}
 
 #order-div {
+    width: 100%;
     text-align: right;
     margin-top: 10px;
     padding-right: 12px;

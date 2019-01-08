@@ -97,4 +97,10 @@ export class ClientService {
         params['user'] = user.id;
         return this.http.post(remote.getGlobal('default_url') + 'withdraw_history/', params);
     }
+
+    updateStock(params: any) {
+        params['from_store'] = store;
+        params['user'] = user.id;
+        return this.http.patch(remote.getGlobal('default_url') + 'store_product/', params);
+    }
 }

@@ -6,6 +6,7 @@ import {MenuComponent} from './menu-seller/menu/menu.component';
 import {SaleComponent} from './menu-seller/sale/sale.component';
 import {SearchSaleComponent} from './menu-seller/search-sale/search-sale.component';
 import {StockTransferComponent} from './menu-seller/stock-transfer/stock-transfer.component';
+import {TaxCupomComponent} from './tax-cupom/tax-cupom.component';
 
 const appRoutes: Routes = [
     {
@@ -16,6 +17,7 @@ const appRoutes: Routes = [
         ]
     },
     {path: 'sale', component: SaleComponent},
+    {path: 'tax-cupom', component: TaxCupomComponent},
     {path: '', component: LoginComponent},
 ];
 

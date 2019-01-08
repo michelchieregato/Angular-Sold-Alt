@@ -7,7 +7,7 @@ const mainWindow = require('./mainWindow');
 // const mainWithdraw = require('./mainWithdraw');
 // const mainAlert = require('./mainAlert');
 // const mainMenu_admin = require('./mainMenu_admin');
-// const mainReport = require('./mainReport');
+const mainReport = require('./mainReport');
 const mainSale = require('./mainSale');
 // const mainClient = require('./mainClient');
 // const updater = require('./updater');
@@ -87,6 +87,7 @@ ipcMain.on('setUser', ( event, user ) => {
 ipcMain.on('open-sale-screen', (e, args) => {
     mainSale.createWindow()
 });
+
 // Tela pdf
 ipcMain.on('pdf', (e, args) => {
     mainReport.createWindow(args);

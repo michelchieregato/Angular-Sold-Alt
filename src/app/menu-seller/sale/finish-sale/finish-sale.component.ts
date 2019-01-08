@@ -6,8 +6,12 @@ import {MovePage, RestartSale} from '../../../store/actions/sale.actions';
 import {MatDialog} from '@angular/material/dialog';
 import {PopupComponent} from '../../../modals/popup/popup.component';
 import {AppState} from '../../../store/state/app.state';
-import {selectDiscount, selectSale} from '../../../store/selectors/sale.selectors';
+import {selectSale} from '../../../store/selectors/sale.selectors';
 import {DiscountComponent} from '../discount/discount.component';
+import {Router} from '@angular/router';
+
+declare const window: any;
+const {ipcRenderer} = window.require('electron');
 
 @Component({
     selector: 'app-finish-sale',
@@ -16,24 +20,27 @@ import {DiscountComponent} from '../discount/discount.component';
 })
 export class FinishSaleComponent implements OnInit {
     saleObserver = this.store.pipe(select(selectSale));
-    afterDiscount: number;
     sale: Sale;
     payments = [];
     btnSelected = 'Dinheiro';
     cashReceived = 0;
     cashToReceive = 0;
     change = 0;
+    addPayment = 0;
     sending = false;
 
-    constructor(private clientServer: ClientService, private store: Store<AppState>, public dialog: MatDialog) {
+    constructor(private clientServer: ClientService, private store: Store<AppState>,
+                public dialog: MatDialog, private router: Router) {
     }
 
     ngOnInit() {
         this.saleObserver.subscribe(
             (sale) => {
                 this.sale = new Sale(sale);
-                this.afterDiscount = Math.round((sale.value * (1 - sale.discount / 100)) * 100) / 100;
-                this.cashToReceive = (this.afterDiscount - this.cashReceived) > 0 ? (this.afterDiscount - this.cashReceived) : 0;
+                this.sale.value = Math.round((sale.original_value * (1 - sale.discount / 100)) * 100) / 100;
+                this.cashToReceive = (this.sale.value - this.cashReceived) > 0 ? (this.sale.value - this.cashReceived) : 0;
+                this.change = (this.sale.value - this.cashReceived) < 0 ? -1 * (this.sale.value - this.cashReceived) : 0;
+                this.addPayment = this.cashToReceive;
             }
         );
     }
@@ -71,8 +78,8 @@ export class FinishSaleComponent implements OnInit {
         } else {
             this.cashReceived = 0;
         }
-        this.change = (this.afterDiscount - this.cashReceived) < 0 ? -1 * (this.afterDiscount - this.cashReceived) : 0;
-        this.cashToReceive = (this.afterDiscount - this.cashReceived) > 0 ? (this.afterDiscount - this.cashReceived) : 0;
+        this.change = (this.sale.value - this.cashReceived) < 0 ? -1 * (this.sale.value - this.cashReceived) : 0;
+        this.cashToReceive = (this.sale.value - this.cashReceived) > 0 ? (this.sale.value - this.cashReceived) : 0;
     }
 
     removePayment(type: string) {
@@ -82,21 +89,24 @@ export class FinishSaleComponent implements OnInit {
         this.getCashReceivedValue();
     }
 
-    addToSale(a: any) {
-        if (!a.value) {
+    addToSale() {
+        if (typeof (this.addPayment) === 'string') {
+            this.addPayment = parseFloat(this.addPayment.replace(',', '.'));
+        }
+        if (!this.addPayment) {
             return;
         }
 
         if (this.getPaymentOnList(this.btnSelected).length) {
-            this.getPaymentOnList(this.btnSelected)[0].value += parseFloat(a.value);
+            this.getPaymentOnList(this.btnSelected)[0].value += this.addPayment;
         } else {
             this.payments.push({
                 'type': this.btnSelected,
-                'value': parseFloat(a.value)
+                'value': this.addPayment
             });
         }
         this.getCashReceivedValue();
-        a.value = null;
+        this.addPayment = null;
     }
 
     private restartSale() {
@@ -105,8 +115,19 @@ export class FinishSaleComponent implements OnInit {
         this.change = 0;
         this.payments = [];
         this.btnSelected = 'Dinheiro';
-        this.afterDiscount = 0;
+        this.sale.value = 0;
+        this.sale.original_value = 0;
         this.store.dispatch(new RestartSale());
+    }
+
+    private makeTaxCupom() {
+        const a = this.router.createUrlTree(['tax-cupom']);
+        a.queryParams = {
+            sale: JSON.stringify(this.sale),
+            payments: JSON.stringify(this.payments),
+            change: JSON.stringify(this.change)
+        };
+        ipcRenderer.send('pdf', {'url': a.toString().substring(1)});
     }
 
     finalizeSale() {
@@ -125,6 +146,7 @@ export class FinishSaleComponent implements OnInit {
         this.sending = true;
         this.clientServer.finishSale(this.sale.prepareToSendSale(this.payments)).subscribe(
             (success) => {
+                this.makeTaxCupom();
                 this.restartSale();
                 this.sending = false;
             },
@@ -140,8 +162,8 @@ export class FinishSaleComponent implements OnInit {
                     }
                 });
                 this.sending = false;
-            }
-        );
+            });
+
     }
 
 }

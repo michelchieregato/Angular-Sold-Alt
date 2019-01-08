@@ -35,8 +35,8 @@ export class WithdrawComponent implements OnInit {
                     width: '500px',
                     data: {
                         'type': 'sad',
-                        'title': 'Acesso negado',
-                        'text': 'Usuário ou senha incorretos'
+                        'title': 'Erro',
+                        'text': 'Não conseguimos acessar o banco de dados e obter as informações. Verifique a internet e depois tente novamente.'
                     }
                 });
             }

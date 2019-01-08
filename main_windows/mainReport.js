@@ -11,24 +11,25 @@ exports.createWindow = (args) => {
     const windowOptions = {
         width: 1200,
         height: 600,
-        frame: false,
-        show: false
+        frame: true,
+        show: true
     };
-
-    const someArgs = args;
-    const indexPath = path.resolve(__dirname, '..', 'src', 'reports', 'html', args['url']);
-    args['u'] = path.resolve(__dirname) + '/../../print.pdf';
-    const indexUrl = url.format({
-        protocol: 'file',
-        pathname: indexPath,
-        slashes: true,
-        hash: encodeURIComponent(JSON.stringify(someArgs))
-    });
 
     this.win = new BrowserWindow(windowOptions);
 
+    console.log(path)
+
+    // const indexUrl = url.format({
+    //     protocol: 'file',
+    //     pathname: 'http://localhost:4200/tax-cupom',
+    //     slashes: true,
+    //     hash: encodeURIComponent(JSON.stringify(args))
+    // });
+
+    console.log('http://localhost:4200/#' + args['url']);
+
     // Load main window content
-    this.win.loadURL(indexUrl);
+    this.win.loadURL('http://localhost:4200/#' + args['url']);
 
     this.win.webContents.openDevTools();
 

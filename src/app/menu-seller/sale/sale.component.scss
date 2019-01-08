@@ -1,6 +1,8 @@
+@import "~src/_variables.scss";
+
 #mySale {
     h1 {
-        background-color: #ff8a37;
+        background-color: $primary-color;
         color: white;
         margin: 0;
         padding: 10px 20px;

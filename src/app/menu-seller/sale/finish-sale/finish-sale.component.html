@@ -1,10 +1,10 @@
 <app-loading-mask [loading]="sending"></app-loading-mask>
 <h2>
-    <span [ngClass]="{'line-through': (afterDiscount != sale.value)}">
-        {{ sale.value | currency : 'BRL' }}
+    <span [ngClass]="{'line-through': (sale.value != sale.original_value)}">
+        {{ sale.original_value | currency : 'BRL' }}
     </span>
-    <span *ngIf="afterDiscount != sale.value">
-        {{ afterDiscount | currency : 'BRL' }}
+    <span *ngIf="sale.value != sale.original_value">
+        {{ sale.value | currency : 'BRL' }}
     </span>
 </h2>
 <a class="h-link block" (click)="openDiscountModal()"> Dar desconto </a>
@@ -41,10 +41,11 @@
     <div class="form-group">
         <div class="input-group">
             <div class="input-group-addon">$</div>
-            <input type="text" class="form-control" placeholder="Valor" (keyup.enter)="addToSale(inputValue)" #inputValue>
+            <input type="text" class="form-control" placeholder="Valor" (keyup.enter)="addToSale()"
+                   [(ngModel)]="addPayment" >
         </div>
     </div>
-    <p class="btn btn-default" (click)="addToSale(inputValue)">Adicionar</p>
+    <p class="btn btn-default" (click)="addToSale()">Adicionar</p>
 </div>
 
 <div class="row">
@@ -82,7 +83,7 @@
     <div class="col-md-6 money-labels">
         <h3>
             Recebido:
-            <span [ngClass]="(cashReceived >= sale.value) ? 'green' : 'red'">
+            <span [ngClass]="(cashReceived >= sale.originalValue) ? 'green' : 'red'">
                 {{ cashReceived | currency : 'BRL' }}
             </span>
         </h3>
@@ -104,12 +105,11 @@
 
 
 <div class="final-btn">
-    <a class="btn btn-default" (click)="backPage()">
-        <img src="assets/images//return.png" alt=""> Voltar a tela
-    </a>
+    <button class="btn orange" (click)="backPage()">
+        Voltar a tela
+    </button>
 
-    <a class="btn btn-default" id="end-sale" (click)="finalizeSale()">
-        <img src="assets/images//Cofre.png">
+    <button class="btn orange" id="end-sale" (click)="finalizeSale()">
         Finaliza venda
-    </a>
+    </button>
 </div>

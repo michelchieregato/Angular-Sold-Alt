@@ -1,11 +1,11 @@
 <nav class="navbar navbar-default">
-    <div class="container-fluid">
+    <div class="my-container">
         <div class="navbar-header">
             <a class="navbar-brand" href="#">
                 <img alt="Brand" src="assets/images/man.png">
             </a>
         </div>
-        <p class="navbar-text"> {{ (client | async).name }}
+        <p class="navbar-text m-l-0"> {{ (client | async).name }}
         </p>
         <p class="navbar-text navbar-right">
             <a class="btn add-client" (click)="toggleModal(true)">+</a>

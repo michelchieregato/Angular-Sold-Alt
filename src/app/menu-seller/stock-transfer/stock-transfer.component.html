@@ -1,3 +1,4 @@
+<app-loading-mask [loading]="!ready"></app-loading-mask>
 <div class="container">
     <div class="container-filter">
         <div class="form-group">
@@ -8,49 +9,70 @@
                         <i class="fas fa-search"></i>
                     </span>
                 </div>
-                <input type="text" class="typeahead form-control" id="productName" placeholder="Produto">
-
+                <input class="form-control" [(ngModel)]="typeaheadText"
+                       [typeahead]="products" typeaheadOptionField="name"
+                       [typeaheadScrollable]="true" (typeaheadOnSelect)="onTypeaheadSelect($event)"
+                       [typeaheadOptionsInScrollableView]="9" [typeaheadOptionsLimit]="99"
+                       [typeaheadItemTemplate]="customItemTemplate" placeholder="Produto">
             </div>
-
             <div class='input-group w-10'>
                 <label class="sr-only" for="productQnt">Qnt</label>
-                <input type='text' class="form-control" id="productQnt" placeholder="Qnt" value="1"/>
+                <input type='number' class="form-control" id="productQnt" placeholder="Qnt" [(ngModel)]="qnt"/>
             </div>
-
-            <p class="btn btn-orange" id="btn-add"> Adicionar </p>
+            <button class="btn btn-orange" (click)="add()" [disabled]="disabled">
+                Adicionar
+            </button>
         </div>
     </div>
-    <div class="produto">
-        <div class="table-size" id="product">
-            <table class="table table-hover table-bordered table-striped" id="table">
-                <thead>
-                <tr>
-                    <th><abbr title="Codigo">C</abbr></th>
-                    <th>Descricao</th>
-                    <th>Tamanho</th>
-                    <th>Qnt</th>
-                </tr>
-                </thead>
-                <tbody class="product-table">
-                </tbody>
-            </table>
-        </div>
-    </div>
-
+    <table class="table odd table-sale">
+        <thead>
+        <tr>
+            <th class="static-400">Descricao</th>
+            <th class="static-400">Tamanho</th>
+            <th class="static-400">Qnt</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let product of selectedProducts">
+            <td class="static-400">
+                <span class="del" (click)="removeProduct(product.id)">
+                    <i class="fas fa-trash-alt"></i>
+                </span>
+                {{ product.name }}
+            </td>
+            <td class="static-400">
+                {{ product.size }}
+            </td>
+            <td class="static-400">
+                {{ product.quantity }}
+            </td>
+        </tr>
+        </tbody>
+    </table>
     <div class="bottom">
         <h3> Fazer transferência* <br>
-            <span class="small">Ao selecionar a própria unidade, você estará confirmando o recebimento de mercadoria</span>
+            <span
+                class="small">Ao selecionar a própria unidade, você estará confirmando o recebimento de mercadoria</span>
         </h3>
         <div class="form-group select">
             <label>
-                <select class="form-control" id="select-store">
+                <select class="form-control" id="select-store" [(ngModel)]="store">
                     <option value="Verbo Divino">Verbo Divino</option>
                     <option value="Aldeia da Serra">Aldeia da Serra</option>
                     <option value="Aclimação">Aclimação</option>
                     <option value="Itaim">Itaim</option>
                 </select>
             </label>
-            <p class="btn btn-orange" id="btn-transfer"> Transferir estoque </p>
+            <button class="btn btn-orange" (click)="updateStock()" [disabled]="disabled">
+                Transferir estoque
+                <span *ngIf="disabled" class="spin inline-block">
+                    <i class="fa fa-spinner fa-spin"></i>
+                </span>
+            </button>
         </div>
     </div>
 </div>
+
+<ng-template #customItemTemplate let-model="item" let-index="index">
+    <h5>{{ model.name }} {{ model.size }}</h5>
+</ng-template>
