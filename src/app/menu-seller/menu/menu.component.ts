@@ -29,8 +29,4 @@ export class MenuComponent implements OnInit {
             width: '1000px'
         });
     }
-
-    openTax() {
-    }
-
 }

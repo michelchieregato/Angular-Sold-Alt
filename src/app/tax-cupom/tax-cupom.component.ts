@@ -24,8 +24,7 @@ export class TaxCupomComponent implements OnInit {
         this.client = new Client(this.sale.client);
         this.payments = JSON.parse(this.router.snapshot.queryParams.payments);
         this.date = (this.sale.datetime ? new Date(this.sale.datetime) : this.date);
-        this.change = this.router.snapshot.queryParams.payments;
-        console.log(typeof(this.change))
+        this.change = parseFloat(this.router.snapshot.queryParams.change);
     }
 
 }

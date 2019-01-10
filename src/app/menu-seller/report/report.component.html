@@ -1,0 +1,60 @@
+<div class="div-table">
+    <div class="container-filter">
+        <h2>Relatório de vendas por forma de pagamento</h2>
+        <div>
+            <div class="form-group">
+                <div class='input-group'>
+                    <label class="sr-only" for="datepicker1">Datepicker1</label>
+                    <input type="date" class="form-control " id="datepicker1" [(ngModel)]="initialDatePayment"/>
+                    <span class="input-group-addon">
+                <i class="fas fa-calendar"></i>
+            </span>
+                </div>
+                <div class='input-group'>
+                    <label class="sr-only" for="datepicker2">Datepicker2</label>
+                    <input type='date' class="form-control" id="datepicker2" [(ngModel)]="finalDatePayment"/>
+                    <span class="input-group-addon">
+                        <i class="fas fa-calendar"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <button class="btn btn-orange orange" id="btn-pesquisa" [disabled]="loading" (click)="searchPaymentReport()">
+            Pesquisar
+            <span *ngIf="loading">
+                <i class="fa fa-spinner fa-spin"></i>
+            </span>
+        </button>
+    </div>
+</div>
+<div class="div-table">
+    <div class="container-filter">
+        <h2>Relatório de vendas por produto</h2>
+        <div>
+            <div class="form-group">
+                <div class='input-group'>
+                    <label class="sr-only" for="datepicker3">Datepicker3</label>
+                    <input type="date" class="form-control" id="datepicker3"
+                           [(ngModel)]="initialDateProduct"/>
+                    <span class="input-group-addon">
+                <i class="fas fa-calendar"></i>
+            </span>
+                </div>
+                <div class='input-group'>
+                    <label class="sr-only" for="datepicker4">Datepicker4</label>
+                    <input type='date' class="form-control" id="datepicker4"
+                           [(ngModel)]="finalDateProduct"/>
+                    <span class="input-group-addon">
+                        <i class="fas fa-calendar"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <button class="btn btn-orange orange" [disabled]="loading" id="btn-pesquisa2">
+            Pesquisar
+            <span *ngIf="loading">
+                <i class="fa fa-spinner fa-spin"></i>
+            </span>
+        </button>
+    </div>
+</div>

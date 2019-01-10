@@ -17,17 +17,6 @@ exports.createWindow = (args) => {
 
     this.win = new BrowserWindow(windowOptions);
 
-    console.log(path)
-
-    // const indexUrl = url.format({
-    //     protocol: 'file',
-    //     pathname: 'http://localhost:4200/tax-cupom',
-    //     slashes: true,
-    //     hash: encodeURIComponent(JSON.stringify(args))
-    // });
-
-    console.log('http://localhost:4200/#' + args['url']);
-
     // Load main window content
     this.win.loadURL('http://localhost:4200/#' + args['url']);
 

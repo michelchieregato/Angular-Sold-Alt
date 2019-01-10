@@ -58,8 +58,8 @@
 
         <p *ngIf="sale.discount"> Desconto: {{ sale.discount }} %</p>
         <p>Valor total da venda : {{ sale.value | currency : 'BRL' }}</p>
-        <p *ngIf="change > 0">Total Recebido: {{ (sale.value - change) | currency : 'BRL' }}</p>
-        <p *ngIf="change > 0">Troco: {{ (sale.value - change) | currency : 'BRL' }}</p>
+        <p *ngIf="change > 0">Total Recebido: {{ (sale.value + change) | currency : 'BRL' }}</p>
+        <p *ngIf="change > 0">Troco: {{ change | currency : 'BRL' }}</p>
         <p>Forma de Pagamento:</p>
         <p *ngFor="let payment of payments">
             - {{ payment.type }} {{ payment.value | currency: 'BRL' }}

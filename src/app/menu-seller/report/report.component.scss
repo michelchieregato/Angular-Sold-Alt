@@ -1,0 +1,50 @@
+.div-table {
+    width: 75%;
+    margin: auto;
+}
+
+#btn-pesquisa, #btn-pesquisa2 {
+    width: 88%;
+    margin-bottom: -10px;
+}
+
+.table-size {
+    height: 300px;
+    overflow-y: auto;
+}
+
+.modal-table-size {
+    height: 200px;
+    overflow-y: auto;
+}
+
+.container-filter {
+    width: 100%;
+    height: 150px;
+    border: 2px dashed lightgrey;
+    margin: 2em 0;
+    text-align: center;
+}
+
+
+h2 {
+    text-align: center;
+    font-size: 15px;
+    color: grey;
+    margin: .25em auto;
+}
+
+h4 {
+    color: grey;
+}
+
+.input-group {
+    margin-top: 1%;
+    width: 30%;
+    padding: 0 2%;
+    display: inline-table;
+}
+
+.m-b-50 {
+    margin-bottom: 50px;
+}

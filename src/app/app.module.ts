@@ -1,3 +1,4 @@
+///<reference path="../../node_modules/@angular/common/src/pipes/date_pipe.d.ts"/>
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {AppRoutingModule} from './app-routing.module';
@@ -34,6 +35,9 @@ import {
     MatNativeDateModule,
     MatInputModule, MAT_DATE_LOCALE
 } from '@angular/material';
+import { ReportComponent } from './menu-seller/report/report.component';
+import {DatePipe} from '@angular/common';
+import { PaymentReportComponent } from './menu-seller/report/payment-report/payment-report.component';
 
 @NgModule({
     declarations: [
@@ -55,7 +59,9 @@ import {
         SaleDetailComponent,
         WithdrawComponent,
         StockTransferComponent,
-        TaxCupomComponent
+        TaxCupomComponent,
+        ReportComponent,
+        PaymentReportComponent
     ],
     imports: [
         BrowserModule,
@@ -73,7 +79,7 @@ import {
         CurrencyMaskModule,
         TypeaheadModule.forRoot()
     ],
-    providers: [MatDialog, MatDatepickerModule, {provide: MAT_DATE_LOCALE, useValue: 'en-GB'}],
+    providers: [MatDialog, MatDatepickerModule, DatePipe, {provide: MAT_DATE_LOCALE, useValue: 'en-GB'}],
     bootstrap: [AppComponent],
     entryComponents: [
         PopupComponent,

@@ -109,7 +109,8 @@
         Voltar a tela
     </button>
 
-    <button class="btn orange" id="end-sale" (click)="finalizeSale()">
+    <button class="btn orange" id="end-sale"
+            [disabled]="sending" (click)="finalizeSale()">
         Finaliza venda
     </button>
 </div>

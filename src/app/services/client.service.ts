@@ -103,4 +103,9 @@ export class ClientService {
         params['user'] = user.id;
         return this.http.patch(remote.getGlobal('default_url') + 'store_product/', params);
     }
+
+    getReportByPayments(params: any) {
+        params['store'] = store;
+        return this.http.get(remote.getGlobal('default_url') + 'reports/report_by_payment', {params: params});
+    }
 }

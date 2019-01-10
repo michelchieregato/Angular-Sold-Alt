@@ -7,17 +7,21 @@ import {SaleComponent} from './menu-seller/sale/sale.component';
 import {SearchSaleComponent} from './menu-seller/search-sale/search-sale.component';
 import {StockTransferComponent} from './menu-seller/stock-transfer/stock-transfer.component';
 import {TaxCupomComponent} from './tax-cupom/tax-cupom.component';
+import {ReportComponent} from './menu-seller/report/report.component';
+import {PaymentReportComponent} from './menu-seller/report/payment-report/payment-report.component';
 
 const appRoutes: Routes = [
     {
         path: 'seller', component: MenuSellerComponent, children: [
             {path: 'menu', component: MenuComponent},
             {path: 'search-sale', component: SearchSaleComponent},
-            {path: 'stock-transfer', component: StockTransferComponent}
+            {path: 'stock-transfer', component: StockTransferComponent},
+            {path: 'report', component: ReportComponent}
         ]
     },
     {path: 'sale', component: SaleComponent},
     {path: 'tax-cupom', component: TaxCupomComponent},
+    {path: 'payment-report', component: PaymentReportComponent},
     {path: '', component: LoginComponent},
 ];
 
