@@ -28,7 +28,7 @@ export class WithdrawComponent implements OnInit {
                 this.loading = false;
                 this.withdraw = success;
             },
-            (error) => {
+            () => {
                 this.loading = false;
                 this.dialog.open(PopupComponent, {
                     height: '400px',
@@ -36,7 +36,8 @@ export class WithdrawComponent implements OnInit {
                     data: {
                         'type': 'sad',
                         'title': 'Erro',
-                        'text': 'Não conseguimos acessar o banco de dados e obter as informações. Verifique a internet e depois tente novamente.'
+                        'text': 'Não conseguimos acessar o banco de dados e obter as informações. ' +
+                            'Verifique a internet e depois tente novamente.'
                     }
                 });
             }
@@ -51,7 +52,7 @@ export class WithdrawComponent implements OnInit {
                 this.withdraw = success;
                 this.currentScreen = option;
             },
-            (error) => {
+            () => {
                 this.loading = false;
                 this.dialog.open(PopupComponent, {
                     height: '400px',
@@ -96,7 +97,7 @@ export class WithdrawComponent implements OnInit {
                 history: (callback) => {
                     this.clientService.createWithdrawHistory({
                         name: this.currentScreen,
-                        withdraw: isWithdraw,
+                        withdraw: isWithdraw ? 'W' : 'D',
                         quantity: this.value
                     }).subscribe(
                         (next) => callback(null, next),
@@ -123,12 +124,6 @@ export class WithdrawComponent implements OnInit {
                 this.withdraw = results.withdraw;
                 this.value = undefined;
             });
-    }
-
-    lala() {
-        console.log(this.value)
-
-        console.log(typeof this.value)
     }
 
 }

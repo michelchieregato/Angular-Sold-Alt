@@ -35,17 +35,15 @@ export class ReportComponent implements OnInit {
 
     searchPaymentReport() {
         this.loading = true;
-        console.log(this.initialDatePayment);
         this.clientServer.getReportByPayments({
             initial_date: this.initialDatePayment,
             final_date: this.finalDatePayment
         }).subscribe(
             (success) => {
                 this.loading = false;
-                console.log(this.initialDatePayment);
                 const customRoute = this.router.createUrlTree(['payment-report']);
                 success['initial_date'] = this.initialDatePayment;
-                success['final_date'] = this.finalDatePayment
+                success['final_date'] = this.finalDatePayment;
                 customRoute.queryParams = {
                     infos: JSON.stringify(success)
                 };
@@ -57,5 +55,30 @@ export class ReportComponent implements OnInit {
             }
         );
     }
+
+    searchProductReport() {
+        this.loading = true;
+        this.clientServer.getReportByPayments({
+            initial_date: this.initialDatePayment,
+            final_date: this.finalDatePayment
+        }).subscribe(
+            (success) => {
+                this.loading = false;
+                const customRoute = this.router.createUrlTree(['product-report']);
+                success['initial_date'] = this.initialDatePayment;
+                success['final_date'] = this.finalDatePayment;
+                customRoute.queryParams = {
+                    infos: JSON.stringify(success)
+                };
+                ipcRenderer.send('pdf', {'url': customRoute.toString().substring(1)});
+            },
+            (error) => {
+                this.loading = false;
+                console.log(error);
+            }
+        );
+    }
+
+
 
 }

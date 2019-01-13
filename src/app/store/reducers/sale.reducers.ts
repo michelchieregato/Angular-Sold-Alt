@@ -12,11 +12,11 @@ function getProductOnSaleList(state, id) {
 
 function getSaleValue(state) {
     if (state.sale.products.length) {
-        state.sale.original_value = state.sale.products.map(saleProduct => {
+        state.sale.original_value = Math.round(state.sale.products.map(saleProduct => {
             return (saleProduct.quantity * saleProduct.price_sell);
         }).reduce((a, b) => {
             return a + b;
-        });
+        }) * 100) / 100;
     } else {
         state.sale.original_value = 0;
     }

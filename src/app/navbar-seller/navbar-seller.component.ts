@@ -15,7 +15,6 @@ export class NavbarSellerComponent implements OnInit {
         router.events.pipe(
             filter(e => e instanceof NavigationEnd)
         ).subscribe((value) => {
-            console.log(value.url)
             switch (value.url) {
                 case '/seller/report':
                     this.title = 'Relatórios';

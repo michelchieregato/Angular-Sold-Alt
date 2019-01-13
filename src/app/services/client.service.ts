@@ -58,25 +58,8 @@ export class ClientService {
         );
     }
 
-    getSaleProducts(id: string) {
-        return this.http.get(remote.getGlobal('default_url') + 'sale_product/', {params: {saleId: id}}).map(
-            (response) => {
-                return response.map(p => {
-                    const product = new Product(p.product);
-                    product.quantity = p.quantity;
-                    product.price_sell = p.value / p.quantity;
-                    return product;
-                });
-            }
-        );
-    }
-
-    getSalePayments(id: string) {
-        return this.http.get(remote.getGlobal('default_url') + 'payment/', {params: {saleId: id}}).map(
-            (response) => {
-                return response;
-            }
-        );
+    getSale(id: number) {
+        return this.http.get(remote.getGlobal('default_url') + 'sale/' + id + '/');
     }
 
     getWithdrawInformation(params: any) {

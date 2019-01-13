@@ -9,6 +9,7 @@ import {StockTransferComponent} from './menu-seller/stock-transfer/stock-transfe
 import {TaxCupomComponent} from './tax-cupom/tax-cupom.component';
 import {ReportComponent} from './menu-seller/report/report.component';
 import {PaymentReportComponent} from './menu-seller/report/payment-report/payment-report.component';
+import {ProductReportComponent} from './menu-seller/report/product-report/product-report.component';
 
 const appRoutes: Routes = [
     {
@@ -16,12 +17,13 @@ const appRoutes: Routes = [
             {path: 'menu', component: MenuComponent},
             {path: 'search-sale', component: SearchSaleComponent},
             {path: 'stock-transfer', component: StockTransferComponent},
-            {path: 'report', component: ReportComponent}
+            {path: 'report', component: ReportComponent},
         ]
     },
     {path: 'sale', component: SaleComponent},
     {path: 'tax-cupom', component: TaxCupomComponent},
     {path: 'payment-report', component: PaymentReportComponent},
+    {path: 'product-report', component: ProductReportComponent},
     {path: '', component: LoginComponent},
 ];
 

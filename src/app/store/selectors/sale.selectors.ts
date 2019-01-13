@@ -21,7 +21,7 @@ export const selectClient = createSelector(
 
 export const selectTotal = createSelector(
     selectSales,
-    (state: SaleState) => state.sale.value
+    (state: SaleState) => state.sale.original_value
 );
 
 export const selectDiscount = createSelector(

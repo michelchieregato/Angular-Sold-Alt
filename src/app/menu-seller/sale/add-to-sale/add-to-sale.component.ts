@@ -2,12 +2,15 @@ import {Component, OnInit} from '@angular/core';
 import {Product} from '../../../models/product.model';
 import {ClientService} from '../../../services/client.service';
 import {select, Store} from '@ngrx/store';
-import {Observable} from 'rxjs';
-import {AddProduct, AddSale, MovePage, RemoveProduct} from '../../../store/actions/sale.actions';
+import {AddProduct, MovePage, RemoveProduct} from '../../../store/actions/sale.actions';
 import {MatDialog} from '@angular/material/dialog';
 import {AppState} from '../../../store/state/app.state';
-import {selectProducts, selectSale, selectTotal} from '../../../store/selectors/sale.selectors';
+import {selectProducts, selectTotal} from '../../../store/selectors/sale.selectors';
 import {PopupComponent} from '../../../modals/popup/popup.component';
+import {UpdateCheckbookWithdraw, UpdateMoneyWithdraw} from '../../../store/actions/withdraw.actions';
+import {Withdraw} from '../../../models/withdraw.model';
+
+const async = require('async');
 
 @Component({
     selector: 'app-add-to-sale',
@@ -25,14 +28,35 @@ export class AddToSaleComponent implements OnInit {
     ready = false;
 
     ngOnInit() {
-        this.clientServer.getProducts().subscribe(
-            (response) => {
-                this.products = response;
+        async.parallel({
+                products: (callback) => {
+                    this.clientServer.getProducts().subscribe(
+                        (success) => {
+                            callback(null, success);
+                        });
+                },
+                money: (callback) => {
+                    this.clientServer.getWithdrawInformation({name: 'Dinheiro'}).subscribe(
+                        (success) => {
+                            callback(null, success);
+                        });
+                },
+                checkbook: (callback) => {
+                    this.clientServer.getWithdrawInformation({name: 'Cheque'}).subscribe(
+                        (success) => {
+                            callback(null, success);
+                        });
+                }
+            },
+            (err, results) => {
+                this.products = results.products;
                 this.displayProducts = this.products;
                 this.product = this.products[0];
+                this.store.dispatch(new UpdateMoneyWithdraw(new Withdraw(results.money)));
+                this.store.dispatch(new UpdateCheckbookWithdraw(new Withdraw(results.checkbook)));
                 this.ready = true;
-            }
-        );
+            });
+
 
         this.saleProducts.subscribe(
             (products) => {

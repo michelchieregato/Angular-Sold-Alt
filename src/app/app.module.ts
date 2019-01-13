@@ -38,6 +38,7 @@ import {
 import { ReportComponent } from './menu-seller/report/report.component';
 import {DatePipe} from '@angular/common';
 import { PaymentReportComponent } from './menu-seller/report/payment-report/payment-report.component';
+import { ProductReportComponent } from './menu-seller/report/product-report/product-report.component';
 
 @NgModule({
     declarations: [
@@ -61,7 +62,8 @@ import { PaymentReportComponent } from './menu-seller/report/payment-report/paym
         StockTransferComponent,
         TaxCupomComponent,
         ReportComponent,
-        PaymentReportComponent
+        PaymentReportComponent,
+        ProductReportComponent
     ],
     imports: [
         BrowserModule,

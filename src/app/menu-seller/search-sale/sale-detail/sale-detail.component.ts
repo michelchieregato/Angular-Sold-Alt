@@ -26,27 +26,18 @@ export class SaleDetailComponent implements OnInit {
     }
 
     ngOnInit() {
-        async.parallel({
-                saleProducts: (callback) => {
-                    this.clientService.getSaleProducts(String(this.data.sale.id)).subscribe(
-                        (next) => {
-                            callback(null, next);
-                        }
-                    );
-                },
-                payments: (callback) => {
-                    this.clientService.getSalePayments(String(this.data.sale.id)).subscribe(
-                        (next) => {
-                            callback(null, next);
-                        });
-                }
-            },
-            (err, results) => {
-                this.saleProducts = results.saleProducts;
-                this.payments = results.payments;
-                this.totalReceived = this.payments.map(p => parseFloat(p.value)).reduce((a, b) => a + b);
+        this.clientService.getSale(this.data.sale.id).subscribe(
+            (results) => {
+                console.log(results);
+                this.saleProducts = results['products'];
+                // this.totalReceived = this.payments.map(p => parseFloat(p.value)).reduce((a, b) => a + b);
                 this.loading = false;
-            });
+            },
+            (err) => {
+                console.log(err);
+                this.loading = false;
+            }
+        );
     }
 
 }

@@ -50,7 +50,7 @@
                 </div>
             </div>
         </div>
-        <button class="btn btn-orange orange" [disabled]="loading" id="btn-pesquisa2">
+        <button class="btn btn-orange orange" [disabled]="loading" id="btn-pesquisa2" (click)="searchProductReport()">
             Pesquisar
             <span *ngIf="loading">
                 <i class="fa fa-spinner fa-spin"></i>

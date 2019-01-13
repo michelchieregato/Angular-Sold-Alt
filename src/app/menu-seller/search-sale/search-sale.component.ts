@@ -53,6 +53,7 @@ export class SearchSaleComponent implements OnInit {
         }).subscribe(
             (next) => {
                 this.sales = next;
+                console.log(next)
                 this.disabled = false;
             },
             (error) => {

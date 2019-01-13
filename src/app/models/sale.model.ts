@@ -11,6 +11,7 @@ export class Sale {
     value: number;
     finish_later: boolean;
     products: any;
+    payments: any;
     discount: number;
 
     constructor(saleInfo: any) {
@@ -24,25 +25,34 @@ export class Sale {
         this.finish_later = saleInfo.finish_later;
         this.products = saleInfo.products;
         this.discount = saleInfo.discount;
+        this.payments = saleInfo.payments;
     }
 
     public prepareToSendSale(paymentsList) {
-        const products = {};
-        const payments = {};
+        const saleProducts = [];
+        const payments = [];
         this.products.forEach(product => {
-            products[product.id] = product.quantity;
+            saleProducts.push({
+                product: product.id,
+                quantity: product.quantity,
+                value: product.price_sell
+            });
         });
         paymentsList.forEach(payment => {
-            payments[payment.type] = payment.value;
+            payments.push({
+                paymentMethod: payment.type,
+                value: payment.value
+            });
         });
         return {
-            client: this.client.id,
+            client: this.client.cpf ? this.client.cpf : '000.000.000-00',
             user: this.user.id,
             store: this.store,
             original_value: this.original_value,
+            discount: this.discount,
             value: this.value ? this.value : this.original_value,
             finish_later: this.finish_later,
-            products: products,
+            products: saleProducts,
             payments: payments
         };
     }
