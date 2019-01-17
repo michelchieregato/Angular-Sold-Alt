@@ -239,7 +239,6 @@ export class FinishSaleComponent implements OnInit {
                 }
             }],
             updateCheckbookWithdrawHistory: ['finishSale', (results, callback) => {
-                console.log(this.withdrawUpdated.checkbook);
                 if (this.withdrawUpdated.checkbook <= 0) {
                     callback();
                 } else {

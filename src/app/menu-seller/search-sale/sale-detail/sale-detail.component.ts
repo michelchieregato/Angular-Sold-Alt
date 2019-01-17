@@ -28,9 +28,7 @@ export class SaleDetailComponent implements OnInit {
     ngOnInit() {
         this.clientService.getSale(this.data.sale.id).subscribe(
             (results) => {
-                console.log(results);
                 this.saleProducts = results['products'];
-                // this.totalReceived = this.payments.map(p => parseFloat(p.value)).reduce((a, b) => a + b);
                 this.loading = false;
             },
             (err) => {
@@ -38,6 +36,9 @@ export class SaleDetailComponent implements OnInit {
                 this.loading = false;
             }
         );
+
+        this.payments = this.data.sale.payments;
+        this.totalReceived = this.payments.map(p => parseFloat(p.value)).reduce((a, b) => a + b);
     }
 
 }

@@ -2,13 +2,14 @@ import {Component, OnInit} from '@angular/core';
 import {Product} from '../../../models/product.model';
 import {ClientService} from '../../../services/client.service';
 import {select, Store} from '@ngrx/store';
-import {AddProduct, MovePage, RemoveProduct} from '../../../store/actions/sale.actions';
+import {AddProduct, MovePage, RemoveProduct, RestartSale} from '../../../store/actions/sale.actions';
 import {MatDialog} from '@angular/material/dialog';
 import {AppState} from '../../../store/state/app.state';
-import {selectProducts, selectTotal} from '../../../store/selectors/sale.selectors';
+import {selectProducts, selectSale, selectTotal} from '../../../store/selectors/sale.selectors';
 import {PopupComponent} from '../../../modals/popup/popup.component';
 import {UpdateCheckbookWithdraw, UpdateMoneyWithdraw} from '../../../store/actions/withdraw.actions';
 import {Withdraw} from '../../../models/withdraw.model';
+import {Sale} from '../../../models/sale.model';
 
 const async = require('async');
 
@@ -18,11 +19,13 @@ const async = require('async');
     styleUrls: ['./add-to-sale.component.scss']
 })
 export class AddToSaleComponent implements OnInit {
+    sale: Sale;
     products = [];
     displayProducts = [];
     product = new Product({});
     saleProducts = this.store.pipe(select(selectProducts));
     total = this.store.pipe(select(selectTotal));
+    saleObserver = this.store.pipe(select(selectSale));
     productsOnSale = [];
     qnt = 1;
     ready = false;
@@ -62,6 +65,13 @@ export class AddToSaleComponent implements OnInit {
             (products) => {
                 this.productsOnSale = products;
 
+            }
+        );
+
+        this.saleObserver.subscribe(
+            (sale) => {
+                this.sale = new Sale(sale);
+                this.sale.value = this.sale.original_value;
             }
         );
     }
@@ -107,6 +117,40 @@ export class AddToSaleComponent implements OnInit {
 
         if (!isOrder.checked) {
             this.store.dispatch(new MovePage(true));
+        } else {
+            this.sale.finish_later = true;
+            this.ready = false;
+            this.clientServer.finishSale(this.sale.prepareToSendSale([])).subscribe(
+                (next) => {
+                    console.log(next);
+                    this.dialog.open(PopupComponent, {
+                        height: '400px',
+                        width: '500px',
+                        data: {
+                            'type': 'happy',
+                            'title': 'Pronto!',
+                            'text': 'Encomenda realizada com sucesso.'
+                        }
+                    });
+                    this.store.dispatch(new RestartSale());
+                    this.ready = true;
+                    isOrder.checked = false;
+                },
+                (err) => {
+                    console.log(err);
+                    this.dialog.open(PopupComponent, {
+                        height: '400px',
+                        width: '500px',
+                        data: {
+                            'type': 'sad',
+                            'title': 'Não foi possível realizar a encomenda!',
+                            'text': 'Verifique a conexao.'
+                        }
+                    });
+                    this.store.dispatch(new RestartSale());
+                    this.ready = true;
+                }
+            );
         }
     }
 

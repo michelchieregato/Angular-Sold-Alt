@@ -21,15 +21,15 @@
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let product of saleProducts">
+            <tr *ngFor="let saleProduct of saleProducts">
                 <td class="static-400">
-                    {{ product.name }}
+                    {{ saleProduct.product.name }}
                 </td>
                 <td class="static-200">
-                    {{ product.size }}
+                    {{ saleProduct.product.size }}
                 </td>
                 <td class="static-200">
-                    {{ product.quantity }}
+                    {{ saleProduct.quantity }}
                 </td>
             </tr>
             </tbody>

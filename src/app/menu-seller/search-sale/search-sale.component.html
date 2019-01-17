@@ -49,8 +49,9 @@
         <tr>
             <th class="static-150">C</th>
             <th class="static-200">Data</th>
-            <th class="static-300">CPF</th>
+            <th class="static-400">CPF</th>
             <th class="static-400">Cliente</th>
+            <th class="static-150">Pagamento</th>
             <th class="static-200">Valor</th>
             <th class="static-200">Encomenda</th>
         </tr>
@@ -64,17 +65,21 @@
             <td class="static-200">
                 {{ sale.datetime | date : 'short'}}
             </td>
-            <td class="static-300">
+            <td class="static-375">
                 {{ sale.client.cpf }}
             </td>
             <td class="static-400">
                 {{ sale.client.name }}
             </td>
+            <td class="static-150">
+                {{ sale.payments | paymentPipe }}
+            </td>
             <td class="static-200">
                 {{ sale.value | currency : 'BRL' }}
             </td>
             <td class="static-200">
-                <img src="assets/images/checkmark.png" *ngIf="sale.finish_later">
+                <!--TODO Melhorar a imagem-->
+                <img src="assets/images/checkmark.jpg" *ngIf="sale.finish_later">
                 <img src="assets/images/not.png" *ngIf="!sale.finish_later">
             </td>
         </tr>
