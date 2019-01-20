@@ -4,7 +4,7 @@ const electron = require('electron');
 const {app, ipcMain, net} = electron;
 // Essa a gente que criou
 const mainWindow = require('./mainWindow');
-// const mainWithdraw = require('./mainWithdraw');
+const mainOrder = require('./mainOrder');
 // const mainAlert = require('./mainAlert');
 // const mainMenu_admin = require('./mainMenu_admin');
 const mainReport = require('./mainReport');
@@ -86,6 +86,11 @@ ipcMain.on('setUser', ( event, user ) => {
 // Tela de venda
 ipcMain.on('open-sale-screen', (e, args) => {
     mainSale.createWindow()
+});
+
+// Tela de venda
+ipcMain.on('open-order-screen', (e, args) => {
+    mainOrder.createWindow(args)
 });
 
 // Tela pdf

@@ -71,3 +71,85 @@
         height: 55vh;
     }
 }
+
+table {
+    * {
+        font-size: 10px;
+    }
+
+    a {
+        color: blue;
+
+        &:hover {
+            color: blue;
+            text-decoration: underline;
+        }
+    }
+}
+
+//CHECKBOX
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 20px;
+}
+
+.switch input {display:none; background-color: #ccc;}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+
+
+    span {
+        font-size: 8px;
+        text-align: center;
+        margin: 5px 22px;
+        position: absolute;
+    }
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 19px;
+    width: 19px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    span {
+        margin: 5px 8px;
+    }
+}
+
+input:checked + .slider:before {
+    transform: translateX(41px);
+}
+
+/* Rounded sliders */
+.slider.round {
+    border-radius: 20px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+.m-t-3 {
+    margin-top: 3px;
+}

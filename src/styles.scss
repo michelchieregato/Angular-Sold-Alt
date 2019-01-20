@@ -139,6 +139,10 @@ button.orange {
     table-layout: fixed;
     width: 100%;
 
+    tr {
+        display: block;
+    }
+
     &.able-click {
         td {
             cursor: pointer;
@@ -166,6 +170,7 @@ button.orange {
     }
 
     th, td {
+
         &.static-50 {
             width: 50px;
         }

@@ -41,6 +41,7 @@ import { PaymentReportComponent } from './menu-seller/report/payment-report/paym
 import { ProductReportComponent } from './menu-seller/report/product-report/product-report.component';
 import {PaymentPipe} from './pipes/utils-pipe.pipe';
 import { OrderComponent } from './menu-seller/sale/order/order.component';
+import {SaleCommunicationService} from './services/sale-communication.service';
 
 @NgModule({
     declarations: [

@@ -5,7 +5,7 @@ const {BrowserWindow} = require('electron');
 exports.win
 
 // mainWindow createWindow fn
-exports.createWindow = () => {
+exports.createWindow = (args) => {
 
     const windowOptions = {
         width: 1300,
@@ -19,7 +19,7 @@ exports.createWindow = () => {
     this.win = new BrowserWindow(windowOptions);
 
     // Load main window content
-    this.win.loadURL('http://localhost:4200/#sale/new-sale');
+    this.win.loadURL('http://localhost:4200/#'  + args['url']);
 
     // Handle window closed
     this.win.on('closed', () => {

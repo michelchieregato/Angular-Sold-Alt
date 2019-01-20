@@ -29,6 +29,10 @@ export class ClientService {
         );
     }
 
+    getStockProduct(id: number) {
+        return this.http.get(remote.getGlobal('default_url') + 'product/' + id + '/');
+    }
+
     getClients(query: string) {
         return this.http.get<Client[]>(remote.getGlobal('default_url') + 'client/', {params: {'search': query}}).map(
             (response) => {

@@ -1,33 +1,28 @@
-// import {Injectable} from '@angular/core';
-// import {Client} from '../models/client.model';
-// import {Sale} from '../models/sale.model';
-// import {Subject} from 'rxjs';
-//
-// @Injectable({providedIn: 'root'})
-// export class SaleCommunicationService {
-//     client: Client;
-//     sale = new Sale({});
-//     saleSubject = new Subject();
-//     element = new Subject();
-//
-//     constructor() {
-//     }
-//
-//     setClient(client: Client) {
-//         this.client = client;
-//     }
-//
-//     getClient() {
-//         return this.client;
-//     }
-//
-//     setSale(sale: Sale) {
-//         this.saleSubject.next(sale);
-//         this.sale = sale;
-//     }
-//
-//     movePage(direction: boolean) {
-//         this.element.next(direction);
-//     }
-//
-// }
+import {Injectable} from '@angular/core';
+import {Sale} from '../models/sale.model';
+
+@Injectable({providedIn: 'root'})
+export class SaleCommunicationService {
+    type: number;
+    updatedSale: Sale;
+
+    constructor() {
+    }
+
+    setType(type: number) {
+        this.type = type;
+    }
+
+    getType() {
+        return this.type;
+    }
+
+    setUpdatedSale(sale: Sale) {
+        this.updatedSale = sale;
+    }
+
+    getUpdatedSale() {
+        return this.updatedSale;
+    }
+
+}

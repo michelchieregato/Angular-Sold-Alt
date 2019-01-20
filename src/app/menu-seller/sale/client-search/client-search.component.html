@@ -8,7 +8,9 @@
         <p class="navbar-text m-l-0"> {{ (client | async).name }}
         </p>
         <p class="navbar-text navbar-right">
-            <a class="btn add-client" (click)="toggleModal(true)">+</a>
+            <a class="btn add-client" (click)="toggleModal(true)" *ngIf="type === typesOfSale.SALE">
+                +
+            </a>
         </p>
     </div>
 </nav>

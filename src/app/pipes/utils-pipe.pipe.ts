@@ -5,7 +5,7 @@ import {Pipe, PipeTransform} from '@angular/core';
 })
 export class PaymentPipe implements PipeTransform {
 
-    transform(value: Array, args?: any): any {
+    transform(value: Array<any>, args?: any): any {
         console.log(value);
         if (!value.length) {
             return '?';

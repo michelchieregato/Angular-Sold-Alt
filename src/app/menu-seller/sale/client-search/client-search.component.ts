@@ -6,8 +6,10 @@ import {AddClient} from '../../../store/actions/sale.actions';
 import {AppState} from '../../../store/state/app.state';
 import {selectClient} from '../../../store/selectors/sale.selectors';
 import {MatDialog} from '@angular/material/dialog';
-import {DiscountComponent} from '../discount/discount.component';
 import {AddClientComponent} from '../../../modals/add-client/add-client.component';
+import {filter} from 'rxjs/operators';
+import {NavigationEnd, Router} from '@angular/router';
+import {TypeOfSale} from '../../../constants/enums';
 
 @Component({
     selector: 'app-client-search',
@@ -22,10 +24,21 @@ export class ClientSearchComponent implements OnInit {
         id: 0,
         name: 'Cliente (Não Identificado)'
     });
+    type: number;
     selectedRow;
+    typesOfSale = TypeOfSale;
 
     constructor(private clientServer: ClientService, private store: Store<AppState>,
-                public dialog: MatDialog) { }
+                public dialog: MatDialog, private router: Router) {
+        switch (this.router.url.split('?')[0]) {
+            case '/sale/order':
+                this.type = TypeOfSale.ORDER;
+                break;
+            default:
+                this.type = TypeOfSale.SALE;
+                break;
+        }
+    }
 
     ngOnInit() {
     }

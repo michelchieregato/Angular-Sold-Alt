@@ -30,11 +30,21 @@
             </div>
         </div>
         <div class="produto">
-            <h1>Produto</h1>
+            <h1>Produto
+                <span class="pull-right m-t-3">
+                    <label class="switch">
+                        <input type="checkbox" [(ngModel)]="new" (change)="searchProduct(searchInput.value)">
+                        <span class="slider round">
+                            <span *ngIf="!new">todos</span>
+                            <span *ngIf="new">novos</span>
+                        </span>
+                    </label>
+                </span>
+            </h1>
             <div class="form-group">
                 <div class="input-group">
                     <input type="text" class="form-control" placeholder="Produto"
-                           (keyup)="searchProduct($event.target.value)">
+                           (keyup)="searchProduct($event.target.value)" #searchInput>
                     <div class="input-group-addon">
                         <span class="icon search-icon">
                             <i class="fas fa-search"></i>
@@ -48,6 +58,7 @@
                     <th class="static-300">Descricao</th>
                     <th class="static-200">Tamanho</th>
                     <th class="static-200">Preço</th>
+                    <th class="static-100">Estoque</th>
                 </tr>
                 </thead>
                 <tbody class="">
@@ -60,6 +71,11 @@
                     </td>
                     <td class="static-200">
                         R$ {{ product.price_sell | number : '1.2-2' }}
+                    </td>
+                    <td class="static-100">
+                        <a [popover]="popTemplate" [outsideClick]="true" (click)="getStock(product)">
+                            Ver estoque
+                        </a>
                     </td>
                 </tr>
                 </tbody>
@@ -109,3 +125,16 @@
         <button class="btn orange finish-sale" (click)="endSale(orderInput)">Finaliza venda</button>
     </div>
 </div>
+
+<ng-template #popTemplate>
+    <div class="popover-div">
+        <div *ngIf="!product.stock">
+            carregando ...
+        </div>
+        <div *ngIf="product.stock">
+            <h2 *ngFor="let stockInStore of product.stock">
+                {{ stockInStore.store }}: {{ stockInStore.quantity }}
+            </h2>
+        </div>
+    </div>
+</ng-template>

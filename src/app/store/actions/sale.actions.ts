@@ -2,6 +2,7 @@ import {Action} from '@ngrx/store';
 import {Client} from '../../models/client.model';
 import {Sale} from '../../models/sale.model';
 import {Product} from '../../models/product.model';
+import * as _ from 'lodash';
 
 export enum SaleEnumActions {
     ADD_CLIENT = 'ADD_CLIENT',
@@ -10,7 +11,8 @@ export enum SaleEnumActions {
     REMOVE_PRODUCT = 'REMOVE_PRODUCT',
     MOVE_PAGE = 'MOVE_PAGE',
     RESTART_PAGE = 'RESTART_PAGE',
-    UPDATE_DISCOUNT = 'UPDATE_DISCOUNT'
+    UPDATE_DISCOUNT = 'UPDATE_DISCOUNT',
+    UPDATE_FULL_SALE = 'UPDATE_FULL_SALE'
 }
 
 export class AddClient implements Action {
@@ -63,4 +65,12 @@ export class UpdateDiscount implements Action {
     }
 }
 
-export type SaleActions = AddClient | AddSale | MovePage | RestartSale | AddProduct | RemoveProduct | UpdateDiscount;
+export class UpdateFullSale implements Action {
+    readonly type = SaleEnumActions.UPDATE_FULL_SALE;
+
+    constructor(public payload: number) {
+    }
+}
+
+
+export type SaleActions = AddClient | AddSale | MovePage | RestartSale | AddProduct | RemoveProduct | UpdateDiscount | UpdateFullSale;

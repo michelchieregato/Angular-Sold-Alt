@@ -10,6 +10,8 @@ import {TaxCupomComponent} from './tax-cupom/tax-cupom.component';
 import {ReportComponent} from './menu-seller/report/report.component';
 import {PaymentReportComponent} from './menu-seller/report/payment-report/payment-report.component';
 import {ProductReportComponent} from './menu-seller/report/product-report/product-report.component';
+import {AddToSaleComponent} from './menu-seller/sale/add-to-sale/add-to-sale.component';
+import {OrderComponent} from './menu-seller/sale/order/order.component';
 
 const appRoutes: Routes = [
     {
@@ -20,7 +22,12 @@ const appRoutes: Routes = [
             {path: 'report', component: ReportComponent},
         ]
     },
-    {path: 'sale', component: SaleComponent},
+    {
+        path: 'sale', component: SaleComponent, children: [
+            {path: 'new-sale', component: AddToSaleComponent},
+            {path: 'order', component: OrderComponent}
+        ],
+    },
     {path: 'tax-cupom', component: TaxCupomComponent},
     {path: 'payment-report', component: PaymentReportComponent},
     {path: 'product-report', component: ProductReportComponent},

@@ -23,9 +23,9 @@ export class Sale {
         this.original_value = saleInfo.original_value;
         this.value = saleInfo.value;
         this.finish_later = saleInfo.finish_later;
-        this.products = saleInfo.products;
+        this.products = saleInfo.products || [];
         this.discount = saleInfo.discount;
-        this.payments = saleInfo.payments;
+        this.payments = saleInfo.payments || [];
     }
 
     public prepareToSendSale(paymentsList) {

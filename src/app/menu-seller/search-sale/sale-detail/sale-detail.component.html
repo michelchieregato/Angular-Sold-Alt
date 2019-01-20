@@ -8,9 +8,12 @@
     <div class="modal-body">
         <div class="container-modal">
             <h2>Cliente: {{ data.sale.client.name }}</h2>
-            <a [popover]="popTemplate">
+            <a *ngIf="!data.sale.finish_later" [popover]="popTemplate">
                 {{ data.sale.value | currency: 'BRL' }} *
             </a>
+            <h3 *ngIf="data.sale.finish_later">
+                Encomenda: {{ data.sale.value | currency: 'BRL' }}
+            </h3>
         </div>
         <table class="table odd table-sale">
             <thead>
@@ -37,8 +40,8 @@
     </div>
     <div class="modal-footer">
         <p class="btn btn-lg btn-orange"> Apagar venda </p>
-        <p class="btn btn-lg btn-orange"> Realizar Troca </p>
-        <p class="btn btn-lg btn-orange"> Finalizar venda</p>
+        <p class="btn btn-lg btn-orange" *ngIf="!data.sale.finish_later"> Realizar Troca </p>
+        <p class="btn btn-lg btn-orange" (click)="finishOrder()" *ngIf="data.sale.finish_later"> Finalizar venda</p>
     </div>
 </div>
 

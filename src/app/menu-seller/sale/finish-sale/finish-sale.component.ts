@@ -12,6 +12,8 @@ import {Router} from '@angular/router';
 import {selectWithdraw} from '../../../store/selectors/withdraw.selectors';
 import {Withdraw} from '../../../models/withdraw.model';
 import {UpdateMoneyWithdraw} from '../../../store/actions/withdraw.actions';
+import {TypeOfSale} from '../../../constants/enums';
+import {SaleCommunicationService} from '../../../services/sale-communication.service';
 
 declare const window: any;
 const {ipcRenderer} = window.require('electron');
@@ -36,9 +38,19 @@ export class FinishSaleComponent implements OnInit {
     addPayment = 0;
     sending = false;
     withdrawUpdated = {money: 0, checkbook: 0};
+    type: number;
 
-    constructor(private clientServer: ClientService, private store: Store<AppState>,
+    constructor(private clientServer: ClientService, private store: Store<AppState>, private saleCommunicationService: SaleCommunicationService,
                 public dialog: MatDialog, private router: Router) {
+        switch (this.router.url.split('?')[0]) {
+            case '/sale/order':
+                this.type = TypeOfSale.ORDER;
+                break;
+            default:
+                this.type = TypeOfSale.SALE;
+                break;
+        }
+        console.log(this.type);
     }
 
     ngOnInit() {
@@ -181,7 +193,7 @@ export class FinishSaleComponent implements OnInit {
         ipcRenderer.send('pdf', {'url': a.toString().substring(1)});
     }
 
-    finalizeSale() {
+    finalize() {
         if (this.cashToReceive > 0) {
             this.dialog.open(PopupComponent, {
                 height: '400px',
@@ -193,7 +205,14 @@ export class FinishSaleComponent implements OnInit {
                 }
             });
             return;
+        } else if (this.type === TypeOfSale.SALE) {
+            this.finalizeSale();
+        } else if (this.type === TypeOfSale.ORDER) {
+            this.finalizeOrder();
         }
+    }
+
+    finalizeSale() {
         this.sending = true;
         async.auto({
             finishSale: (callback) => {
@@ -272,6 +291,13 @@ export class FinishSaleComponent implements OnInit {
             this.restartSale();
             this.sending = false;
         });
+    }
+
+    finalizeOrder() {
+        const oldSale = this.saleCommunicationService.getUpdatedSale();
+        console.log(this.sale);
+        console.log(oldSale);
+        console.log(this.payments);
     }
 }
 

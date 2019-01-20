@@ -1,0 +1,43 @@
+.flex-container {
+    display: flex;
+    height: 90vh;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.order-container, .sale-container {
+    border: 1px dashed lightgrey;
+    margin: 30px 15px;
+    flex: 0 0 42.5%;
+
+    table {
+        tr {
+            cursor: pointer;
+
+            &.active td {
+                background-color: #afffbd;
+                color: white;
+            }
+        }
+    }
+}
+
+.buttons-container {
+    display: flex;
+    flex: 0 0 10%;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 30px 0;
+    margin: 30px 0;
+
+    button {
+        width: 80px;
+    }
+}
+
+.sale-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}

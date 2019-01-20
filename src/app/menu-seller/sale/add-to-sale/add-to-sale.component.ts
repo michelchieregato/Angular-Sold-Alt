@@ -29,6 +29,7 @@ export class AddToSaleComponent implements OnInit {
     productsOnSale = [];
     qnt = 1;
     ready = false;
+    new = false;
 
     ngOnInit() {
         async.parallel({
@@ -83,10 +84,24 @@ export class AddToSaleComponent implements OnInit {
         this.product = product;
     }
 
+    getStock(product) {
+        if (!product.stock) {
+            this.clientServer.getStockProduct(product.id).subscribe((response) => {
+                product.setStock(response['stock']);
+            });
+        }
+    }
+
     searchProduct(searchValue: string) {
         this.displayProducts = this.products.filter(product => {
             return product.name.toLowerCase().includes(searchValue.toLowerCase());
         });
+
+        if (this.new) {
+            this.displayProducts = this.displayProducts.filter(product => {
+                return !product.name.includes('*(A)');
+            });
+        }
     }
 
     addProduct() {

@@ -1,3 +1,80 @@
-<p>
-  order works!
-</p>
+<app-loading-mask [loading]="!ready"></app-loading-mask>
+<div class="flex-container">
+    <div class="order-container">
+        <h1>Produtos da Encomenda</h1>
+        <table class="table odd table-sale">
+            <thead>
+            <tr>
+                <th class="static-400">Descricao</th>
+                <th class="static-200">Tamanho</th>
+                <th class="static-200">Qnt</th>
+                <th class="static-100">Preço</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let saleProduct of sale.products;" (click)="selectSaleProduct(saleProduct)"
+                [class.active]="saleProduct == selectedRow">
+                <td class="static-400">
+                    {{ saleProduct.product.name }}
+                </td>
+                <td class="static-200">
+                    {{ saleProduct.product.size }}
+                </td>
+                <td class="static-200">
+                    {{ saleProduct.quantity }}
+                </td>
+                <td class="static-100">
+                    {{ saleProduct.product.price_sell | currency : 'BRL' }}
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="buttons-container">
+        <button class="btn btn-default" (click)="transferOneObject(true)">
+            >
+        </button>
+        <button class="btn btn-default" (click)="transferAllObjects(true)">
+            >>
+        </button>
+        <button class="btn btn-default" (click)="transferOneObject(false)">
+            <
+        </button>
+        <button class="btn btn-default" (click)="transferAllObjects(false)">
+            <<
+        </button>
+    </div>
+    <div class="sale-container">
+        <div class="sale-table">
+            <h1>A retirar</h1>
+            <table class="table odd table-sale">
+                <thead>
+                <tr>
+                    <th class="static-400">Descricao</th>
+                    <th class="static-200">Tamanho</th>
+                    <th class="static-200">Qnt</th>
+                    <th class="static-100">Preço</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let newSaleProduct of newSale.products;" (click)="selectNewSaleProduct(newSaleProduct)"
+                    [class.active]="newSaleProduct == selectedNewRow">
+                    <td class="static-400">
+                        {{ newSaleProduct.product.name }}
+                    </td>
+                    <td class="static-200">
+                        {{ newSaleProduct.product.size }}
+                    </td>
+                    <td class="static-200">
+                        {{ newSaleProduct.quantity }}
+                    </td>
+                    <td class="static-100">
+                        {{ newSaleProduct.product.price_sell | currency : 'BRL' }}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <button class="btn orange" (click)="endSale()">Finaliza venda</button>
+    </div>
+</div>
