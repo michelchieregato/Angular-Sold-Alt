@@ -114,3 +114,5 @@ __pycache__/
 .idea/workspace.xml
 .idea
 *.pdf
+
+/angular
