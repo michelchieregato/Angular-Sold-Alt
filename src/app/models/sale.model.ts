@@ -20,8 +20,8 @@ export class Sale {
         this.user = saleInfo.user;
         this.store = saleInfo.store;
         this.datetime = saleInfo.datetime;
-        this.original_value = saleInfo.original_value;
-        this.value = saleInfo.value;
+        this.original_value = parseFloat(saleInfo.original_value);
+        this.value = parseFloat(saleInfo.value);
         this.finish_later = saleInfo.finish_later;
         this.products = saleInfo.products || [];
         this.discount = saleInfo.discount;

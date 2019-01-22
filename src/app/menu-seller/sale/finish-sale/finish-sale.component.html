@@ -83,7 +83,7 @@
     <div class="col-md-6 money-labels">
         <h3>
             Recebido:
-            <span [ngClass]="(cashReceived >= sale.originalValue) ? 'green' : 'red'">
+            <span [ngClass]="(cashReceived >= sale.original_value) ? 'green' : 'red'">
                 {{ cashReceived | currency : 'BRL' }}
             </span>
         </h3>

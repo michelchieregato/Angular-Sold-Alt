@@ -138,9 +138,9 @@ export class FinishSaleComponent implements OnInit {
     }
 
     addToSale() {
-        if (typeof (this.addPayment) === 'string') {
-            this.addPayment = parseFloat(this.addPayment.replace(',', '.'));
-        }
+        // if (typeof (this.addPayment) === 'string') {
+        //     this.addPayment = parseFloat(this.addPayment.replace(',', '.'));
+        // }
         if (!this.addPayment) {
             return;
         }

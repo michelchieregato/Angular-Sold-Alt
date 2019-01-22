@@ -68,7 +68,7 @@ export class UpdateDiscount implements Action {
 export class UpdateFullSale implements Action {
     readonly type = SaleEnumActions.UPDATE_FULL_SALE;
 
-    constructor(public payload: number) {
+    constructor(public payload: any) {
     }
 }
 
