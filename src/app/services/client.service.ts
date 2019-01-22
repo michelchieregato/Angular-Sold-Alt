@@ -9,7 +9,7 @@ import {Withdraw} from '../models/withdraw.model';
 declare const window: any;
 const {remote} = window.require('electron');
 const store = remote.getGlobal('store');
-const user = remote.getGlobal('user');
+let user = remote.getGlobal('user');
 
 @Injectable({providedIn: 'root'})
 export class ClientService {
@@ -46,11 +46,21 @@ export class ClientService {
     }
 
     finishSale(sale: any) {
+        user = remote.getGlobal('user');
+        sale['user'] = user.id;
+        sale['store'] = store;
         return this.http.post(remote.getGlobal('default_url') + 'sale/', sale).map(
             (response) => {
                 return response;
             }
         );
+    }
+
+    updateSaleFromOrder(sale: any) {
+        user = remote.getGlobal('user');
+        sale['user'] = user.id;
+        sale['store'] = store;
+        return this.http.put(remote.getGlobal('default_url') + 'sale/' + sale.id + '/', sale);
     }
 
     getSales(params: any) {
@@ -80,12 +90,14 @@ export class ClientService {
     }
 
     createWithdrawHistory(params: any) {
+        user = remote.getGlobal('user');
         params['store'] = store;
         params['user'] = user.id;
         return this.http.post(remote.getGlobal('default_url') + 'withdraw_history/', params);
     }
 
     updateStock(params: any) {
+        user = remote.getGlobal('user');
         params['from_store'] = store;
         params['user'] = user.id;
         return this.http.patch(remote.getGlobal('default_url') + 'store_product/', params);
@@ -94,5 +106,10 @@ export class ClientService {
     getReportByPayments(params: any) {
         params['store'] = store;
         return this.http.get(remote.getGlobal('default_url') + 'reports/report_by_payment', {params: params});
+    }
+
+    getReportByProduct(params: any) {
+        params['store'] = store;
+        return this.http.get(remote.getGlobal('default_url') + 'reports/report_by_products', {params: params});
     }
 }

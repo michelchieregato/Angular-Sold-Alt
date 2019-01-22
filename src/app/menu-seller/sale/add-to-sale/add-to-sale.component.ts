@@ -135,7 +135,7 @@ export class AddToSaleComponent implements OnInit {
         } else {
             this.sale.finish_later = true;
             this.ready = false;
-            this.clientServer.finishSale(this.sale.prepareToSendSale([])).subscribe(
+            this.clientServer.finishSale(this.sale.prepareToSendSale([], false)).subscribe(
                 (next) => {
                     console.log(next);
                     this.dialog.open(PopupComponent, {

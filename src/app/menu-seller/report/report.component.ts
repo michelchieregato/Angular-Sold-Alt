@@ -58,7 +58,7 @@ export class ReportComponent implements OnInit {
 
     searchProductReport() {
         this.loading = true;
-        this.clientServer.getReportByPayments({
+        this.clientServer.getReportByProduct({
             initial_date: this.initialDatePayment,
             final_date: this.finalDatePayment
         }).subscribe(

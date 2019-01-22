@@ -5,7 +5,7 @@ import {Sale} from '../../../models/sale.model';
 import {Router} from '@angular/router';
 
 declare const window: any;
-const {ipcRenderer} = window.require('electron');
+const {ipcRenderer, remote} = window.require('electron');
 
 export interface SaleDetailData {
     sale: Sale;
@@ -52,8 +52,22 @@ export class SaleDetailComponent implements OnInit {
         a.queryParams = {
             sale: JSON.stringify(this.data.sale)
         };
-        console.log(a.toString().substring(1))
         ipcRenderer.send('open-order-screen', {'url': a.toString().substring(1)});
+    }
+
+    generateTaxCupom() {
+        const a = this.router.createUrlTree(['tax-cupom']);
+        this.data.sale.products = this.saleProducts;
+        this.data.sale.user = remote.getGlobal('user');
+        this.data.sale.store = remote.getGlobal('store');
+        const change = this.data.sale.original_value - this.data.sale.value;
+        console.log(change)
+        a.queryParams = {
+            sale: JSON.stringify(this.data.sale),
+            payments: JSON.stringify(this.payments),
+            change: Math.round(change * 100) / 100
+        };
+        ipcRenderer.send('pdf', {'url': a.toString().substring(1)});
     }
 
 }

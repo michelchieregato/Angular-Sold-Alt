@@ -28,16 +28,27 @@ export class Sale {
         this.payments = saleInfo.payments || [];
     }
 
-    public prepareToSendSale(paymentsList) {
+    public prepareToSendSale(paymentsList, new_: boolean) {
         const saleProducts = [];
         const payments = [];
-        this.products.forEach(product => {
-            saleProducts.push({
-                product: product.id,
-                quantity: product.quantity,
-                value: product.price_sell
+        if (!new_) {
+            this.products.forEach(product => {
+                saleProducts.push({
+                    product: product.id,
+                    quantity: product.quantity,
+                    value: product.price_sell
+                });
             });
-        });
+        } else {
+            this.products.forEach(product => {
+                saleProducts.push({
+                    product: product.product.id,
+                    quantity: product.quantity,
+                    value: product.product.price_sell
+                });
+            });
+        }
+
         paymentsList.forEach(payment => {
             payments.push({
                 paymentMethod: payment.type,
@@ -45,6 +56,7 @@ export class Sale {
             });
         });
         return {
+            id: this.id,
             client: this.client.cpf ? this.client.cpf : '000.000.000-00',
             user: this.user.id,
             store: this.store,

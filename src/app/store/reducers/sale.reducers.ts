@@ -75,7 +75,11 @@ export function saleReducer(state = initialSaleState, action: SaleActions) {
         case SaleEnumActions.UPDATE_FULL_SALE:
             return {
                 ...state,
-                sale: action.payload
+                sale: {
+                    ...action.payload,
+                    store: state.sale.store,
+                    user: state.sale.user
+                }
             };
         case SaleEnumActions.RESTART_PAGE:
             state = initialSaleState;

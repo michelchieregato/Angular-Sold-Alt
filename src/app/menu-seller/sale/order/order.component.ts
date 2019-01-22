@@ -159,6 +159,7 @@ export class OrderComponent implements OnInit {
         });
 
         this.saleCommunicationService.setUpdatedSale(this.sale);
+        console.log(this.sale)
         this.store.dispatch(new UpdateFullSale(this.newSale));
         this.store.dispatch(new MovePage(true));
     }
@@ -168,7 +169,7 @@ export class OrderComponent implements OnInit {
         sale.products.forEach((p) => {
             sum += p.quantity * p.product.price_sell;
         });
-        return sum;
+        return Math.round(sum * 100) / 100;
     }
 
 }

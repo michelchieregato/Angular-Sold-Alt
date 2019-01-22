@@ -4,7 +4,7 @@ import {WithdrawComponent} from '../withdraw/withdraw.component';
 import {Router} from '@angular/router';
 
 declare const window: any;
-const {ipcRenderer} = window.require('electron');
+const {ipcRenderer, remote} = window.require('electron');
 
 @Component({
     selector: 'app-menu',
@@ -17,6 +17,8 @@ export class MenuComponent implements OnInit {
     }
 
     ngOnInit() {
+        console.log(remote.getGlobal('user'));
+        console.log(remote.getGlobal('store'));
     }
 
     openSaleScreen() {

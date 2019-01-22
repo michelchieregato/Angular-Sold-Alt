@@ -5,19 +5,13 @@ const {app, ipcMain, net} = electron;
 // Essa a gente que criou
 const mainWindow = require('./mainWindow');
 const mainOrder = require('./mainOrder');
-// const mainAlert = require('./mainAlert');
-// const mainMenu_admin = require('./mainMenu_admin');
 const mainReport = require('./mainReport');
 const mainSale = require('./mainSale');
-// const mainClient = require('./mainClient');
-// const updater = require('./updater');
-// const Store = require('./storage.js');
 
 // para mexer com o config file
 const ini = require('ini');
 const fs = require('fs');
 const path = require('path');
-const os = require('os');
 const config_path = path.resolve(__dirname, '..', 'config', 'config.ini');
 const config = ini.parse(fs.readFileSync(config_path, 'utf-8'));
 const crypto = require('crypto');
@@ -45,11 +39,6 @@ global['default_url'] = '/api/';
 // global['default_url'] = 'http://www.pueristore.com.br/django_sold_alt/';
 global['user'] = {};
 global['store'] = decrypt(config.storeName);
-// global['LojaCEP'] = decrypt(config.storeCEP);
-
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
 
 app.on('ready', () => {
     mainWindow.createWindow({'url': 'login.html'});

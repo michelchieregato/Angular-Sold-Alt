@@ -11,12 +11,12 @@ import {DiscountComponent} from '../discount/discount.component';
 import {Router} from '@angular/router';
 import {selectWithdraw} from '../../../store/selectors/withdraw.selectors';
 import {Withdraw} from '../../../models/withdraw.model';
-import {UpdateMoneyWithdraw} from '../../../store/actions/withdraw.actions';
+import {UpdateCheckbookWithdraw, UpdateMoneyWithdraw} from '../../../store/actions/withdraw.actions';
 import {TypeOfSale} from '../../../constants/enums';
 import {SaleCommunicationService} from '../../../services/sale-communication.service';
 
 declare const window: any;
-const {ipcRenderer} = window.require('electron');
+const {ipcRenderer, remote} = window.require('electron');
 const async = require('async');
 
 @Component({
@@ -40,7 +40,8 @@ export class FinishSaleComponent implements OnInit {
     withdrawUpdated = {money: 0, checkbook: 0};
     type: number;
 
-    constructor(private clientServer: ClientService, private store: Store<AppState>, private saleCommunicationService: SaleCommunicationService,
+    constructor(private clientServer: ClientService, private store: Store<AppState>,
+                private saleCommunicationService: SaleCommunicationService,
                 public dialog: MatDialog, private router: Router) {
         switch (this.router.url.split('?')[0]) {
             case '/sale/order':
@@ -50,13 +51,13 @@ export class FinishSaleComponent implements OnInit {
                 this.type = TypeOfSale.SALE;
                 break;
         }
-        console.log(this.type);
     }
 
     ngOnInit() {
         this.saleObserver.subscribe(
             (sale) => {
                 this.sale = new Sale(sale);
+                console.log(sale);
                 this.sale.value = this.roundTo(sale.original_value * (1 - sale.discount / 100), 2);
                 this.cashToReceive = (this.sale.value - this.cashReceived) > 0 ? (this.sale.value - this.cashReceived) : 0;
                 this.cashToReceive = this.roundTo(this.cashToReceive, 2);
@@ -178,7 +179,7 @@ export class FinishSaleComponent implements OnInit {
             } else if (payment.type === 'Cheque') {
                 this.checkbookWitdraw.quantity += payment.value;
                 this.withdrawUpdated.checkbook = payment.value;
-                this.store.dispatch(new UpdateMoneyWithdraw(this.checkbookWitdraw));
+                this.store.dispatch(new UpdateCheckbookWithdraw(this.checkbookWitdraw));
             }
         });
     }
@@ -190,6 +191,7 @@ export class FinishSaleComponent implements OnInit {
             payments: JSON.stringify(this.payments),
             change: JSON.stringify(this.change)
         };
+        console.log(a);
         ipcRenderer.send('pdf', {'url': a.toString().substring(1)});
     }
 
@@ -216,7 +218,7 @@ export class FinishSaleComponent implements OnInit {
         this.sending = true;
         async.auto({
             finishSale: (callback) => {
-                this.clientServer.finishSale(this.sale.prepareToSendSale(this.payments)).subscribe(
+                this.clientServer.finishSale(this.sale.prepareToSendSale(this.payments, false)).subscribe(
                     (success) => {
                         this.updateWithdraw();
                         callback(null, success);
@@ -286,7 +288,6 @@ export class FinishSaleComponent implements OnInit {
                 this.sending = false;
                 return;
             }
-            console.log(results);
             this.makeTaxCupom();
             this.restartSale();
             this.sending = false;
@@ -295,9 +296,106 @@ export class FinishSaleComponent implements OnInit {
 
     finalizeOrder() {
         const oldSale = this.saleCommunicationService.getUpdatedSale();
-        console.log(this.sale);
-        console.log(oldSale);
-        console.log(this.payments);
+        this.sending = true;
+        async.auto({
+            updateOldSale: (callback) => {
+                if (oldSale.products.length) {
+                    oldSale.finish_later = true;
+                    this.clientServer.updateSaleFromOrder(oldSale.prepareToSendSale([], true)).subscribe(
+                        (success) => callback(null, success),
+                        (err) => callback(err)
+                    );
+                } else {
+                    this.sale.finish_later = false;
+                    this.clientServer.updateSaleFromOrder(this.sale.prepareToSendSale(this.payments, true)).subscribe(
+                        (success) => callback(null, success),
+                        (err) => callback(err)
+                    );
+                }
+            },
+            updateNewSale: (callback) => {
+                if (oldSale.products.length) {
+                    this.sale.finish_later = false;
+                    this.clientServer.finishSale(this.sale.prepareToSendSale(this.payments, true)).subscribe(
+                        (success) => {
+                            callback(null, success);
+                        },
+                        (error) => callback(error));
+                } else {
+                    callback(null);
+                }
+            },
+            updateLocalWithdraw: ['updateNewSale', 'updateOldSale', (results, callback) => {
+                this.updateWithdraw();
+                callback(null);
+            }],
+            updateMoneyWithdraw: ['updateLocalWithdraw', (results, callback) => {
+                if (this.withdrawUpdated.money <= 0) {
+                    callback();
+                } else {
+                    this.clientServer.updateWithdraw(this.moneyWithdraw).subscribe(
+                        (next) => callback(null, next),
+                        (error) => callback(error)
+                    );
+                }
+            }],
+            updateCheckbookWithdraw: ['updateLocalWithdraw', (results, callback) => {
+                if (this.withdrawUpdated.checkbook <= 0) {
+                    callback();
+                } else {
+                    this.clientServer.updateWithdraw(this.checkbookWitdraw).subscribe(
+                        (next) => callback(null, next),
+                        (error) => callback(error)
+                    );
+                }
+            }],
+            updateMoneyWithdrawHistory: ['updateLocalWithdraw', (results, callback) => {
+                if (this.withdrawUpdated.money <= 0) {
+                    callback();
+                } else {
+                    this.clientServer.createWithdrawHistory({
+                        name: 'Dinheiro',
+                        withdraw: 'S',
+                        quantity: this.withdrawUpdated.money
+                    }).subscribe(
+                        (next) => callback(null, next),
+                        (error) => callback(error)
+                    );
+                }
+            }],
+            updateCheckbookWithdrawHistory: ['updateLocalWithdraw', (results, callback) => {
+                if (this.withdrawUpdated.checkbook <= 0) {
+                    callback();
+                } else {
+                    this.clientServer.createWithdrawHistory({
+                        name: 'Cheque',
+                        withdraw: 'S',
+                        quantity: this.withdrawUpdated.checkbook
+                    }).subscribe(
+                        (next) => callback(null, next),
+                        (error) => callback(error)
+                    );
+                }
+            }]
+        }, (err, results) => {
+            if (err) {
+                this.dialog.open(PopupComponent, {
+                    height: '400px',
+                    width: '500px',
+                    data: {
+                        'type': 'sad',
+                        'title': 'Não foi possível finalizar a venda!',
+                        'text': 'Verifique a conexão.'
+                    }
+                });
+                this.sending = false;
+                return;
+            }
+            this.makeTaxCupom();
+            this.restartSale();
+            this.sending = false;
+            const win = remote.getCurrentWindow();
+            win.close();
+        });
     }
 }
-
