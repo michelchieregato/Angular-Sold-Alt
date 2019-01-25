@@ -11,13 +11,13 @@ exports.createWindow = (args) => {
         width: 1200,
         height: 600,
         frame: true,
-        show: true
+        show: false
     };
 
     this.win = new BrowserWindow(windowOptions);
 
     // Load main window content
-    this.win.loadURL('http://localhost:4200/#' + args['url']);
+    this.win.loadURL(global['angular_path'] + '#' + args['url']);
 
     this.win.webContents.openDevTools();
 
@@ -40,7 +40,7 @@ exports.createWindow = (args) => {
                     });
 
                     winPDF.loadURL(path.resolve(__dirname) + '/../../print.pdf');
-                    // this.win.close();
+                    this.win.close();
                 })
             })
         });

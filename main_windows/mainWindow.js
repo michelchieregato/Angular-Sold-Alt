@@ -30,24 +30,9 @@ exports.createWindow = (args) => {
         fullscreen: false,
     };
 
-    const a = url.format({
-        pathname: path.join(__dirname, '..', 'angular', 'index.html'),
-        protocol: 'file:',
-        slashes: true,
-        // hash: 'seller'
-    })
-
-    // console.log(a)
-
     this.win = new BrowserWindow(windowOptions);
 
-    this.win.loadURL('http://localhost:4200/');
-
-    // With ng serve
-    // this.win.loadURL('../');
-
-    // Production
-    // this.win.loadURL(indexUrl);
+    this.win.loadURL(global['angular_path']);
 
     this.win.webContents.openDevTools();
     // // Handle window closed

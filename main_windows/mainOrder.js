@@ -19,7 +19,7 @@ exports.createWindow = (args) => {
     this.win = new BrowserWindow(windowOptions);
 
     // Load main window content
-    this.win.loadURL('http://localhost:4200/#'  + args['url']);
+    this.win.loadURL(global['angular_path'] + '#'  + args['url']);
 
     // Handle window closed
     this.win.on('closed', () => {

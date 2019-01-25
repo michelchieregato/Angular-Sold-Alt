@@ -12,23 +12,22 @@ const mainSale = require('./mainSale');
 const ini = require('ini');
 const fs = require('fs');
 const path = require('path');
-const config_path = path.resolve(__dirname, '..', 'config', 'config.ini');
+const url = require('url');
+const config_path = (electron.app || electron.remote.app).getPath('userData') + '/config.ini';
 const config = ini.parse(fs.readFileSync(config_path, 'utf-8'));
 const crypto = require('crypto');
 const cryptoAlgo = 'aes-128-cbc';
 const cryptoPassword = 'soldalt';
 
 // funções de crypto
-function encrypt(text)
-{
+function encrypt(text) {
     let cipher = crypto.createCipher(cryptoAlgo, cryptoPassword);
     let crypted = cipher.update(text, 'utf8', 'hex');
     crypted += cipher.final('hex');
     return crypted
 }
 
-function decrypt(crypted)
-{
+function decrypt(crypted) {
     let decipher = crypto.createDecipher(cryptoAlgo, cryptoPassword);
     let text = decipher.update(crypted, 'hex', 'utf8');
     text += decipher.final('utf8');
@@ -36,7 +35,14 @@ function decrypt(crypted)
 }
 
 global['default_url'] = '/api/';
+global['angular_path'] = 'http://localhost:4200/';
+
 // global['default_url'] = 'http://www.pueristore.com.br/django_sold_alt/';
+// global['angular_path'] = url.format({
+//     pathname: path.join(__dirname, '..', 'angular', 'index.html'),
+//     protocol: 'file:',
+//     slashes: true,
+// });
 global['user'] = {};
 global['store'] = decrypt(config.storeName);
 
@@ -68,9 +74,9 @@ ipcMain.on('ready', () => {
     mainWindow.createWindow({'url': 'login.html'})
 });
 
-ipcMain.on('setUser', ( event, user ) => {
+ipcMain.on('setUser', (event, user) => {
     global['user'] = user;
-} );
+});
 
 // Tela de venda
 ipcMain.on('open-sale-screen', (e, args) => {
@@ -99,7 +105,7 @@ ipcMain.on('update-json', (e, args) => {
         request.on('response', (response) => {
             response.on('data', (chunk) => {
                 console.log(Object.keys(JSON.parse(chunk)).length === 0)
-                if (! (Object.keys(JSON.parse(chunk)).length === 0)){
+                if (!(Object.keys(JSON.parse(chunk)).length === 0)) {
                     console.log('I am here')
                     users.set(JSON.parse(chunk)['response'])
                 }
