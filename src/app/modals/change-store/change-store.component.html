@@ -1,0 +1,19 @@
+<div class="h-text orange">
+    <h1>
+        Escolha a loja que você quer estar:
+    </h1>
+</div>
+
+<div>
+    <mat-form-field>
+        <mat-select placeholder="Loja" [(value)]="storeSelected">
+            <mat-option *ngFor="let store of stores" [value]="store">
+                {{ store }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>
+
+<button class="btn btn-orange" (click)="close()">
+    Confirmar
+</button>

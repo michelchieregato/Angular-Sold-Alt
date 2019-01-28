@@ -58,7 +58,7 @@ export class Sale {
 
         return {
             id: this.id,
-            client: this.client,
+            client: this.client.id === 0 ? 1 : this.client.id ,
             user: this.user.id,
             store: this.store,
             original_value: this.original_value,

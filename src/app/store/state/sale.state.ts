@@ -19,6 +19,7 @@ export const initialSaleState = {
         }),
         store: remote.getGlobal('store'),
         value: 0,
+        original_value: 0,
         products: [],
         discount: 0
     }),

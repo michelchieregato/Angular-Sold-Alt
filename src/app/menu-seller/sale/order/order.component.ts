@@ -159,7 +159,6 @@ export class OrderComponent implements OnInit {
         });
 
         this.saleCommunicationService.setUpdatedSale(this.sale);
-        console.log(this.sale)
         this.store.dispatch(new UpdateFullSale(this.newSale));
         this.store.dispatch(new MovePage(true));
     }

@@ -2,85 +2,95 @@
 
 /*NavBar Vendedor*/
 .total {
-  display: none;
-  position: fixed; /* Stay in place */
-  z-index: 99; /* Sit on top */
-  left: 0;
-  top: 0;
-  margin-top: 10vh;
-  width: 100%; /* Full width */
-  height: 90vh; /* Full height */
-  overflow: hidden; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    display: none;
+    position: fixed; /* Stay in place */
+    z-index: 99; /* Sit on top */
+    left: 0;
+    top: 0;
+    margin-top: 10vh;
+    width: 100%; /* Full width */
+    height: 90vh; /* Full height */
+    overflow: hidden; /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0); /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
 }
 
 .vertical-menu {
-  margin-left: -300px;
-  height: 90vh;
-  width: 20%;
-  z-index: 99;
+    margin-left: -300px;
+    height: 90vh;
+    width: 20%;
+    z-index: 99;
 
-  .btn {
-    background-color: white;
-    width: 100%;
-    border-radius: 0;
-    border-bottom: 1px solid #ff9900;
-    color: #ff9900;
-    height: 15vh;
-    opacity: 1;
-    font-family: "Microsoft JhengHei Light", serif;
-    font-size: 16px;
-  }
+    .btn {
+        background-color: white;
+        width: 100%;
+        border-radius: 0;
+        border-bottom: 1px solid #ff9900;
+        color: #ff9900;
+        height: 15vh;
+        opacity: 1;
+        font-family: "Microsoft JhengHei Light", serif;
+        font-size: 16px;
+    }
 
-  .btn:hover {
-    background-color: lightgreen;
-    color: white;
-  }
+    .btn:hover {
+        background-color: lightgreen;
+        color: white;
+    }
 
-  img {
-    display: none;
-    width: 48px;
-    margin-right: 20px;
-  }
+    img {
+        display: none;
+        width: 48px;
+        margin-right: 20px;
+    }
 
 }
 
 .border-orange {
-  border: 1px solid #ff9900;
+    border: 1px solid #ff9900;
 }
 
 .h-text {
-  float: right;
-  width: 100%;
-  text-align: center;
-  font-family: "Microsoft JhengHei Light", serif;
-  position: relative;
-  color: white;
-  margin: 0;
+    float: right;
+    width: 100%;
+    text-align: center;
+    font-family: "Microsoft JhengHei Light", serif;
+    position: relative;
+    color: white;
+    margin: 0;
+
+    a {
+        color: #337ab7;
+        cursor: pointer;
+        font-size: 13px;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
 }
 
 .h-text img {
-  float: left;
-  width: 48px;
-  cursor: pointer;
-  margin: .1em;
+    float: left;
+    width: 48px;
+    cursor: pointer;
+    margin: .1em;
 }
 
 .orange {
     background-color: $primary-color;
-  color: white;
-  padding: .25em;
+    color: white;
+    padding: .25em;
 }
 
 .open_drawer {
-  -webkit-animation: open_drawer 300ms ease-in-out;
-  -webkit-animation-fill-mode: forwards;
-  -webkit-transform: translateX(0);
+    -webkit-animation: open_drawer 300ms ease-in-out;
+    -webkit-animation-fill-mode: forwards;
+    -webkit-transform: translateX(0);
 }
 
 @-webkit-keyframes open_drawer {
-  to {
-    -webkit-transform: translateX(300px);
-  }
+    to {
+        -webkit-transform: translateX(300px);
+    }
 }

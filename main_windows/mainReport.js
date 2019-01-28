@@ -11,7 +11,7 @@ exports.createWindow = (args) => {
         width: 1200,
         height: 600,
         frame: true,
-        show: true
+        show: false
     };
 
     this.win = new BrowserWindow(windowOptions);

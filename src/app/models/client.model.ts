@@ -1,6 +1,6 @@
 export class Client {
     id: number;
-    cpf: number;
+    cpf: string;
     name: string;
     email: string;
     tel: string;

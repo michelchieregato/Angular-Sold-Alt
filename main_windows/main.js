@@ -78,6 +78,10 @@ ipcMain.on('setUser', (event, user) => {
     global['user'] = user;
 });
 
+ipcMain.on('setStore', (event, store) => {
+    global['store'] = store;
+});
+
 // Tela de venda
 ipcMain.on('open-sale-screen', (e, args) => {
     mainSale.createWindow()

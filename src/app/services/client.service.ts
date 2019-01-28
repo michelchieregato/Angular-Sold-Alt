@@ -8,7 +8,7 @@ import {Withdraw} from '../models/withdraw.model';
 
 declare const window: any;
 const {remote} = window.require('electron');
-const store = remote.getGlobal('store');
+let store = remote.getGlobal('store');
 let user = remote.getGlobal('user');
 
 @Injectable({providedIn: 'root'})
@@ -47,6 +47,7 @@ export class ClientService {
 
     finishSale(sale: any) {
         user = remote.getGlobal('user');
+        store = remote.getGlobal('store');
         sale['user'] = user.id;
         sale['store'] = store;
         return this.http.post(remote.getGlobal('default_url') + 'sale/', sale).map(
@@ -58,12 +59,14 @@ export class ClientService {
 
     updateSaleFromOrder(sale: any) {
         user = remote.getGlobal('user');
+        store = remote.getGlobal('store');
         sale['user'] = user.id;
         sale['store'] = store;
         return this.http.put(remote.getGlobal('default_url') + 'sale/' + sale.id + '/', sale);
     }
 
     getSales(params: any) {
+        store = remote.getGlobal('store');
         if (!params.store) {
             params.store = store;
         } else if (params.store === 'Todas') {
@@ -81,6 +84,7 @@ export class ClientService {
     }
 
     getWithdrawInformation(params: any) {
+        store = remote.getGlobal('store');
         params['store'] = store;
         return this.http.get(remote.getGlobal('default_url') + 'withdraw/0/', {params: params}).map(
             (response) => {
@@ -95,12 +99,14 @@ export class ClientService {
 
     createWithdrawHistory(params: any) {
         user = remote.getGlobal('user');
+        store = remote.getGlobal('store');
         params['store'] = store;
         params['user'] = user.id;
         return this.http.post(remote.getGlobal('default_url') + 'withdraw_history/', params);
     }
 
     getWithdrawHistory(page: number, params: any) {
+        store = remote.getGlobal('store');
         params['store'] = store;
         return this.http.get(remote.getGlobal('default_url') + 'withdraw_history/?page=' + page,
             {params: params}).map(
@@ -113,17 +119,20 @@ export class ClientService {
 
     updateStock(params: any) {
         user = remote.getGlobal('user');
+        store = remote.getGlobal('store');
         params['from_store'] = store;
         params['user'] = user.id;
         return this.http.patch(remote.getGlobal('default_url') + 'store_product/', params);
     }
 
     getReportByPayments(params: any) {
+        store = remote.getGlobal('store');
         params['store'] = store;
         return this.http.get(remote.getGlobal('default_url') + 'reports/report_by_payment', {params: params});
     }
 
     getReportByProduct(params: any) {
+        store = remote.getGlobal('store');
         params['store'] = store;
         return this.http.get(remote.getGlobal('default_url') + 'reports/report_by_products', {params: params});
     }

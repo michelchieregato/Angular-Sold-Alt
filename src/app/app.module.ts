@@ -50,6 +50,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 import { CheckOrdersComponent } from './menu-seller/check-orders/check-orders.component';
 import { SaleReportComponent } from './menu-seller/report/sale-report/sale-report.component';
+import { ChangeStoreComponent } from './modals/change-store/change-store.component';
 
 @NgModule({
     declarations: [
@@ -81,7 +82,8 @@ import { SaleReportComponent } from './menu-seller/report/sale-report/sale-repor
         OrderComponent,
         WithdrawHistoryComponent,
         CheckOrdersComponent,
-        SaleReportComponent
+        SaleReportComponent,
+        ChangeStoreComponent
     ],
     imports: [
         BrowserModule,
@@ -111,7 +113,8 @@ import { SaleReportComponent } from './menu-seller/report/sale-report/sale-repor
         AddClientComponent,
         SaleDetailComponent,
         WithdrawComponent,
-        WithdrawHistoryComponent
+        WithdrawHistoryComponent,
+        ChangeStoreComponent
     ]
 })
 export class AppModule {
