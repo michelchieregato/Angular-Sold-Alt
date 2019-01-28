@@ -2,6 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {NavigationEnd, Router} from '@angular/router';
 import {filter} from 'rxjs/operators';
 
+declare const window: any;
+const {remote} = window.require('electron');
+
 @Component({
     selector: 'app-navbar-seller',
     templateUrl: './navbar-seller.component.html',
@@ -10,6 +13,7 @@ import {filter} from 'rxjs/operators';
 export class NavbarSellerComponent implements OnInit {
     title = 'Menu Principal';
     open = false;
+    store: string;
 
     constructor(private router: Router) {
         router.events.pipe(
@@ -25,10 +29,14 @@ export class NavbarSellerComponent implements OnInit {
                 case '/seller/stock-transfer':
                     this.title = 'Transferência de estoque';
                     break;
+                case '/seller/check-orders':
+                    this.title = 'Estoque: Todas as unidades';
+                    break;
                 default:
-                    this.title = 'Menu Principal';
+                    this.title = 'Menu Principal - ' + remote.getGlobal('store');
                     break;
             }
+
         });
     }
 

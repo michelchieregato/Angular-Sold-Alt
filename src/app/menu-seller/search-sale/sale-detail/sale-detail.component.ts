@@ -28,7 +28,10 @@ export class SaleDetailComponent implements OnInit {
     }
 
     ngOnInit() {
-        console.log(this.data.sale);
+        if (this.data.sale.products.length) {
+            this.saleProducts = this.data.sale.products;
+            this.loading = false;
+        }
         this.clientService.getSale(this.data.sale.id).subscribe(
             (results) => {
                 this.saleProducts = results['products'];
@@ -60,8 +63,7 @@ export class SaleDetailComponent implements OnInit {
         this.data.sale.products = this.saleProducts;
         this.data.sale.user = remote.getGlobal('user');
         this.data.sale.store = remote.getGlobal('store');
-        const change = this.data.sale.original_value - this.data.sale.value;
-        console.log(change)
+        const change = this.totalReceived - this.data.sale.value;
         a.queryParams = {
             sale: JSON.stringify(this.data.sale),
             payments: JSON.stringify(this.payments),

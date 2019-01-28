@@ -3,6 +3,7 @@ import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {ClientService} from '../../services/client.service';
 import {PopupComponent} from '../../modals/popup/popup.component';
 import {Withdraw} from '../../models/withdraw.model';
+import {WithdrawHistoryComponent} from './withdraw-history/withdraw-history.component';
 
 const async = require('async');
 
@@ -126,4 +127,11 @@ export class WithdrawComponent implements OnInit {
             });
     }
 
+    openHistory() {
+        this.dialog.open(WithdrawHistoryComponent, {
+            maxHeight: '800px',
+            minHeight: '500px',
+            width: '1000px'
+        });
+    }
 }

@@ -1,7 +1,11 @@
 <div class="report">
     <div class="container-filter">
-        <h1 *ngIf="!infos.order">Venda Por Forma De Pagamento - De {{ infos.initial_date }} a {{ infos.final_date }}</h1>
-        <h1 *ngIf="infos.order">Encomendas em aberto - por produto</h1>
+        <h1 *ngIf="!infos.order">
+            Vendas - De {{ infos.initial_date }} a {{ infos.final_date }}
+        </h1>
+        <h1 *ngIf="infos.order">
+            Encomendas em aberto
+        </h1>
     </div>
 
     <div class="infos clearfix">
@@ -10,7 +14,13 @@
         </div>
     </div>
 
-    <div class="max-size">
+    <div class="max-size" *ngFor="let sale of infos.sales">
+        <div class="client">
+            <h3>
+                Cliente: {{ sale.client.name }} <span *ngIf="sale.client.tel">- {{ sale.client.tel }}</span>
+            </h3>
+            <h3 class="date-of-sale"> {{ sale.datetime | date : 'short' }}</h3>
+        </div>
         <table class="table odd table-sale">
             <thead>
             <tr>
@@ -20,7 +30,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let product of infos.list_of_products">
+            <tr *ngFor="let product of sale.products">
                 <td class="static-500">
                     {{ product.product.name }}
                 </td>
@@ -33,5 +43,7 @@
             </tr>
             </tbody>
         </table>
+        <hr>
     </div>
 </div>
+

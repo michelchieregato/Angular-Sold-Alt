@@ -55,9 +55,10 @@ export class Sale {
                 value: payment.value
             });
         });
+
         return {
             id: this.id,
-            client: this.client.cpf ? this.client.cpf : '000.000.000-00',
+            client: this.client,
             user: this.user.id,
             store: this.store,
             original_value: this.original_value,

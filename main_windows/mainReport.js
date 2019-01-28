@@ -11,7 +11,7 @@ exports.createWindow = (args) => {
         width: 1200,
         height: 600,
         frame: true,
-        show: false
+        show: true
     };
 
     this.win = new BrowserWindow(windowOptions);
@@ -40,7 +40,7 @@ exports.createWindow = (args) => {
                     });
 
                     winPDF.loadURL(path.resolve(__dirname) + '/../../print.pdf');
-                    this.win.close();
+                    // this.win.close();
                 })
             })
         });

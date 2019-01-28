@@ -12,6 +12,8 @@ import {PaymentReportComponent} from './menu-seller/report/payment-report/paymen
 import {ProductReportComponent} from './menu-seller/report/product-report/product-report.component';
 import {AddToSaleComponent} from './menu-seller/sale/add-to-sale/add-to-sale.component';
 import {OrderComponent} from './menu-seller/sale/order/order.component';
+import {CheckOrdersComponent} from './menu-seller/check-orders/check-orders.component';
+import {SaleReportComponent} from './menu-seller/report/sale-report/sale-report.component';
 
 const appRoutes: Routes = [
     {
@@ -20,6 +22,7 @@ const appRoutes: Routes = [
             {path: 'search-sale', component: SearchSaleComponent},
             {path: 'stock-transfer', component: StockTransferComponent},
             {path: 'report', component: ReportComponent},
+            {path: 'check-orders', component: CheckOrdersComponent}
         ]
     },
     {
@@ -31,6 +34,7 @@ const appRoutes: Routes = [
     {path: 'tax-cupom', component: TaxCupomComponent},
     {path: 'payment-report', component: PaymentReportComponent},
     {path: 'product-report', component: ProductReportComponent},
+    {path: 'sale-report', component: SaleReportComponent},
     {path: '', component: LoginComponent},
 ];
 

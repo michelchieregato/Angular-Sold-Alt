@@ -24,7 +24,7 @@ import { AddClientComponent } from './modals/add-client/add-client.component';
 import {MaskDirective} from './directives/cpf-mask.directive';
 import { SearchSaleComponent } from './menu-seller/search-sale/search-sale.component';
 import { SaleDetailComponent } from './menu-seller/search-sale/sale-detail/sale-detail.component';
-import {PopoverModule, TypeaheadModule} from 'ngx-bootstrap';
+import {PopoverModule, TypeaheadModule, ButtonsModule} from 'ngx-bootstrap';
 import { WithdrawComponent } from './menu-seller/withdraw/withdraw.component';
 import {CurrencyMaskModule} from 'ng2-currency-mask';
 import { StockTransferComponent } from './menu-seller/stock-transfer/stock-transfer.component';
@@ -33,15 +33,23 @@ import {
     MatDatepickerModule,
     MatFormFieldModule,
     MatNativeDateModule,
-    MatInputModule, MAT_DATE_LOCALE
+    MatInputModule,
+    MatTabsModule,
+    MatSelectModule,
+    MAT_DATE_LOCALE
 } from '@angular/material';
 import { ReportComponent } from './menu-seller/report/report.component';
 import {DatePipe} from '@angular/common';
 import { PaymentReportComponent } from './menu-seller/report/payment-report/payment-report.component';
 import { ProductReportComponent } from './menu-seller/report/product-report/product-report.component';
-import {PaymentPipe} from './pipes/utils-pipe.pipe';
+import {NameOrUsernamePipe, PaymentPipe, WithdrawInOrOutPipe} from './pipes/utils-pipe.pipe';
 import { OrderComponent } from './menu-seller/sale/order/order.component';
 import {SaleCommunicationService} from './services/sale-communication.service';
+import { WithdrawHistoryComponent } from './menu-seller/withdraw/withdraw-history/withdraw-history.component';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
+import { CheckOrdersComponent } from './menu-seller/check-orders/check-orders.component';
+import { SaleReportComponent } from './menu-seller/report/sale-report/sale-report.component';
 
 @NgModule({
     declarations: [
@@ -68,7 +76,12 @@ import {SaleCommunicationService} from './services/sale-communication.service';
         PaymentReportComponent,
         ProductReportComponent,
         PaymentPipe,
-        OrderComponent
+        WithdrawInOrOutPipe,
+        NameOrUsernamePipe,
+        OrderComponent,
+        WithdrawHistoryComponent,
+        CheckOrdersComponent,
+        SaleReportComponent
     ],
     imports: [
         BrowserModule,
@@ -81,10 +94,14 @@ import {SaleCommunicationService} from './services/sale-communication.service';
         MatDatepickerModule,
         MatFormFieldModule,
         MatNativeDateModule,
+        MatSelectModule,
         MatInputModule,
+        MatTabsModule,
         PopoverModule.forRoot(),
+        ButtonsModule.forRoot(),
         CurrencyMaskModule,
-        TypeaheadModule.forRoot()
+        TypeaheadModule.forRoot(),
+        InfiniteScrollModule
     ],
     providers: [MatDialog, MatDatepickerModule, DatePipe, {provide: MAT_DATE_LOCALE, useValue: 'en-GB'}],
     bootstrap: [AppComponent],
@@ -93,7 +110,8 @@ import {SaleCommunicationService} from './services/sale-communication.service';
         DiscountComponent,
         AddClientComponent,
         SaleDetailComponent,
-        WithdrawComponent
+        WithdrawComponent,
+        WithdrawHistoryComponent
     ]
 })
 export class AppModule {

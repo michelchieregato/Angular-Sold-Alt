@@ -1,0 +1,101 @@
+<app-loading-mask [loading]="loading"></app-loading-mask>
+<div class="main-content">
+    <mat-tab-group>
+        <mat-tab label="Por Encomenda">
+            <div class="large-box mat-elevation-z4">
+                <div class="flex-container column-direction">
+                    <mat-form-field class="flex-end">
+                        <mat-select placeholder="Loja" [(value)]="storeSelected"
+                                    (selectionChange)="changeStoreFilter()">
+                            <mat-option *ngFor="let store of stores" [value]="store">
+                                {{ store }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <table class="table odd">
+                        <thead>
+                        <tr>
+                            <th class="static-200">Cod.</th>
+                            <th class="static-200">Data</th>
+                            <th class="static-200">CPF</th>
+                            <th class="static-400">Cliente</th>
+                            <th class="static-150">Loja</th>
+                            <th class="static-200">Valor</th>
+                            <th class="static-150">Enc.</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let sale of displaySales">
+                            <td class="static-200">
+                                <img src="assets/images/plus-icon.png" (click)="openSaleDetailModal(sale)">
+                                {{ sale.id }}
+                            </td>
+                            <td class="static-200">
+                                {{ sale.datetime | date : 'short'}}
+                            </td>
+                            <td class="static-200">
+                                {{ sale.client.cpf }}
+                            </td>
+                            <td class="static-400">
+                                {{ sale.client.name }}
+                            </td>
+                            <td class="static-150">
+                                {{ sale.store }}
+                            </td>
+                            <td class="static-200">
+                                {{ sale.value | currency : 'BRL' }}
+                            </td>
+                            <td class="static-150">
+                                <!--TODO Melhorar a imagem-->
+                                <img src="assets/images/checkmark.jpg" *ngIf="sale.finish_later">
+                                <img src="assets/images/not.png" *ngIf="!sale.finish_later">
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <button class="btn btn-orange flex-end" (click)="generateOrderSaleReport()">
+                        Gerar relatório
+                    </button>
+                </div>
+            </div>
+        </mat-tab>
+        <mat-tab label="Por Produtos">
+            <div class="large-box mat-elevation-z4">
+                <div class="flex-container column-direction">
+                    <mat-form-field class="flex-end">
+                        <mat-select placeholder="Loja" [(value)]="storeSelected"
+                                    (selectionChange)="changeStoreFilter()">
+                            <mat-option *ngFor="let store of stores" [value]="store">
+                                {{ store }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <table class="table odd">
+                        <thead>
+                        <tr>
+                            <th class="static-500">Produto</th>
+                            <th class="static-300">Tamanho</th>
+                            <th class="static-300">Quantidade</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let product of orderProducts">
+                            <td class="static-500">
+                                {{ product.product.name }}
+                            </td>
+                            <td class="static-300">
+                                {{ product.product.size }}
+                            </td>
+                            <td class="static-300">
+                                {{ product.quantity }}
+                            </td>
+                        </tbody>
+                    </table>
+                    <button class="btn btn-orange flex-end" (click)="generateOrderReport()">
+                        Gerar relatório
+                    </button>
+                </div>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+</div>

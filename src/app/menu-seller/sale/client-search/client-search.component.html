@@ -36,18 +36,18 @@
                 <table class="table odd">
                     <thead>
                     <tr>
-                        <th class="static-400">Nome</th>
-                        <th class="static-200">CPF</th>
-                        <th class="static-300">Email</th>
+                        <th class="static-500">Nome</th>
+                        <th class="static-300">CPF</th>
+                        <th class="static-400">Email</th>
                     </tr>
                     </thead>
                 </table>
                 <table class="table odd able-click">
                     <tbody>
                         <tr *ngFor="let client of clients; let i of index" (click)="selectClient(client, i)" [class.active]="i == selectedRow">
-                            <td class="static-400"> {{ client.name }} </td>
-                            <td class="static-200"> {{ client.cpf }} </td>
-                            <td class="static-300"> {{ client.email }} </td>
+                            <td class="static-500"> {{ client.name }} </td>
+                            <td class="static-300"> {{ client.cpf }} </td>
+                            <td class="static-400"> {{ client.email }} </td>
                         </tr>
                     </tbody>
                 </table>

@@ -1,0 +1,49 @@
+<app-loading-mask [loading]="loading"></app-loading-mask>
+<div class="h-text orange">
+    <h1>
+        Histórico de Sangria
+    </h1>
+</div>
+
+<div class="modal-body flex-container column-direction">
+    <div class="flex-container btn-container">
+        <button class="btn btn-orange" name="withdraws" [(ngModel)]="withdraws"
+                btnCheckbox (click)="search()">
+            Retiradas
+        </button>
+
+        <button class="btn btn-orange" [(ngModel)]="deposits" name="deposits" btnCheckbox (click)="search()">
+            Depositos
+        </button>
+
+        <button class="btn btn-orange" [(ngModel)]="sales" name="sales" btnCheckbox (click)="search()">
+            Vendas
+        </button>
+    </div>
+    <table class="table odd table-payment">
+        <thead>
+        <tr>
+            <th class="static-200">Data</th>
+            <th class="static-200">Usuario</th>
+            <th class="static-200">Tipo</th>
+            <th class="static-200">Movimento</th>
+            <th class="static-200">Valor</th>
+        </tr>
+        </thead>
+        <tbody infiniteScroll
+               class="scroll"
+               [infiniteScrollDistance]="1"
+               (scrolled)="onScroll()"
+               [fromRoot]="true"
+               [alwaysCallback]="true"
+               [infiniteScrollContainer]="selector">
+        <tr *ngFor="let history of withdrawHistory">
+            <td class="static-200">{{ history.date | date : 'short' }}</td>
+            <td class="static-200">{{ history.user | nameOrUsername }}</td>
+            <td class="static-200">{{ history.type }}</td>
+            <td class="static-200">{{ history.withdraw }}</td>
+            <td class="static-200">{{ history.withdraw | withdrawInOrOut }} {{ history.quantity | currency: 'BRL' }}
+            </td>
+        </tbody>
+    </table>
+</div>

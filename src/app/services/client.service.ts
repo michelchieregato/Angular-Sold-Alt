@@ -64,7 +64,11 @@ export class ClientService {
     }
 
     getSales(params: any) {
-        params['store'] = store;
+        if (!params.store) {
+            params.store = store;
+        } else if (params.store === 'Todas') {
+            params['store'] = '';
+        }
         return this.http.get<Sale[]>(remote.getGlobal('default_url') + 'sale/', {params: params}).map(
             (response) => {
                 return response.map(p => new Sale(p));
@@ -96,6 +100,17 @@ export class ClientService {
         return this.http.post(remote.getGlobal('default_url') + 'withdraw_history/', params);
     }
 
+    getWithdrawHistory(page: number, params: any) {
+        params['store'] = store;
+        return this.http.get(remote.getGlobal('default_url') + 'withdraw_history/?page=' + page,
+            {params: params}).map(
+            (next) => {
+                console.log(next);
+                return next['results'];
+            }
+        );
+    }
+
     updateStock(params: any) {
         user = remote.getGlobal('user');
         params['from_store'] = store;
@@ -112,4 +127,5 @@ export class ClientService {
         params['store'] = store;
         return this.http.get(remote.getGlobal('default_url') + 'reports/report_by_products', {params: params});
     }
+
 }

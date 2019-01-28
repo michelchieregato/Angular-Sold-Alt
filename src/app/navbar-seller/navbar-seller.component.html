@@ -2,34 +2,34 @@
 <html lang="en">
 
 <div class="clearfix">
-  <h1 class="h-text orange clearfix">
-    <img alt="O" id="nav-img" src="assets/images/options.png" (click)="open = !open">
-    {{ title }}
-  </h1>
+    <h1 class="h-text orange clearfix">
+        <img alt="O" id="nav-img" src="assets/images/options.png" (click)="open = !open">
+        {{ title }}
+    </h1>
 </div>
 
 <div class="total" [ngClass]="{block: open}" (click)="onDrawer($event)">
-  <div class="vertical-menu" [ngClass]="{open_drawer: open}">
-    <div class="border-orange">
-      <div class="btn-group btn-group-justified">
-        <a [routerLink]="['/seller/menu']" class="btn" id="menu">Menu</a>
-      </div>
-      <div class="btn-group btn-group-justified">
-        <a href="#" class="btn" id="withdraw">Fazer Sangria</a>
-      </div>
-      <div class="btn-group btn-group-justified">
-        <a href="#" class="btn" id="storage">Transferir Estoque</a>
-      </div>
-      <div class="btn-group btn-group-justified">
-        <a [routerLink]="['/seller/search-sale']" class="btn " id="search-sale">Pesquisar Venda</a>
-      </div>
-      <div class="btn-group btn-group-justified">
-        <a href="#" class="btn " id="reports-menu">Ver Relatórios</a>
-      </div>
-      <div class="btn-group btn-group-justified">
-        <a href="#" class="btn" id="sair"> Sair</a>
-      </div>
+    <div class="vertical-menu" [ngClass]="{open_drawer: open}">
+        <div class="border-orange">
+            <div class="btn-group btn-group-justified">
+                <a [routerLink]="['/seller/menu']" class="btn" id="menu">Menu</a>
+            </div>
+            <div class="btn-group btn-group-justified">
+                <a [routerLink]="['/seller/stock-transfer']" class="btn" id="storage">Transferir Estoque</a>
+            </div>
+            <div class="btn-group btn-group-justified">
+                <a [routerLink]="['/seller/search-sale']" class="btn " id="search-sale">Pesquisar Venda</a>
+            </div>
+            <div class="btn-group btn-group-justified">
+                <a [routerLink]="['/seller/report']" class="btn " id="reports-menu">Ver Relatórios</a>
+            </div>
+            <div class="btn-group btn-group-justified">
+                <a [routerLink]="['/seller/check-orders']" class="btn " >Ver Encomendas</a>
+            </div>
+            <div class="btn-group btn-group-justified">
+                <a href="#" class="btn" id="sair"> Sair</a>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 </html>

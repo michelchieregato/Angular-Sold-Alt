@@ -265,6 +265,20 @@ button.orange {
     margin-left: 10px;
 }
 
+// General
 .inline-block {
     display: inline-block;
 }
+
+.flex-container {
+    display: flex;
+
+    &.row-direction {
+        flex-direction: row;
+    }
+
+    &.column-direction {
+        flex-direction: column;
+    }
+}
+

@@ -1,0 +1,31 @@
+@import "~src/_variables.scss";
+
+table tbody {
+    height: 300px;
+}
+
+.modal-body {
+    margin: 15px auto;
+    width: 90%;
+}
+
+.btn-container {
+    margin: 20px 0;
+    justify-content: space-around;
+
+    .btn {
+        border: 2px solid $primary-color;
+
+        &.active {
+            background-color: white;
+            color: $primary-color;
+            border: 2px solid $primary-color;
+        }
+
+        &:focus {
+            outline: none;
+            box-shadow: none;
+        }
+    }
+
+}

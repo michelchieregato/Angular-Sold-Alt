@@ -3,7 +3,6 @@ import {NgForm} from '@angular/forms';
 import {ClientService} from '../../services/client.service';
 import {Sale} from '../../models/sale.model';
 import {formatDate} from '@angular/common';
-import {DiscountComponent} from '../sale/discount/discount.component';
 import {MatDialog} from '@angular/material/dialog';
 import {SaleDetailComponent} from './sale-detail/sale-detail.component';
 
@@ -18,7 +17,9 @@ export class SearchSaleComponent implements OnInit {
     final_date = new Date();
     disabled = false;
 
-    constructor(private clientServer: ClientService, @Inject(LOCALE_ID) private locale: string, public dialog: MatDialog) {
+    constructor(private clientServer: ClientService,
+                @Inject(LOCALE_ID) private locale: string,
+                public dialog: MatDialog) {
     }
 
     ngOnInit() {

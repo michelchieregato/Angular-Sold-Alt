@@ -35,7 +35,7 @@ export class FinishSaleComponent implements OnInit {
     cashReceived = 0;
     cashToReceive = 0;
     change = 0;
-    addPayment = 0;
+    addPayment: any = 0;
     sending = false;
     withdrawUpdated = {money: 0, checkbook: 0};
     type: number;
@@ -138,9 +138,9 @@ export class FinishSaleComponent implements OnInit {
     }
 
     addToSale() {
-        // if (typeof (this.addPayment) === 'string') {
-        //     this.addPayment = parseFloat(this.addPayment.replace(',', '.'));
-        // }
+        if (typeof (this.addPayment) === 'string') {
+            this.addPayment = parseFloat(this.addPayment.replace(',', '.'));
+        }
         if (!this.addPayment) {
             return;
         }

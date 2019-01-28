@@ -118,7 +118,7 @@
                 <th class="static-300"></th>
                 <th class="static-200"></th>
                 <th class="static-200">Total:</th>
-                <th class="static-100">R$ {{ total | async | number : '1.2-2' }}</th>
+                <th class="static-100">{{ total | async | currency: 'BRL'}}</th>
             </tr>
             </tfoot>
         </table>
