@@ -29,15 +29,12 @@ import { WithdrawComponent } from './menu-seller/withdraw/withdraw.component';
 import {CurrencyMaskModule} from 'ng2-currency-mask';
 import { StockTransferComponent } from './menu-seller/stock-transfer/stock-transfer.component';
 import { TaxCupomComponent } from './tax-cupom/tax-cupom.component';
-import {
-    MatDatepickerModule,
-    MatFormFieldModule,
-    MatNativeDateModule,
-    MatInputModule,
-    MatTabsModule,
-    MatSelectModule,
-    MAT_DATE_LOCALE
-} from '@angular/material';
+import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTabsModule } from '@angular/material/tabs';
 import { ReportComponent } from './menu-seller/report/report.component';
 import {DatePipe} from '@angular/common';
 import { PaymentReportComponent } from './menu-seller/report/payment-report/payment-report.component';
