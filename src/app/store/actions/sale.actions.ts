@@ -1,8 +1,6 @@
 import {Action} from '@ngrx/store';
 import {Client} from '../../models/client.model';
 import {Sale} from '../../models/sale.model';
-import {Product} from '../../models/product.model';
-import * as _ from 'lodash';
 
 export enum SaleEnumActions {
     ADD_CLIENT = 'ADD_CLIENT',

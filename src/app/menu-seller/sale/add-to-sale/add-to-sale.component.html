@@ -95,7 +95,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let product of (saleProducts | async)">
+            <tr *ngFor="let product of sale.products">
                 <td class="static-400">
                     <span class="del" (click)="removeProduct(product.id)">
                         <i class="fas fa-trash-alt"></i>

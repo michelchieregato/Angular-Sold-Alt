@@ -58,7 +58,6 @@ export class FinishSaleComponent implements OnInit {
             (sale) => {
                 this.sale = new Sale(sale);
                 console.log(sale);
-                this.sale.value = this.roundTo(sale.original_value * (1 - sale.discount / 100), 2);
                 this.cashToReceive = (this.sale.value - this.cashReceived) > 0 ? (this.sale.value - this.cashReceived) : 0;
                 this.cashToReceive = this.roundTo(this.cashToReceive, 2);
                 this.change = (this.sale.value - this.cashReceived) < 0 ? -1 * (this.sale.value - this.cashReceived) : 0;

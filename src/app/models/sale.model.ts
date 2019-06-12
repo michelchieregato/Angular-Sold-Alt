@@ -1,5 +1,6 @@
 import {User} from './user.model';
 import {Client} from './client.model';
+import {Product} from './product.model';
 
 export class Sale {
     id: number;
@@ -26,6 +27,43 @@ export class Sale {
         this.products = saleInfo.products || [];
         this.discount = saleInfo.discount;
         this.payments = saleInfo.payments || [];
+    }
+
+    private getProductOnSaleList(id) {
+        return this.products.filter(saleProduct => {
+            return saleProduct.id === id;
+        });
+    }
+
+    private getSaleValue() {
+        if (this.products.length) {
+            this.original_value = Math.round(this.products.map(saleProduct => {
+                return (saleProduct.quantity * saleProduct.price_sell);
+            }).reduce((a, b) => {
+                return a + b;
+            }) * 100) / 100;
+        } else {
+            this.original_value = 0;
+        }
+    }
+
+    public addProduct(product: Product, qnt: number) {
+        const getProduct = this.getProductOnSaleList(product.id);
+        if (getProduct.length) {
+            getProduct[0].quantity += qnt;
+            this.products = [...this.products];
+        } else {
+            product.quantity = qnt;
+            this.products = [...this.products, product];
+        }
+        this.getSaleValue();
+    }
+
+    public removeProduct(id: number) {
+        this.products = this.products.filter(saleProduct => {
+            return saleProduct.id !== id;
+        });
+        this.getSaleValue();
     }
 
     public prepareToSendSale(paymentsList, new_: boolean) {
@@ -58,7 +96,7 @@ export class Sale {
 
         return {
             id: this.id,
-            client: this.client.id === 0 ? 1 : this.client.id ,
+            client: this.client.id === 0 ? 1 : this.client.id,
             user: this.user.id,
             store: this.store,
             original_value: this.original_value,

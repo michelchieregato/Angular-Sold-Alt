@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, DoCheck, KeyValueDiffer, KeyValueDiffers, OnChanges, OnInit} from '@angular/core';
 import {Product} from '../../../models/product.model';
 import {ClientService} from '../../../services/client.service';
 import {select, Store} from '@ngrx/store';
-import {AddProduct, MovePage, RemoveProduct, RestartSale} from '../../../store/actions/sale.actions';
+import {MovePage, RestartSale, UpdateFullSale} from '../../../store/actions/sale.actions';
 import {MatDialog} from '@angular/material/dialog';
 import {AppState} from '../../../store/state/app.state';
 import {selectProducts, selectSale, selectTotal} from '../../../store/selectors/sale.selectors';
@@ -18,18 +18,24 @@ const async = require('async');
     templateUrl: './add-to-sale.component.html',
     styleUrls: ['./add-to-sale.component.scss']
 })
-export class AddToSaleComponent implements OnInit {
+export class AddToSaleComponent implements OnInit, DoCheck {
     sale: Sale;
     products = [];
     displayProducts = [];
     product = new Product({});
-    saleProducts = this.store.pipe(select(selectProducts));
     total = this.store.pipe(select(selectTotal));
     saleObserver = this.store.pipe(select(selectSale));
-    productsOnSale = [];
+    saleDiffer: KeyValueDiffer<any, any>;
     qnt = 1;
     ready = false;
     new = false;
+
+    constructor(private clientServer: ClientService, private store: Store<AppState>,
+                public dialog: MatDialog, private _differs: KeyValueDiffers) {
+        this.sale = new Sale({});
+        this.saleDiffer = this._differs.find(this.sale).create();
+    }
+
 
     ngOnInit() {
         async.parallel({
@@ -61,14 +67,6 @@ export class AddToSaleComponent implements OnInit {
                 this.ready = true;
             });
 
-
-        this.saleProducts.subscribe(
-            (products) => {
-                this.productsOnSale = products;
-
-            }
-        );
-
         this.saleObserver.subscribe(
             (sale) => {
                 this.sale = new Sale(sale);
@@ -77,7 +75,11 @@ export class AddToSaleComponent implements OnInit {
         );
     }
 
-    constructor(private clientServer: ClientService, private store: Store<AppState>, public dialog: MatDialog) {
+    ngDoCheck() {
+        const changes = this.saleDiffer.diff(this.sale);
+        if (changes) {
+            this.store.dispatch(new UpdateFullSale(this.sale));
+        }
     }
 
     updatePanel(product) {
@@ -105,19 +107,16 @@ export class AddToSaleComponent implements OnInit {
     }
 
     addProduct() {
-        this.store.dispatch(new AddProduct({
-            product: this.product,
-            qnt: this.qnt
-        }));
+        this.sale.addProduct(this.product, this.qnt);
         this.qnt = 1;
     }
 
     removeProduct(id: number) {
-        this.store.dispatch(new RemoveProduct(id));
+        this.sale.removeProduct(id);
     }
 
     endSale(isOrder) {
-        if (!this.productsOnSale.length) {
+        if (!this.sale.products.length) {
             this.dialog.open(PopupComponent, {
                 height: '400px',
                 width: '500px',

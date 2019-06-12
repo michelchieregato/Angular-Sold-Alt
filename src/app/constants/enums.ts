@@ -9,3 +9,11 @@ export enum WithdrawChoices {
     S = 'Venda',
     W = 'Retirada'
 }
+
+export enum PaymentMethod {
+    Money = 'Dinheiro',
+    Checkbook = 'Cheque',
+    Debit = 'Debito',
+    Credit = 'Credito',
+    Transfer = 'Transferencia'
+}
