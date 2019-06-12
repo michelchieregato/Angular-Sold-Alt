@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Product} from '../models/product.model';
-import 'rxjs-compat/add/operator/map';
 import {Client} from '../models/client.model';
 import {Sale} from '../models/sale.model';
 import {Withdraw} from '../models/withdraw.model';
+import {map} from 'rxjs/operators';
 
 declare const window: any;
 const {remote} = window.require('electron');
@@ -22,11 +22,11 @@ export class ClientService {
     }
 
     getProducts() {
-        return this.http.get<Product[]>(remote.getGlobal('default_url') + 'product/').map(
+        return this.http.get<Product[]>(remote.getGlobal('default_url') + 'product/').pipe(map(
             (response) => {
                 return response.map(p => new Product(p));
             }
-        );
+        ));
     }
 
     getStockProduct(id: number) {
@@ -34,10 +34,10 @@ export class ClientService {
     }
 
     getClients(query: string) {
-        return this.http.get<Client[]>(remote.getGlobal('default_url') + 'client/', {params: {'search': query}}).map(
+        return this.http.get<Client[]>(remote.getGlobal('default_url') + 'client/', {params: {'search': query}}).pipe(map(
             (response) => {
                 return response.map(p => new Client(p));
-            }
+            })
         );
     }
 
@@ -50,11 +50,11 @@ export class ClientService {
         store = remote.getGlobal('store');
         sale['user'] = user.id;
         sale['store'] = store;
-        return this.http.post(remote.getGlobal('default_url') + 'sale/', sale).map(
+        return this.http.post(remote.getGlobal('default_url') + 'sale/', sale).pipe(map(
             (response) => {
                 return response;
             }
-        );
+        ));
     }
 
     updateSaleFromOrder(sale: any) {
@@ -72,10 +72,10 @@ export class ClientService {
         } else if (params.store === 'Todas') {
             params['store'] = '';
         }
-        return this.http.get<Sale[]>(remote.getGlobal('default_url') + 'sale/', {params: params}).map(
+        return this.http.get<Sale[]>(remote.getGlobal('default_url') + 'sale/', {params: params}).pipe(map(
             (response) => {
                 return response.map(p => new Sale(p));
-            }
+            })
         );
     }
 
@@ -86,11 +86,11 @@ export class ClientService {
     getWithdrawInformation(params: any) {
         store = remote.getGlobal('store');
         params['store'] = store;
-        return this.http.get(remote.getGlobal('default_url') + 'withdraw/0/', {params: params}).map(
+        return this.http.get(remote.getGlobal('default_url') + 'withdraw/0/', {params: params}).pipe(map(
             (response) => {
                 return new Withdraw(response);
             }
-        );
+        ));
     }
 
     updateWithdraw(params: Withdraw) {
