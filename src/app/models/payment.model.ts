@@ -16,11 +16,15 @@ export class SalePayments {
     cashReceived: number = 0;
     cashToReceive: number = 0;
     change: number = 0;
-    payments: Array<Payment> = [];
+    payments: Payment[] = [];
 
     constructor(sale) {
         this.sale = sale;
         this.sale.value = this.roundTo(sale.original_value * (1 - sale.discount / 100), 2);
+        this.cashToReceive = (this.sale.value - this.cashReceived) > 0 ? (this.sale.value - this.cashReceived) : 0;
+        this.cashToReceive = this.roundTo(this.cashToReceive, 2);
+        this.change = (this.sale.value - this.cashReceived) < 0 ? -1 * (this.sale.value - this.cashReceived) : 0;
+        this.change = this.roundTo(this.change, 2);
     }
 
     private roundTo(n, digits) {

@@ -1,4 +1,3 @@
-///<reference path="../../node_modules/@angular/common/src/pipes/date_pipe.d.ts"/>
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {AppRoutingModule} from './app-routing.module';

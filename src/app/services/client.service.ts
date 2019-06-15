@@ -109,12 +109,12 @@ export class ClientService {
         store = remote.getGlobal('store');
         params['store'] = store;
         return this.http.get(remote.getGlobal('default_url') + 'withdraw_history/?page=' + page,
-            {params: params}).map(
+            {params: params}).pipe(map(
             (next) => {
                 console.log(next);
                 return next['results'];
             }
-        );
+        ));
     }
 
     updateStock(params: any) {

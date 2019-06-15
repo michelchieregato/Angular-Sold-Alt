@@ -14,6 +14,7 @@ import {Withdraw} from '../../../models/withdraw.model';
 import {UpdateCheckbookWithdraw, UpdateMoneyWithdraw} from '../../../store/actions/withdraw.actions';
 import {TypeOfSale} from '../../../constants/enums';
 import {SaleCommunicationService} from '../../../services/sale-communication.service';
+import {SalePayments} from '../../../models/payment.model';
 
 declare const window: any;
 const {ipcRenderer, remote} = window.require('electron');
@@ -37,6 +38,7 @@ export class FinishSaleComponent implements OnInit {
     change = 0;
     addPayment: any = 0;
     sending = false;
+    salePayment: SalePayments;
     withdrawUpdated = {money: 0, checkbook: 0};
     type: number;
 
@@ -57,11 +59,7 @@ export class FinishSaleComponent implements OnInit {
         this.saleObserver.subscribe(
             (sale) => {
                 this.sale = new Sale(sale);
-                console.log(sale);
-                this.cashToReceive = (this.sale.value - this.cashReceived) > 0 ? (this.sale.value - this.cashReceived) : 0;
-                this.cashToReceive = this.roundTo(this.cashToReceive, 2);
-                this.change = (this.sale.value - this.cashReceived) < 0 ? -1 * (this.sale.value - this.cashReceived) : 0;
-                this.change = this.roundTo(this.change, 2);
+                this.salePayment = new SalePayments(this.sale);
                 this.addPayment = this.cashToReceive;
             }
         );
