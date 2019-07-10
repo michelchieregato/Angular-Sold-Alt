@@ -137,4 +137,10 @@ export class ClientService {
         return this.http.get(remote.getGlobal('default_url') + 'reports/report_by_products', {params: params});
     }
 
+    addWithdraw(params: any) {
+        store = remote.getGlobal('store');
+        params['store'] = store;
+        return this.http.put(remote.getGlobal('default_url') + 'withdraw/add_withdraw/', {...params});
+    }
+
 }

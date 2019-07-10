@@ -40,10 +40,8 @@ import { PaymentReportComponent } from './menu-seller/report/payment-report/paym
 import { ProductReportComponent } from './menu-seller/report/product-report/product-report.component';
 import {NameOrUsernamePipe, PaymentPipe, WithdrawInOrOutPipe} from './pipes/utils-pipe.pipe';
 import { OrderComponent } from './menu-seller/sale/order/order.component';
-import {SaleCommunicationService} from './services/sale-communication.service';
 import { WithdrawHistoryComponent } from './menu-seller/withdraw/withdraw-history/withdraw-history.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 import { CheckOrdersComponent } from './menu-seller/check-orders/check-orders.component';
 import { SaleReportComponent } from './menu-seller/report/sale-report/sale-report.component';
 import { ChangeStoreComponent } from './modals/change-store/change-store.component';

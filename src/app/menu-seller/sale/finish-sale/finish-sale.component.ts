@@ -31,11 +31,7 @@ export class FinishSaleComponent implements OnInit {
     moneyWithdraw: Withdraw;
     checkbookWitdraw: Withdraw;
     sale: Sale;
-    payments = [];
     btnSelected = 'Dinheiro';
-    cashReceived = 0;
-    cashToReceive = 0;
-    change = 0;
     addPayment: any = 0;
     sending = false;
     salePayment: SalePayments;
@@ -60,7 +56,7 @@ export class FinishSaleComponent implements OnInit {
             (sale) => {
                 this.sale = new Sale(sale);
                 this.salePayment = new SalePayments(this.sale);
-                this.addPayment = this.cashToReceive;
+                this.addPayment = this.salePayment.cashToReceive;
             }
         );
 
@@ -70,24 +66,6 @@ export class FinishSaleComponent implements OnInit {
                 this.checkbookWitdraw = withdraws.CheckbookWithdraw;
             }
         );
-    }
-
-    private roundTo(n, digits) {
-        let negative = false;
-        if (digits === undefined) {
-            digits = 0;
-        }
-        if (n < 0) {
-            negative = true;
-            n = n * -1;
-        }
-        const multiplicator = Math.pow(10, digits);
-        n = parseFloat((n * multiplicator).toFixed(11));
-        n = (Math.round(n) / multiplicator).toFixed(2);
-        if (negative) {
-            n = (n * -1).toFixed(2);
-        }
-        return parseFloat(n);
     }
 
     openDiscountModal() {
@@ -107,93 +85,54 @@ export class FinishSaleComponent implements OnInit {
         this.store.dispatch(new MovePage(false));
     }
 
-    private getPaymentOnList(type) {
-        return this.payments.filter(payment => {
-            return payment.type === type;
-        });
-    }
-
-    private getCashReceivedValue() {
-        if (this.payments.length) {
-            this.cashReceived = this.payments.map(payment => {
-                return (payment.value);
-            }).reduce((a, b) => {
-                return a + b;
-            });
-        } else {
-            this.cashReceived = 0;
-        }
-        this.change = (this.sale.value - this.cashReceived) < 0 ? -1 * (this.sale.value - this.cashReceived) : 0;
-        this.cashToReceive = (this.sale.value - this.cashReceived) > 0 ? (this.sale.value - this.cashReceived) : 0;
-    }
-
     removePayment(type: string) {
-        this.payments = this.payments.filter(payment => {
-            return payment.type !== type;
-        });
-        this.getCashReceivedValue();
+        this.salePayment.removePayment(type);
     }
 
     addToSale() {
         if (typeof (this.addPayment) === 'string') {
             this.addPayment = parseFloat(this.addPayment.replace(',', '.'));
         }
+
         if (!this.addPayment) {
             return;
         }
 
-        if (this.getPaymentOnList(this.btnSelected).length) {
-            this.getPaymentOnList(this.btnSelected)[0].value += this.addPayment;
-        } else {
-            this.payments.push({
-                'type': this.btnSelected,
-                'value': this.addPayment
-            });
-        }
-        this.getCashReceivedValue();
+        this.salePayment.addPayment(this.btnSelected, this.addPayment);
         this.addPayment = null;
     }
 
     private restartSale() {
-        this.cashReceived = 0;
-        this.cashToReceive = 0;
-        this.change = 0;
-        this.payments = [];
         this.btnSelected = 'Dinheiro';
         this.sale.value = 0;
         this.sale.original_value = 0;
+        this.salePayment = new SalePayments(this.sale);
         this.store.dispatch(new RestartSale());
         this.withdrawUpdated = {money: 0, checkbook: 0};
 
     }
 
     private updateWithdraw() {
-        this.payments.forEach((payment) => {
-            if (payment.type === 'Dinheiro') {
-                this.moneyWithdraw.quantity += payment.value - this.change;
-                this.withdrawUpdated.money = payment.value - this.change;
-                this.store.dispatch(new UpdateMoneyWithdraw(this.moneyWithdraw));
-            } else if (payment.type === 'Cheque') {
-                this.checkbookWitdraw.quantity += payment.value;
-                this.withdrawUpdated.checkbook = payment.value;
-                this.store.dispatch(new UpdateCheckbookWithdraw(this.checkbookWitdraw));
-            }
-        });
+        this.moneyWithdraw.quantity += this.salePayment.getPaymentByType('Dinheiro') - this.salePayment.change;
+        this.withdrawUpdated.money = this.salePayment.getPaymentByType('Dinheiro') - this.salePayment.change;
+        this.store.dispatch(new UpdateMoneyWithdraw(this.moneyWithdraw));
+        this.checkbookWitdraw.quantity += this.salePayment.getPaymentByType('Cheque');
+        this.withdrawUpdated.checkbook = this.salePayment.getPaymentByType('Cheque');
+        this.store.dispatch(new UpdateCheckbookWithdraw(this.checkbookWitdraw));
     }
 
     private makeTaxCupom() {
         const a = this.router.createUrlTree(['tax-cupom']);
         a.queryParams = {
             sale: JSON.stringify(this.sale),
-            payments: JSON.stringify(this.payments),
-            change: JSON.stringify(this.change)
+            payments: JSON.stringify(this.salePayment.payments),
+            change: JSON.stringify(this.salePayment.change)
         };
-        console.log(a);
         ipcRenderer.send('pdf', {'url': a.toString().substring(1)});
     }
 
     finalize() {
-        if (this.cashToReceive > 0) {
+        if (this.salePayment.isFinished()) {
             this.dialog.open(PopupComponent, {
                 height: '400px',
                 width: '500px',
@@ -215,31 +154,22 @@ export class FinishSaleComponent implements OnInit {
         this.sending = true;
         async.auto({
             finishSale: (callback) => {
-                this.clientServer.finishSale(this.sale.prepareToSendSale(this.payments, false)).subscribe(
+                this.clientServer.finishSale(this.sale.prepareToSendSale(this.salePayment.payments, false)).subscribe(
                     (success) => {
                         this.updateWithdraw();
                         callback(null, success);
                     },
                     (error) => callback(error));
             },
-            updateMoneyWithdraw: ['finishSale', (results, callback) => {
-                if (this.withdrawUpdated.money <= 0) {
+            updateWithdraw: ['finishSale', (results, callback) => {
+                if (this.withdrawUpdated.money <= 0 && this.withdrawUpdated.checkbook <= 0) {
                     callback();
                 } else {
-                    this.clientServer.updateWithdraw(this.moneyWithdraw).subscribe(
+                    this.clientServer.addWithdraw(this.withdrawUpdated).subscribe(
                         (next) => callback(null, next),
                         (error) => callback(error)
                     );
-                }
-            }],
-            updateCheckbookWithdraw: ['finishSale', (results, callback) => {
-                if (this.withdrawUpdated.checkbook <= 0) {
-                    callback();
-                } else {
-                    this.clientServer.updateWithdraw(this.checkbookWitdraw).subscribe(
-                        (next) => callback(null, next),
-                        (error) => callback(error)
-                    );
+
                 }
             }],
             updateMoneyWithdrawHistory: ['finishSale', (results, callback) => {
@@ -270,7 +200,7 @@ export class FinishSaleComponent implements OnInit {
                     );
                 }
             }]
-        }, (err, results) => {
+        }, (err) => {
             if (err) {
                 console.log(err);
                 this.dialog.open(PopupComponent, {
@@ -304,7 +234,7 @@ export class FinishSaleComponent implements OnInit {
                     );
                 } else {
                     this.sale.finish_later = false;
-                    this.clientServer.updateSaleFromOrder(this.sale.prepareToSendSale(this.payments, true)).subscribe(
+                    this.clientServer.updateSaleFromOrder(this.sale.prepareToSendSale(this.salePayment.payments, true)).subscribe(
                         (success) => callback(null, success),
                         (err) => callback(err)
                     );
@@ -313,7 +243,7 @@ export class FinishSaleComponent implements OnInit {
             updateNewSale: (callback) => {
                 if (oldSale.products.length) {
                     this.sale.finish_later = false;
-                    this.clientServer.finishSale(this.sale.prepareToSendSale(this.payments, true)).subscribe(
+                    this.clientServer.finishSale(this.sale.prepareToSendSale(this.salePayment.payments, true)).subscribe(
                         (success) => {
                             callback(null, success);
                         },

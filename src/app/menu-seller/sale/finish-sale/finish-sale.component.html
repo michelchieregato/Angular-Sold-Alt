@@ -42,7 +42,7 @@
         <div class="input-group">
             <div class="input-group-addon">$</div>
             <input type="text" class="form-control" placeholder="Valor" (keyup.enter)="addToSale()"
-                   [(ngModel)]="addPayment" >
+                   [(ngModel)]="addPayment">
         </div>
     </div>
     <p class="btn btn-default" (click)="addToSale()">Adicionar</p>
@@ -59,7 +59,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let payment of payments">
+            <tr *ngFor="let payment of salePayment.payments">
                 <td class="static-400">
                     <span class="del" (click)="removePayment(payment.type)">
                         <i class="fas fa-trash-alt"></i>
@@ -73,7 +73,7 @@
             <tfoot>
             <tr>
                 <th class="static-400">Total:</th>
-                <th class="static-200">R$ {{ cashReceived | number : '1.2-2' }}</th>
+                <th class="static-200">R$ {{ salePayment.cashReceived | number : '1.2-2' }}</th>
             </tr>
             </tfoot>
         </table>
@@ -83,20 +83,20 @@
     <div class="col-md-6 money-labels">
         <h3>
             Recebido:
-            <span [ngClass]="(cashReceived >= sale.original_value) ? 'green' : 'red'">
-                {{ cashReceived | currency : 'BRL' }}
+            <span [ngClass]="(salePayment.cashReceived >= sale.original_value) ? 'green' : 'red'">
+                {{ salePayment.cashReceived | currency : 'BRL' }}
             </span>
         </h3>
         <h3>
             Falta Receber:
             <span class="green">
-                {{ cashToReceive | currency : 'BRL' }}
+                {{ salePayment.cashToReceive | currency : 'BRL' }}
             </span>
         </h3>
         <h3>
             Troco:
             <span class="green">
-                {{ change | currency : 'BRL' }}
+                {{ salePayment.change | currency : 'BRL' }}
             </span>
         </h3>
     </div>
