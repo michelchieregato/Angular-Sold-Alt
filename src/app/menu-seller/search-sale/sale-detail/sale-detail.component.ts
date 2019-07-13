@@ -33,8 +33,8 @@ export class SaleDetailComponent implements OnInit {
             this.loading = false;
         }
         this.clientService.getSale(this.data.sale.id).subscribe(
-            (results) => {
-                this.saleProducts = results['products'];
+            (products) => {
+                this.saleProducts = products;
                 this.loading = false;
             },
             (err) => {
@@ -49,13 +49,21 @@ export class SaleDetailComponent implements OnInit {
         }
     }
 
-    finishOrder() {
+    private getUrlToGo(componentPath: string) {
         this.data.sale.products = this.saleProducts;
-        const a = this.router.createUrlTree(['sale', 'order']);
-        a.queryParams = {
+        const urlTree = this.router.createUrlTree(['sale', componentPath]);
+        urlTree.queryParams = {
             sale: JSON.stringify(this.data.sale)
         };
-        ipcRenderer.send('open-order-screen', {'url': a.toString().substring(1)});
+        return urlTree.toString().substring(1);
+    }
+
+    finishOrder() {
+        ipcRenderer.send('open-order-screen', {'url': this.getUrlToGo('order')});
+    }
+
+    tradeProducts() {
+        ipcRenderer.send('open-order-screen', {'url': this.getUrlToGo('trade')});
     }
 
     generateTaxCupom() {

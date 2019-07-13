@@ -15,16 +15,16 @@
             <tr *ngFor="let saleProduct of sale.products;" (click)="selectSaleProduct(saleProduct)"
                 [class.active]="saleProduct == selectedRow">
                 <td class="static-400">
-                    {{ saleProduct.product.name }}
+                    {{ saleProduct.name }}
                 </td>
                 <td class="static-200">
-                    {{ saleProduct.product.size }}
+                    {{ saleProduct.size }}
                 </td>
                 <td class="static-200">
                     {{ saleProduct.quantity }}
                 </td>
                 <td class="static-100">
-                    {{ saleProduct.product.price_sell | currency : 'BRL' }}
+                    {{ saleProduct.price_sell | currency : 'BRL' }}
                 </td>
             </tr>
             </tbody>
@@ -60,16 +60,16 @@
                 <tr *ngFor="let newSaleProduct of newSale.products;" (click)="selectNewSaleProduct(newSaleProduct)"
                     [class.active]="newSaleProduct == selectedNewRow">
                     <td class="static-400">
-                        {{ newSaleProduct.product.name }}
+                        {{ newSaleProduct.name }}
                     </td>
                     <td class="static-200">
-                        {{ newSaleProduct.product.size }}
+                        {{ newSaleProduct.size }}
                     </td>
                     <td class="static-200">
                         {{ newSaleProduct.quantity }}
                     </td>
                     <td class="static-100">
-                        {{ newSaleProduct.product.price_sell | currency : 'BRL' }}
+                        {{ newSaleProduct.price_sell | currency : 'BRL' }}
                     </td>
                 </tr>
                 </tbody>

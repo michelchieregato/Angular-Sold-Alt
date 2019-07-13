@@ -11,7 +11,6 @@ import {DiscountComponent} from '../discount/discount.component';
 import {Router} from '@angular/router';
 import {selectWithdraw} from '../../../store/selectors/withdraw.selectors';
 import {Withdraw} from '../../../models/withdraw.model';
-import {UpdateCheckbookWithdraw, UpdateMoneyWithdraw} from '../../../store/actions/withdraw.actions';
 import {TypeOfSale} from '../../../constants/enums';
 import {SaleCommunicationService} from '../../../services/sale-communication.service';
 import {SalePayments} from '../../../models/payment.model';
@@ -19,6 +18,7 @@ import {SalePayments} from '../../../models/payment.model';
 declare const window: any;
 const {ipcRenderer, remote} = window.require('electron');
 const async = require('async');
+
 
 @Component({
     selector: 'app-finish-sale',
@@ -54,16 +54,10 @@ export class FinishSaleComponent implements OnInit {
     ngOnInit() {
         this.saleObserver.subscribe(
             (sale) => {
+                console.log(sale)
                 this.sale = new Sale(sale);
                 this.salePayment = new SalePayments(this.sale);
                 this.addPayment = this.salePayment.cashToReceive;
-            }
-        );
-
-        this.withdrawObserver.subscribe(
-            (withdraws) => {
-                this.moneyWithdraw = withdraws.MoneyWithdraw;
-                this.checkbookWitdraw = withdraws.CheckbookWithdraw;
             }
         );
     }
@@ -113,12 +107,8 @@ export class FinishSaleComponent implements OnInit {
     }
 
     private updateWithdraw() {
-        this.moneyWithdraw.quantity += this.salePayment.getPaymentByType('Dinheiro') - this.salePayment.change;
         this.withdrawUpdated.money = this.salePayment.getPaymentByType('Dinheiro') - this.salePayment.change;
-        this.store.dispatch(new UpdateMoneyWithdraw(this.moneyWithdraw));
-        this.checkbookWitdraw.quantity += this.salePayment.getPaymentByType('Cheque');
         this.withdrawUpdated.checkbook = this.salePayment.getPaymentByType('Cheque');
-        this.store.dispatch(new UpdateCheckbookWithdraw(this.checkbookWitdraw));
     }
 
     private makeTaxCupom() {
@@ -228,13 +218,13 @@ export class FinishSaleComponent implements OnInit {
             updateOldSale: (callback) => {
                 if (oldSale.products.length) {
                     oldSale.finish_later = true;
-                    this.clientServer.updateSaleFromOrder(oldSale.prepareToSendSale([], true)).subscribe(
+                    this.clientServer.updateSaleFromOrder(oldSale.prepareToSendSale([])).subscribe(
                         (success) => callback(null, success),
                         (err) => callback(err)
                     );
                 } else {
                     this.sale.finish_later = false;
-                    this.clientServer.updateSaleFromOrder(this.sale.prepareToSendSale(this.salePayment.payments, true)).subscribe(
+                    this.clientServer.updateSaleFromOrder(this.sale.prepareToSendSale(this.salePayment.payments)).subscribe(
                         (success) => callback(null, success),
                         (err) => callback(err)
                     );
@@ -243,7 +233,7 @@ export class FinishSaleComponent implements OnInit {
             updateNewSale: (callback) => {
                 if (oldSale.products.length) {
                     this.sale.finish_later = false;
-                    this.clientServer.finishSale(this.sale.prepareToSendSale(this.salePayment.payments, true)).subscribe(
+                    this.clientServer.finishSale(this.sale.prepareToSendSale(this.salePayment.payments)).subscribe(
                         (success) => {
                             callback(null, success);
                         },
@@ -256,24 +246,15 @@ export class FinishSaleComponent implements OnInit {
                 this.updateWithdraw();
                 callback(null);
             }],
-            updateMoneyWithdraw: ['updateLocalWithdraw', (results, callback) => {
-                if (this.withdrawUpdated.money <= 0) {
+            updateWithdraw: ['updateLocalWithdraw', (results, callback) => {
+                if (this.withdrawUpdated.money <= 0 && this.withdrawUpdated.checkbook <= 0) {
                     callback();
                 } else {
-                    this.clientServer.updateWithdraw(this.moneyWithdraw).subscribe(
+                    this.clientServer.addWithdraw(this.withdrawUpdated).subscribe(
                         (next) => callback(null, next),
                         (error) => callback(error)
                     );
-                }
-            }],
-            updateCheckbookWithdraw: ['updateLocalWithdraw', (results, callback) => {
-                if (this.withdrawUpdated.checkbook <= 0) {
-                    callback();
-                } else {
-                    this.clientServer.updateWithdraw(this.checkbookWitdraw).subscribe(
-                        (next) => callback(null, next),
-                        (error) => callback(error)
-                    );
+
                 }
             }],
             updateMoneyWithdrawHistory: ['updateLocalWithdraw', (results, callback) => {

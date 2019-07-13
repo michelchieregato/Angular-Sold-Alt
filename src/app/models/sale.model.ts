@@ -11,7 +11,7 @@ export class Sale {
     original_value: number;
     value: number;
     finish_later: boolean;
-    products: any;
+    products: Array<Product>;
     payments: any;
     discount: number;
 
@@ -29,10 +29,10 @@ export class Sale {
         this.payments = saleInfo.payments || [];
     }
 
-    private getProductOnSaleList(id) {
+    public getProductOnSaleList(id) {
         return this.products.filter(saleProduct => {
             return saleProduct.id === id;
-        });
+        })[0];
     }
 
     private getSaleValue() {
@@ -49,8 +49,8 @@ export class Sale {
 
     public addProduct(product: Product, qnt: number) {
         const getProduct = this.getProductOnSaleList(product.id);
-        if (getProduct.length) {
-            getProduct[0].quantity += qnt;
+        if (getProduct) {
+            getProduct.quantity += qnt;
             this.products = [...this.products];
         } else {
             product.quantity = qnt;
@@ -59,33 +59,34 @@ export class Sale {
         this.getSaleValue();
     }
 
-    public removeProduct(id: number) {
+    public removeProduct(id: number, qnt: number) {
+        const getProduct = this.getProductOnSaleList(id);
+        if (getProduct && getProduct.quantity > qnt) {
+            getProduct.quantity -= qnt;
+            this.getSaleValue();
+        } else if (getProduct) {
+            this.removeProducts(id);
+        }
+    }
+
+    public removeProducts(id: number) {
         this.products = this.products.filter(saleProduct => {
             return saleProduct.id !== id;
         });
         this.getSaleValue();
     }
 
-    public prepareToSendSale(paymentsList, new_: boolean) {
+    public prepareToSendSale(paymentsList) {
         const saleProducts = [];
         const payments = [];
-        if (!new_) {
-            this.products.forEach(product => {
-                saleProducts.push({
-                    product: product.id,
-                    quantity: product.quantity,
-                    value: product.price_sell
-                });
+
+        this.products.forEach(product => {
+            saleProducts.push({
+                product: product.id,
+                quantity: product.quantity,
+                value: product.price_sell
             });
-        } else {
-            this.products.forEach(product => {
-                saleProducts.push({
-                    product: product.product.id,
-                    quantity: product.quantity,
-                    value: product.product.price_sell
-                });
-            });
-        }
+        });
 
         paymentsList.forEach(payment => {
             payments.push({

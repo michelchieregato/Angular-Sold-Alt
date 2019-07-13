@@ -78,6 +78,7 @@ export class AddToSaleComponent implements OnInit, DoCheck {
     ngDoCheck() {
         const changes = this.saleDiffer.diff(this.sale);
         if (changes) {
+            console.log(this.sale)
             this.store.dispatch(new UpdateFullSale(this.sale));
         }
     }
@@ -112,7 +113,7 @@ export class AddToSaleComponent implements OnInit, DoCheck {
     }
 
     removeProduct(id: number) {
-        this.sale.removeProduct(id);
+        this.sale.removeProducts(id);
     }
 
     endSale(isOrder) {

@@ -26,10 +26,10 @@
             <tbody>
             <tr *ngFor="let saleProduct of saleProducts">
                 <td class="static-400">
-                    {{ saleProduct.product.name }}
+                    {{ saleProduct.name }}
                 </td>
                 <td class="static-300">
-                    {{ saleProduct.product.size }}
+                    {{ saleProduct.size }}
                 </td>
                 <td class="static-300">
                     {{ saleProduct.quantity }}
@@ -40,9 +40,15 @@
     </div>
     <div class="modal-footer">
         <p class="btn btn-lg btn-orange"> Apagar venda </p>
-        <!--<p class="btn btn-lg btn-orange" *ngIf="!data.sale.finish_later"> Realizar Troca </p>-->
-        <p class="btn btn-lg btn-orange" *ngIf="!data.sale.finish_later" (click)="generateTaxCupom()"> Gerar relatório </p>
-        <p class="btn btn-lg btn-orange" (click)="finishOrder()" *ngIf="data.sale.finish_later"> Finalizar venda</p>
+        <p class="btn btn-lg btn-orange" *ngIf="!data.sale.finish_later" (click)="tradeProducts()">
+            Realizar Troca
+        </p>
+        <p class="btn btn-lg btn-orange" *ngIf="!data.sale.finish_later" (click)="generateTaxCupom()">
+            Gerar relatório
+        </p>
+        <p class="btn btn-lg btn-orange" (click)="finishOrder()" *ngIf="data.sale.finish_later">
+            Finalizar venda
+        </p>
     </div>
 </div>
 

@@ -1,0 +1,145 @@
+<app-loading-mask [loading]="!ready"></app-loading-mask>
+<div class="flex-container">
+    <div class="trade-container">
+        <div class="add-product-container">
+            <form class="form-inline">
+                <div class="form-group w-90">
+                    <label class="sr-only" for="produto">Novos Produtos</label>
+                    <div class="input-group w-90 pull-left">
+                        <div class="input-group-addon">
+                            <span class="icon is-small">
+                                <i class="fas fa-search"></i>
+                            </span>
+                        </div>
+                        <input class="form-control" id="produto" [(ngModel)]="typeaheadText"
+                               [typeahead]="products" typeaheadOptionField="name"
+                               [typeaheadScrollable]="true" (typeaheadOnSelect)="onTypeaheadSelect($event)"
+                               [typeaheadOptionsInScrollableView]="9" [typeaheadOptionsLimit]="99"
+                               [typeaheadItemTemplate]="customItemTemplate" placeholder="Novos Produtos"
+                                name="produtos">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-orange add-button">+</button>
+            </form>
+        </div>
+        <div class="order-container">
+            <h1>
+                Devolver para a loja
+            </h1>
+            <table class="table odd table-sale">
+                <thead>
+                <tr>
+                    <th class="static-400">Descricao</th>
+                    <th class="static-200">Tamanho</th>
+                    <th class="static-200">Qnt</th>
+                    <th class="static-100">Preço</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let returnedProduct of trade.returnedProducts;" (click)="selectSaleProduct(returnedProduct)"
+                    [class.active]="returnedProduct == selectedRow">
+                    <td class="static-400">
+                        {{ returnedProduct.name }}
+                    </td>
+                    <td class="static-200">
+                        {{ returnedProduct.size }}
+                    </td>
+                    <td class="static-200">
+                        {{ returnedProduct.quantity }}
+                    </td>
+                    <td class="static-100">
+                        {{ returnedProduct.price_sell | currency : 'BRL' }}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="buttons-container">
+        <button class="btn btn-default" (click)="transferOneObject(true)">
+            >
+        </button>
+        <button class="btn btn-default" (click)="transferAllObjects(true)">
+            >>
+        </button>
+        <button class="btn btn-default" (click)="transferOneObject(false)">
+            <
+        </button>
+        <button class="btn btn-default" (click)="transferAllObjects(false)">
+            <<
+        </button>
+    </div>
+    <div class="sale-container">
+        <div class="p-table">
+            <h1>
+                Produtos (Manter na Venda)
+            </h1>
+            <table class="table odd table-sale">
+                <thead>
+                <tr>
+                    <th class="static-400">Descricao</th>
+                    <th class="static-200">Tamanho</th>
+                    <th class="static-200">Qnt</th>
+                    <th class="static-100">Preço</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let keepProduct of keepProducts;" (click)="selectNewSaleProduct(keepProduct)"
+                    [class.active]="keepProduct == selectedNewRow">
+                    <td class="static-400">
+                        {{ keepProduct.name }}
+                    </td>
+                    <td class="static-200">
+                        {{ keepProduct.size }}
+                    </td>
+                    <td class="static-200">
+                        {{ keepProduct.quantity }}
+                    </td>
+                    <td class="static-100">
+                        {{ keepProduct.price_sell | currency : 'BRL' }}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="p-table">
+            <h1>
+                Produtos (Adicionar a venda)
+            </h1>
+            <table class="table odd table-sale">
+                <thead>
+                <tr>
+                    <th class="static-400">Descricao</th>
+                    <th class="static-200">Tamanho</th>
+                    <th class="static-200">Qnt</th>
+                    <th class="static-100">Preço</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let purchasedProduct of trade.purchasedProducts;" (click)="selectNewSaleProduct(purchasedProduct)"
+                    [class.active]="purchasedProduct == selectedNewRow">
+                    <td class="static-400">
+                        {{ purchasedProduct.name }}
+                    </td>
+                    <td class="static-200">
+                        {{ purchasedProduct.size }}
+                    </td>
+                    <td class="static-200">
+                        {{ purchasedProduct.quantity }}
+                    </td>
+                    <td class="static-100">
+                        {{ purchasedProduct.price_sell | currency : 'BRL' }}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <button class="btn orange" (click)="endSale()">
+            Finaliza venda
+        </button>
+    </div>
+</div>
+
+<ng-template #customItemTemplate let-model="item" let-index="index">
+    <h5>{{ model.name }} {{ model.size }}</h5>
+</ng-template>

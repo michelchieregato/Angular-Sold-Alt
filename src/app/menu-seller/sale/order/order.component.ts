@@ -7,13 +7,9 @@ import {SaleCommunicationService} from '../../../services/sale-communication.ser
 import {Store} from '@ngrx/store';
 import {AppState} from '../../../store/state/app.state';
 import {AddClient, MovePage, UpdateFullSale} from '../../../store/actions/sale.actions';
-import {UpdateCheckbookWithdraw, UpdateMoneyWithdraw} from '../../../store/actions/withdraw.actions';
-import {Withdraw} from '../../../models/withdraw.model';
-import {ClientService} from '../../../services/client.service';
 import {PopupComponent} from '../../../modals/popup/popup.component';
 import {MatDialog} from '@angular/material/dialog';
-
-const async = require('async');
+import {Product} from '../../../models/product.model';
 
 @Component({
     selector: 'app-order',
@@ -23,52 +19,33 @@ const async = require('async');
 export class OrderComponent implements OnInit {
     sale: Sale;
     newSale;
-    selectedRow;
+    selectedRow: Product;
     selectedNewRow;
     ready = false;
 
     constructor(private router: ActivatedRoute, private saleCommunicationService: SaleCommunicationService,
-                private store: Store<AppState>, private clientServer: ClientService, public dialog: MatDialog) {
+                private store: Store<AppState>, public dialog: MatDialog) {
     }
 
     ngOnInit() {
         this.sale = new Sale(JSON.parse(this.router.snapshot.queryParams.sale));
         this.store.dispatch(new AddClient(this.sale.client));
         this.newSale = new Sale({});
-
-        async.parallel({
-                money: (callback) => {
-                    this.clientServer.getWithdrawInformation({name: 'Dinheiro'}).subscribe(
-                        (success) => {
-                            callback(null, success);
-                        });
-                },
-                checkbook: (callback) => {
-                    this.clientServer.getWithdrawInformation({name: 'Cheque'}).subscribe(
-                        (success) => {
-                            callback(null, success);
-                        });
-                }
-            },
-            (err, results) => {
-                this.ready = true;
-                this.store.dispatch(new UpdateMoneyWithdraw(new Withdraw(results.money)));
-                this.store.dispatch(new UpdateCheckbookWithdraw(new Withdraw(results.checkbook)));
-            });
+        this.ready = true;
     }
 
-    selectSaleProduct(i) {
-        if (this.selectedRow !== i) {
-            this.selectedRow = i;
+    selectSaleProduct(product: Product) {
+        if (this.selectedRow !== product) {
+            this.selectedRow = product;
             this.selectedNewRow = undefined;
         } else {
             this.selectedRow = undefined;
         }
     }
 
-    selectNewSaleProduct(i) {
-        if (this.selectedNewRow !== i) {
-            this.selectedNewRow = i;
+    selectNewSaleProduct(product: Product) {
+        if (this.selectedNewRow !== product) {
+            this.selectedNewRow = product;
             this.selectedRow = undefined;
         } else {
             this.selectedNewRow = undefined;
@@ -89,43 +66,17 @@ export class OrderComponent implements OnInit {
 
     transferOneObject(forward: boolean) {
         if (forward && this.selectedRow) {
-            const hasInNewSale = _.some(_.map(this.newSale.products, 'product'), this.selectedRow.product);
-            this.selectedRow.quantity -= 1;
-            if (!hasInNewSale) {
-                this.newSale.products.push({
-                    quantity: 1,
-                    value: this.selectedRow.value,
-                    product: {...this.selectedRow.product}
-                });
-            } else {
-                this.newSale.products.forEach((saleProduct) => {
-                    if (_.isEqual(saleProduct.product, this.selectedRow.product)) {
-                        saleProduct.quantity += 1;
-                    }
-                });
-            }
-            if (this.selectedRow.quantity === 0) {
-                _.remove(this.sale.products, (p) => _.isEqual(p, this.selectedRow));
+            this.newSale.addProduct(this.selectedRow, 1);
+            this.sale.removeProduct(this.selectedRow.id, 1);
+
+            if (!this.sale.getProductOnSaleList(this.selectedRow.id)) {
                 this.selectedRow = undefined;
             }
         } else if (!forward && this.selectedNewRow) {
-            const hasInNewSale = _.some(_.map(this.sale.products, 'product'), this.selectedNewRow.product);
-            this.selectedNewRow.quantity -= 1;
-            if (!hasInNewSale) {
-                this.sale.products.push({
-                    quantity: 1,
-                    value: this.selectedNewRow.value,
-                    product: {...this.selectedNewRow.product}
-                });
-            } else {
-                this.sale.products.forEach((saleProduct) => {
-                    if (_.isEqual(saleProduct.product, this.selectedNewRow.product)) {
-                        saleProduct.quantity += 1;
-                    }
-                });
-            }
-            if (this.selectedNewRow.quantity === 0) {
-                _.remove(this.newSale.products, (p) => _.isEqual(p, this.selectedNewRow));
+            this.sale.addProduct(this.selectedNewRow, 1);
+            this.newSale.removeProduct(this.selectedNewRow.id, 1);
+
+            if (!this.newSale.getProductOnSaleList(this.selectedNewRow.id)) {
                 this.selectedNewRow = undefined;
             }
         }
@@ -166,7 +117,7 @@ export class OrderComponent implements OnInit {
     calculateValue(sale: Sale) {
         let sum = 0;
         sale.products.forEach((p) => {
-            sum += p.quantity * p.product.price_sell;
+            sum += p.quantity * p.price_sell;
         });
         return Math.round(sum * 100) / 100;
     }

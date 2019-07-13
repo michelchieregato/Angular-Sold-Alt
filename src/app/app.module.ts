@@ -45,6 +45,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { CheckOrdersComponent } from './menu-seller/check-orders/check-orders.component';
 import { SaleReportComponent } from './menu-seller/report/sale-report/sale-report.component';
 import { ChangeStoreComponent } from './modals/change-store/change-store.component';
+import { TradeComponent } from './menu-seller/sale/trade/trade.component';
 
 @NgModule({
     declarations: [
@@ -77,7 +78,8 @@ import { ChangeStoreComponent } from './modals/change-store/change-store.compone
         WithdrawHistoryComponent,
         CheckOrdersComponent,
         SaleReportComponent,
-        ChangeStoreComponent
+        ChangeStoreComponent,
+        TradeComponent
     ],
     imports: [
         BrowserModule,

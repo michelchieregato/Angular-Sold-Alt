@@ -14,6 +14,7 @@ import {AddToSaleComponent} from './menu-seller/sale/add-to-sale/add-to-sale.com
 import {OrderComponent} from './menu-seller/sale/order/order.component';
 import {CheckOrdersComponent} from './menu-seller/check-orders/check-orders.component';
 import {SaleReportComponent} from './menu-seller/report/sale-report/sale-report.component';
+import {TradeComponent} from './menu-seller/sale/trade/trade.component';
 
 const appRoutes: Routes = [
     {
@@ -28,7 +29,8 @@ const appRoutes: Routes = [
     {
         path: 'sale', component: SaleComponent, children: [
             {path: 'new-sale', component: AddToSaleComponent},
-            {path: 'order', component: OrderComponent}
+            {path: 'order', component: OrderComponent},
+            {path: 'trade', component: TradeComponent}
         ],
     },
     {path: 'tax-cupom', component: TaxCupomComponent},

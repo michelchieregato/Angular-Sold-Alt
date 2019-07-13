@@ -16,7 +16,6 @@ export class ClientService {
     constructor(private http: HttpClient) {
     }
 
-
     login(auth: {}) {
         return this.http.post(remote.getGlobal('default_url') + 'login/', auth);
     }
@@ -80,7 +79,18 @@ export class ClientService {
     }
 
     getSale(id: number) {
-        return this.http.get(remote.getGlobal('default_url') + 'sale/' + id + '/');
+        return this.http.get(remote.getGlobal('default_url') + 'sale/' + id + '/').pipe(map(
+            (saleProducts) => {
+                return saleProducts.products.map(
+                    (saleProduct) => {
+                        return new Product({
+                            ...saleProduct.product,
+                            ...saleProduct
+                        });
+                    }
+                );
+            })
+        );
     }
 
     getWithdrawInformation(params: any) {
