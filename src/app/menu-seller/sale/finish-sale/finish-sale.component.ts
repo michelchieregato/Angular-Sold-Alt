@@ -37,9 +37,10 @@ export class FinishSaleComponent implements OnInit {
     salePayment: SalePayments;
     withdrawUpdated = {money: 0, checkbook: 0};
     type: number;
+    typesOfSale = TypeOfSale;
 
     // For trade
-    
+
     constructor(private clientServer: ClientService, private store: Store<AppState>,
                 private saleCommunicationService: SaleCommunicationService,
                 public dialog: MatDialog, private router: Router) {

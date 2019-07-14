@@ -1,6 +1,5 @@
 import {Sale} from '../../models/sale.model';
 import {Client} from '../../models/client.model';
-import {Product} from '../../models/product.model';
 import {User} from '../../models/user.model';
 declare const window: any;
 const {remote} = window.require('electron');
