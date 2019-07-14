@@ -1,6 +1,6 @@
 export enum TypeOfSale {
     SALE = 1,
-    CHANGE = 2,
+    TRADE = 2,
     ORDER = 3
 }
 

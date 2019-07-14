@@ -7,8 +7,7 @@ import {AppState} from '../../../store/state/app.state';
 import {selectClient} from '../../../store/selectors/sale.selectors';
 import {MatDialog} from '@angular/material/dialog';
 import {AddClientComponent} from '../../../modals/add-client/add-client.component';
-import {filter} from 'rxjs/operators';
-import {NavigationEnd, Router} from '@angular/router';
+import {Router} from '@angular/router';
 import {TypeOfSale} from '../../../constants/enums';
 
 @Component({
@@ -33,6 +32,9 @@ export class ClientSearchComponent implements OnInit {
         switch (this.router.url.split('?')[0]) {
             case '/sale/order':
                 this.type = TypeOfSale.ORDER;
+                break;
+            case '/sale/trade':
+                this.type = TypeOfSale.TRADE;
                 break;
             default:
                 this.type = TypeOfSale.SALE;

@@ -48,13 +48,14 @@ export class Sale {
     }
 
     public addProduct(product: Product, qnt: number) {
+        let productToAdd = new Product(product);
         const getProduct = this.getProductOnSaleList(product.id);
         if (getProduct) {
             getProduct.quantity += qnt;
             this.products = [...this.products];
         } else {
             product.quantity = qnt;
-            this.products = [...this.products, product];
+            this.products = [...this.products, productToAdd];
         }
         this.getSaleValue();
     }

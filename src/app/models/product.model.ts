@@ -9,6 +9,7 @@ export class Product {
     stock: Array<Stock>;
     // Only to help on sale screen
     public quantity: number;
+    public value: number;
 
     constructor(productInfo: any) {
         this.id = productInfo.id;
@@ -17,7 +18,10 @@ export class Product {
         this.price_cost = productInfo.price_cost;
         this.price_sell = productInfo.price_sell;
         this.stock = productInfo.stock;
-        this.quantity = 1;
+
+        // Only when part of sale
+        this.quantity = productInfo.quantity || 1;
+        this.value = productInfo.value || this.price_sell * this.quantity;
     }
 
     setStock(stock: Array<any>) {

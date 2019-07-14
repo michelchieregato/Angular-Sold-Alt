@@ -19,7 +19,7 @@
                                 name="produtos">
                     </div>
                 </div>
-                <button type="submit" class="btn btn-orange add-button">+</button>
+                <button type="submit" class="btn btn-orange add-button" (click)="addPurchasedProduct()">+</button>
             </form>
         </div>
         <div class="order-container">
@@ -36,8 +36,8 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr *ngFor="let returnedProduct of trade.returnedProducts;" (click)="selectSaleProduct(returnedProduct)"
-                    [class.active]="returnedProduct == selectedRow">
+                <tr *ngFor="let returnedProduct of trade.returnedProducts;" (click)="selectReturnProduct(returnedProduct)"
+                    [class.active]="returnedProduct == returnProductRow">
                     <td class="static-400">
                         {{ returnedProduct.name }}
                     </td>
@@ -84,8 +84,8 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr *ngFor="let keepProduct of keepProducts;" (click)="selectNewSaleProduct(keepProduct)"
-                    [class.active]="keepProduct == selectedNewRow">
+                <tr *ngFor="let keepProduct of sale.products;" (click)="selectKeepProduct(keepProduct)"
+                    [class.active]="keepProduct == keepProductRow">
                     <td class="static-400">
                         {{ keepProduct.name }}
                     </td>
@@ -116,9 +116,11 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr *ngFor="let purchasedProduct of trade.purchasedProducts;" (click)="selectNewSaleProduct(purchasedProduct)"
-                    [class.active]="purchasedProduct == selectedNewRow">
+                <tr *ngFor="let purchasedProduct of trade.purchasedProducts;">
                     <td class="static-400">
+                        <span class="del" (click)="removeProduct(product.id)">
+                            <i class="fas fa-trash-alt"></i>
+                        </span>
                         {{ purchasedProduct.name }}
                     </td>
                     <td class="static-200">

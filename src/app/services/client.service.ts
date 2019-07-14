@@ -81,6 +81,7 @@ export class ClientService {
     getSale(id: number) {
         return this.http.get(remote.getGlobal('default_url') + 'sale/' + id + '/').pipe(map(
             (saleProducts) => {
+                console.log(saleProducts)
                 return saleProducts.products.map(
                     (saleProduct) => {
                         return new Product({

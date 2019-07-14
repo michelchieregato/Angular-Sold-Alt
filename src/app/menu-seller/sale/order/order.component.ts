@@ -20,7 +20,7 @@ export class OrderComponent implements OnInit {
     sale: Sale;
     newSale;
     selectedRow: Product;
-    selectedNewRow;
+    selectedNewRow: Product;
     ready = false;
 
     constructor(private router: ActivatedRoute, private saleCommunicationService: SaleCommunicationService,
