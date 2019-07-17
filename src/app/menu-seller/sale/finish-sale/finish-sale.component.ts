@@ -15,6 +15,8 @@ import {SaleCommunicationService} from '../../../services/sale-communication.ser
 import {SalePayments} from '../../../models/payment.model';
 
 import * as electron from 'electron';
+import {Trade} from '../../../models/trade.model';
+import {selectTrade} from '../../../store/selectors/trade.selectors';
 
 declare const window: any;
 const {ipcRenderer, remote} = window.require('electron');
@@ -40,6 +42,8 @@ export class FinishSaleComponent implements OnInit {
     typesOfSale = TypeOfSale;
 
     // For trade
+    trade: Trade;
+    tradeObserver = this.store.pipe(select(selectTrade));
 
     constructor(private clientServer: ClientService, private store: Store<AppState>,
                 private saleCommunicationService: SaleCommunicationService,
@@ -48,7 +52,7 @@ export class FinishSaleComponent implements OnInit {
             case '/sale/order':
                 this.type = TypeOfSale.ORDER;
                 break;
-            case 'sale/trade':
+            case '/sale/trade':
                 this.type = TypeOfSale.TRADE;
                 break;
             default:
@@ -58,13 +62,25 @@ export class FinishSaleComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.saleObserver.subscribe(
-            (sale) => {
-                this.sale = new Sale(sale);
-                this.salePayment = new SalePayments(this.sale);
-                this.addPayment = this.salePayment.cashToReceive;
-            }
-        );
+        if (this.type !== TypeOfSale.TRADE) {
+            this.saleObserver.subscribe(
+                (sale) => {
+                    this.sale = new Sale(sale);
+                    this.salePayment = new SalePayments(this.sale);
+                    this.addPayment = this.salePayment.cashToReceive;
+                }
+            );
+        } else {
+            this.tradeObserver.subscribe(
+                (trade) => {
+                    console.log(trade)
+                    this.trade = new Trade(trade, trade.sale);
+                    this.salePayment = new SalePayments(this.trade);
+                    this.addPayment = this.salePayment.cashToReceive;
+                    // console.log(this.trade)
+                }
+            );
+        }
     }
 
     openDiscountModal() {

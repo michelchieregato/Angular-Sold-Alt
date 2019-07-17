@@ -1,20 +1,21 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, DoCheck, KeyValueDiffer, KeyValueDiffers, OnInit} from '@angular/core';
 import {Sale} from '../../../models/sale.model';
 import {ActivatedRoute} from '@angular/router';
-import {AddClient} from '../../../store/actions/sale.actions';
+import {AddClient, MovePage, UpdateFullSale} from '../../../store/actions/sale.actions';
 import {Store} from '@ngrx/store';
 import {AppState} from '../../../store/state/app.state';
 import {ClientService} from '../../../services/client.service';
 import {Product} from '../../../models/product.model';
 import {TypeaheadMatch} from 'ngx-bootstrap';
 import {Trade} from '../../../models/trade.model';
+import {UpdateFullTrade} from '../../../store/actions/trade.actions';
 
 @Component({
     selector: 'app-trade',
     templateUrl: './trade.component.html',
     styleUrls: ['./trade.component.scss']
 })
-export class TradeComponent implements OnInit {
+export class TradeComponent implements OnInit, DoCheck {
     ready: boolean = false;
     sale: Sale;
     products: Array<Product> = [];
@@ -23,8 +24,12 @@ export class TradeComponent implements OnInit {
     trade: Trade;
     returnProductRow: Product;
     keepProductRow: Product;
+    tradeDiffer: KeyValueDiffer<any, any>;
 
-    constructor(private router: ActivatedRoute, private store: Store<AppState>, private clientServer: ClientService) {
+    constructor(private router: ActivatedRoute, private store: Store<AppState>, private clientServer: ClientService,
+                private _differs: KeyValueDiffers) {
+        this.trade = new Trade({}, new Sale({}));
+        this.tradeDiffer = this._differs.find(this.trade).create();
     }
 
     selectReturnProduct(product: Product) {
@@ -57,6 +62,15 @@ export class TradeComponent implements OnInit {
             }
         );
     }
+
+    ngDoCheck() {
+        const changes = this.tradeDiffer.diff(this.trade);
+        if (changes) {
+            console.log(this.trade)
+            this.store.dispatch(new UpdateFullTrade(this.trade));
+        }
+    }
+
 
     transferOneObject(forward: boolean) {
         if (forward && this.returnProductRow) {
@@ -101,6 +115,10 @@ export class TradeComponent implements OnInit {
 
     removeProduct(id: number) {
         this.trade.removeAllPurchasedProducts(id);
+    }
+
+    endTrade() {
+        this.store.dispatch(new MovePage(true));
     }
 
 

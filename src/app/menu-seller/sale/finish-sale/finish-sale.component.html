@@ -1,6 +1,6 @@
 <app-loading-mask [loading]="sending"></app-loading-mask>
 
-// Sale or order
+<!--Sale or order-->
 <h2 *ngIf="type !== typesOfSale.TRADE">
     <span [ngClass]="{'line-through': (sale.value != sale.original_value)}">
         {{ sale.original_value | currency : 'BRL' }}
@@ -10,7 +10,7 @@
     </span>
 </h2>
 
-// Trade
+<!--Trade-->
 <h2 *ngIf="type === typesOfSale.TRADE">
     <span [ngClass]="{'line-through': (trade.value != trade.original_value)}">
         {{ trade.original_value | currency : 'BRL' }}
@@ -95,7 +95,7 @@
     <div class="col-md-6 money-labels">
         <h3>
             Recebido:
-            <span [ngClass]="(salePayment.cashReceived >= sale.original_value) ? 'green' : 'red'">
+            <span [ngClass]="(salePayment.cashReceived >= (sale ? sale.original_value : trade.original_value)) ? 'green' : 'red'">
                 {{ salePayment.cashReceived | currency : 'BRL' }}
             </span>
         </h3>

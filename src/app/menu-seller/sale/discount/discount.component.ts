@@ -1,7 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {DialogData} from '../../../modals/popup/popup.component';
-import {ClientService} from '../../../services/client.service';
 import {select, Store} from '@ngrx/store';
 import {AppState} from '../../../store/state/app.state';
 import {selectDiscount} from '../../../store/selectors/sale.selectors';

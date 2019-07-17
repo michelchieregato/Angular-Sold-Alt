@@ -17,8 +17,6 @@ export class MenuComponent implements OnInit {
     }
 
     ngOnInit() {
-        console.log(remote.getGlobal('user'));
-        console.log(remote.getGlobal('store'));
     }
 
     openSaleScreen() {

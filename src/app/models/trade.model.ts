@@ -1,23 +1,26 @@
 import {Sale} from './sale.model';
 import {Product} from './product.model';
+import {roundTo} from './payment.model';
 
 export class Trade {
     id: number;
     sale: Sale;
     datetime: number;
-    value: number;
-    original_value: number;
+    value: number = 0;
+    original_value: number = 0;
+    discount: number = 0;
     returnedProducts: Product[] = [];
     purchasedProducts: Product[] = [];
 
-    constructor(tradeInfo: object, sale: Sale) {
+    constructor(tradeInfo: any, sale: Sale) {
         this.id = tradeInfo.id;
         this.sale = sale;
         this.datetime = tradeInfo.datetime;
         this.returnedProducts = tradeInfo.returnedProducts || [];
         this.purchasedProducts = tradeInfo.purchasedProducts || [];
-        this.value = tradeInfo.value;
-        this.original_value = tradeInfo.original_value;
+        this.value = tradeInfo.value ? parseFloat(tradeInfo.value) : 0;
+        this.original_value = tradeInfo.original_value ? parseFloat(tradeInfo.original_value) : 0;
+        this.discount = tradeInfo.discount || 0;
     }
 
     private getTradeValue() {
@@ -37,6 +40,7 @@ export class Trade {
             }) * 100) / 100;
         }
         this.original_value = purchasedPrice - returnedValue;
+        this.value = roundTo(this.original_value * (1 - this.discount / 100), 2);
     }
 
     public getProductOnList(productList, id) {

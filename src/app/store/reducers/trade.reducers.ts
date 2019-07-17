@@ -12,7 +12,7 @@ export function tradeReducer(state = initialTradeState, action: TradeActions) {
                     ...action.payload
                 }, action.payload.sale)
             };
-        case TradeEnumActions.UPDATE_DISCOUNT:
+        case TradeEnumActions.UPDATE_TRADE_DISCOUNT:
             state.trade.sale.discount = action.payload;
             return {
                 ...state,

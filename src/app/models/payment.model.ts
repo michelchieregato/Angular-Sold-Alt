@@ -1,5 +1,24 @@
-import {PaymentMethod} from '../constants/enums';
+import {PaymentMethod, TypeOfSale} from '../constants/enums';
 import {Sale} from './sale.model';
+import {Trade} from './trade.model';
+
+export function roundTo(n, digits) {
+    let negative = false;
+    if (digits === undefined) {
+        digits = 0;
+    }
+    if (n < 0) {
+        negative = true;
+        n = n * -1;
+    }
+    const multiplicator = Math.pow(10, digits);
+    n = parseFloat((n * multiplicator).toFixed(11));
+    n = (Math.round(n) / multiplicator).toFixed(2);
+    if (negative) {
+        n = (n * -1).toFixed(2);
+    }
+    return parseFloat(n);
+}
 
 export class Payment {
     type: PaymentMethod;
@@ -12,37 +31,21 @@ export class Payment {
 }
 
 export class SalePayments {
-    sale: Sale;
+    saleOrTrade: Sale | Trade;
     cashReceived: number = 0;
     cashToReceive: number = 0;
     change: number = 0;
     payments: Payment[] = [];
+    type: TypeOfSale;
 
-    constructor(sale) {
-        this.sale = sale;
-        this.sale.value = this.roundTo(sale.original_value * (1 - sale.discount / 100), 2);
-        this.cashToReceive = (this.sale.value - this.cashReceived) > 0 ? (this.sale.value - this.cashReceived) : 0;
-        this.cashToReceive = this.roundTo(this.cashToReceive, 2);
-        this.change = (this.sale.value - this.cashReceived) < 0 ? -1 * (this.sale.value - this.cashReceived) : 0;
-        this.change = this.roundTo(this.change, 2);
-    }
-
-    private roundTo(n, digits) {
-        let negative = false;
-        if (digits === undefined) {
-            digits = 0;
-        }
-        if (n < 0) {
-            negative = true;
-            n = n * -1;
-        }
-        const multiplicator = Math.pow(10, digits);
-        n = parseFloat((n * multiplicator).toFixed(11));
-        n = (Math.round(n) / multiplicator).toFixed(2);
-        if (negative) {
-            n = (n * -1).toFixed(2);
-        }
-        return parseFloat(n);
+    constructor(saleOrTrade, type = TypeOfSale.SALE) {
+        this.saleOrTrade = saleOrTrade;
+        this.saleOrTrade.value = roundTo(saleOrTrade.original_value * (1 - saleOrTrade.discount / 100), 2);
+        this.cashToReceive = (this.saleOrTrade.value - this.cashReceived) > 0 ? (this.saleOrTrade.value - this.cashReceived) : 0;
+        this.cashToReceive = roundTo(this.cashToReceive, 2);
+        this.change = (this.saleOrTrade.value - this.cashReceived) < 0 ? -1 * (this.saleOrTrade.value - this.cashReceived) : 0;
+        this.change = roundTo(this.change, 2);
+        this.type = type;
     }
 
     private getCashReceivedValue() {
@@ -55,8 +58,8 @@ export class SalePayments {
         } else {
             this.cashReceived = 0;
         }
-        this.change = (this.sale.value - this.cashReceived) < 0 ? -1 * (this.sale.value - this.cashReceived) : 0;
-        this.cashToReceive = (this.sale.value - this.cashReceived) > 0 ? (this.sale.value - this.cashReceived) : 0;
+        this.change = (this.saleOrTrade.value - this.cashReceived) < 0 ? -1 * (this.saleOrTrade.value - this.cashReceived) : 0;
+        this.cashToReceive = (this.saleOrTrade.value - this.cashReceived) > 0 ? (this.saleOrTrade.value - this.cashReceived) : 0;
     }
 
     private getPaymentOnList(type) {

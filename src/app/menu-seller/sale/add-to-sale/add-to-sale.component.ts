@@ -78,7 +78,6 @@ export class AddToSaleComponent implements OnInit, DoCheck {
     ngDoCheck() {
         const changes = this.saleDiffer.diff(this.sale);
         if (changes) {
-            console.log(this.sale)
             this.store.dispatch(new UpdateFullSale(this.sale));
         }
     }
@@ -135,7 +134,7 @@ export class AddToSaleComponent implements OnInit, DoCheck {
         } else {
             this.sale.finish_later = true;
             this.ready = false;
-            this.clientServer.finishSale(this.sale.prepareToSendSale([], false)).subscribe(
+            this.clientServer.finishSale(this.sale.prepareToSendSale([])).subscribe(
                 (next) => {
                     console.log(next);
                     this.dialog.open(PopupComponent, {

@@ -6,5 +6,5 @@ const selectTradeState = (state: AppState) => state.trade;
 
 export const selectTrade = createSelector(
     selectTradeState,
-    (state: TradeState) => state
+    (state: TradeState) => state.trade
 );

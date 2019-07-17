@@ -25,16 +25,16 @@ export class TaxCupomComponent implements OnInit {
 
         console.log(this.sale);
         // TODO arrumar migues
-        if (this.sale.products[0].product) {
-            console.log('aquiii')
-            this.sale.products = this.sale.products.map(p => {
-                console.log(p)
-                return {
-                    quantity: p['quantity'],
-                    ...p.product
-                };
-            });
-        }
+        // if (this.sale.products[0]) {
+        //     console.log('aquiii')
+        //     this.sale.products = this.sale.products.map(p => {
+        //         console.log(p)
+        //         return {
+        //             quantity: p['quantity'],
+        //             ...p.product
+        //         };
+        //     });
+        // }
         console.log(this.sale);
         this.client = new Client(this.sale.client);
         this.payments = JSON.parse(this.router.snapshot.queryParams.payments);
