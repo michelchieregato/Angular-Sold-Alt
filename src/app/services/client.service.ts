@@ -5,6 +5,9 @@ import {Client} from '../models/client.model';
 import {Sale} from '../models/sale.model';
 import {Withdraw} from '../models/withdraw.model';
 import {map} from 'rxjs/operators';
+import {Trade} from '../models/trade.model';
+import Payment = Electron.Payment;
+import {SalePayments} from '../models/payment.model';
 
 declare const window: any;
 const {remote} = window.require('electron');
@@ -56,6 +59,11 @@ export class ClientService {
         ));
     }
 
+    finishTrade(trade: Trade, payments: SalePayments, updateClient: boolean) {
+        trade.store = remote.getGlobal('store');
+        return this.http.post(remote.getGlobal('default_url') + 'trade/create/', trade.prepareDataToBackend(payments));
+    }
+
     updateSaleFromOrder(sale: any) {
         user = remote.getGlobal('user');
         store = remote.getGlobal('store');
@@ -80,8 +88,7 @@ export class ClientService {
 
     getSale(id: number) {
         return this.http.get(remote.getGlobal('default_url') + 'sale/' + id + '/').pipe(map(
-            (saleProducts) => {
-                console.log(saleProducts)
+            (saleProducts: any) => {
                 return saleProducts.products.map(
                     (saleProduct) => {
                         return new Product({

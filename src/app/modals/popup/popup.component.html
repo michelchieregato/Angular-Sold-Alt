@@ -9,8 +9,15 @@
         {{ data.text }}
     </p>
     <div id='field'>
-        <button class="btn" [ngClass]="data.type" (click)="closeModal()">
+        <button class="btn" *ngIf="!confirmationModal" [ngClass]="data.type" (click)="closeModal(undefined)">
             Ok
+        </button>
+        <button class="btn" *ngIf="confirmationModal" [ngClass]="data.type" (click)="closeModal(false)">
+            Não
+        </button>
+        &nbsp;&nbsp;&nbsp;
+        <button class="btn" *ngIf="confirmationModal"  [ngClass]="data.type" (click)="closeModal(true)">
+            Sim
         </button>
     </div>
 </div>

@@ -73,11 +73,10 @@ export class FinishSaleComponent implements OnInit {
         } else {
             this.tradeObserver.subscribe(
                 (trade) => {
-                    console.log(trade)
                     this.trade = new Trade(trade, trade.sale);
                     this.salePayment = new SalePayments(this.trade);
                     this.addPayment = this.salePayment.cashToReceive;
-                    // console.log(this.trade)
+                    console.log(this.trade);
                 }
             );
         }
@@ -87,7 +86,10 @@ export class FinishSaleComponent implements OnInit {
         this.dialog.open(DiscountComponent, {
             disableClose: true,
             height: '200px',
-            width: '700px'
+            width: '700px',
+            data: {
+                type: this.type
+            }
         });
         return;
     }
@@ -124,7 +126,6 @@ export class FinishSaleComponent implements OnInit {
         this.salePayment = new SalePayments(this.sale);
         this.store.dispatch(new RestartSale());
         this.withdrawUpdated = {money: 0, checkbook: 0};
-
     }
 
     private updateWithdraw() {
@@ -150,7 +151,7 @@ export class FinishSaleComponent implements OnInit {
                 data: {
                     'type': 'ok-face',
                     'title': 'Termine a venda!',
-                    'text': 'A venda ainda não foi inteiramente paga. lembre de adicionar os pagamentis.'
+                    'text': 'A venda ainda não foi inteiramente paga. lembre de adicionar os pagamentos.'
                 }
             });
             return;
@@ -158,6 +159,8 @@ export class FinishSaleComponent implements OnInit {
             this.finalizeSale();
         } else if (this.type === TypeOfSale.ORDER) {
             this.finalizeOrder();
+        } else if (this.type === TypeOfSale.TRADE) {
+            this.finalizeTrade();
         }
     }
 
@@ -306,7 +309,7 @@ export class FinishSaleComponent implements OnInit {
                     );
                 }
             }]
-        }, (err, results) => {
+        }, (err) => {
             if (err) {
                 this.dialog.open(PopupComponent, {
                     height: '400px',
@@ -327,4 +330,96 @@ export class FinishSaleComponent implements OnInit {
             win.close();
         });
     }
+
+    finalizeTrade() {
+        if (this.trade.original_value < 0 && (this.trade.sale.client.id !== 0 || this.trade.sale.client.id !== 1)) {
+            let modal = this.dialog.open(PopupComponent, {
+                height: '425px',
+                width: '650px',
+                data: {
+                    'type': 'ok-face',
+                    'title': 'A valor da devolução é maior que o dos novos produtos!',
+                    'text': 'Você deseja deixar o valor extra de R$' +
+                        (-1 * this.trade.original_value).toString() + ' como crédito associado ao cliente?',
+                    'confirmation': true
+                }
+            });
+
+            modal.afterClosed().subscribe(
+                (confirmation) => {
+                    if (typeof confirmation !== 'undefined') {
+                        this.tradeProducts(confirmation);
+                    }
+                }
+            );
+        } else {
+            this.tradeProducts(false);
+        }
+    }
+
+    tradeProducts(updateClient) {
+        this.sending = true;
+        async.auto({
+            finishTrade: (callback) => {
+                console.log(this.clientServer)
+                console.log(this.clientServer.finishTrade)
+                console.log(this.clientServer.finishSale)
+                this.clientServer.finishTrade(this.trade, this.salePayment, updateClient).subscribe(
+                    (success) => {
+                        console.log(success)
+                        callback(null)
+                    },
+                    (error) => {
+                        console.log(error)
+                        callback(null)
+                    }
+                )
+            },
+            // updateLocalWithdraw: ['updateNewSale', 'updateOldSale', (results, callback) => {
+            //     this.updateWithdraw();
+            //     callback(null);
+            // }],
+            // updateWithdraw: ['updateLocalWithdraw', (results, callback) => {
+            //     if (this.withdrawUpdated.money <= 0 && this.withdrawUpdated.checkbook <= 0) {
+            //         callback();
+            //     } else {
+            //         this.clientServer.addWithdraw(this.withdrawUpdated).subscribe(
+            //             (next) => callback(null, next),
+            //             (error) => callback(error)
+            //         );
+            //
+            //     }
+            // }],
+            // updateMoneyWithdrawHistory: ['updateLocalWithdraw', (results, callback) => {
+            //     if (this.withdrawUpdated.money <= 0) {
+            //         callback();
+            //     } else {
+            //         this.clientServer.createWithdrawHistory({
+            //             name: 'Dinheiro',
+            //             withdraw: 'S',
+            //             quantity: this.withdrawUpdated.money
+            //         }).subscribe(
+            //             (next) => callback(null, next),
+            //             (error) => callback(error)
+            //         );
+            //     }
+            // }],
+            // updateCheckbookWithdrawHistory: ['updateLocalWithdraw', (results, callback) => {
+            //     if (this.withdrawUpdated.checkbook <= 0) {
+            //         callback();
+            //     } else {
+            //         this.clientServer.createWithdrawHistory({
+            //             name: 'Cheque',
+            //             withdraw: 'S',
+            //             quantity: this.withdrawUpdated.checkbook
+            //         }).subscribe(
+            //             (next) => callback(null, next),
+            //             (error) => callback(error)
+            //         );
+            //     }
+            // }]
+        }, (err, results) => {
+            this.sending = false;
+            console.log(err, results)
+        });}
 }

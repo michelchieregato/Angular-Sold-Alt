@@ -1,6 +1,7 @@
 import {User} from './user.model';
 import {Client} from './client.model';
 import {Product} from './product.model';
+import {SalePayments} from './payment.model';
 
 export class Sale {
     id: number;

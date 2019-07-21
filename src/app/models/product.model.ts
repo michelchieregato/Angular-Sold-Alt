@@ -28,5 +28,12 @@ export class Product {
         stock = stock.map((s) => new Stock((s)));
         this.stock = stock;
     }
+}
 
+export function prepareProductForBackend(product: Product) {
+    return {
+        product: product.id,
+        quantity: product.quantity,
+        value: product.price_sell
+    };
 }

@@ -1,6 +1,7 @@
 import {Sale} from './sale.model';
-import {Product} from './product.model';
-import {roundTo} from './payment.model';
+import {prepareProductForBackend, Product} from './product.model';
+import {preparePaymentForBackend, roundTo, SalePayments} from './payment.model';
+import Payment = Electron.Payment;
 
 export class Trade {
     id: number;
@@ -11,6 +12,7 @@ export class Trade {
     discount: number = 0;
     returnedProducts: Product[] = [];
     purchasedProducts: Product[] = [];
+    store: any;
 
     constructor(tradeInfo: any, sale: Sale) {
         this.id = tradeInfo.id;
@@ -21,6 +23,7 @@ export class Trade {
         this.value = tradeInfo.value ? parseFloat(tradeInfo.value) : 0;
         this.original_value = tradeInfo.original_value ? parseFloat(tradeInfo.original_value) : 0;
         this.discount = tradeInfo.discount || 0;
+        this.store = tradeInfo.store;
     }
 
     private getTradeValue() {
@@ -41,6 +44,7 @@ export class Trade {
         }
         this.original_value = purchasedPrice - returnedValue;
         this.value = roundTo(this.original_value * (1 - this.discount / 100), 2);
+        this.value = this.value >= 0 ? this.value : 0;
     }
 
     public getProductOnList(productList, id) {
@@ -102,6 +106,37 @@ export class Trade {
 
     public removeAllReturnedProducts(id: number) {
         this.removeProducts('returnedProducts', id);
+    }
+
+    // public updateSale() {
+    //     this.returnedProducts.forEach(
+    //         (returnedProduct) => {
+    //             this.sale.removeProduct(returnedProduct.id, returnedProduct.quantity);
+    //         }
+    //     );
+    //
+    //     this.purchasedProducts.forEach(
+    //         (purchasedProduct) => {
+    //             this.sale.addProduct(purchasedProduct, purchasedProduct.quantity);
+    //         }
+    //     );
+    // }
+
+    public prepareDataToBackend(payments: SalePayments, updateClient: boolean) {
+        let returnedProducts = this.returnedProducts.map(prepareProductForBackend);
+        let purchasedProducts = this.purchasedProducts.map(prepareProductForBackend);
+        let paymentsArray = new SalePayments(payments).payments.map(preparePaymentForBackend);
+
+        return {
+            ...this,
+            returned_products: returnedProducts,
+            purchased_products: purchasedProducts,
+            payments: paymentsArray,
+            sale: this.sale.id,
+            client: this.sale.client.id === 0 ? 1 : this.sale.client.id,
+            updateClient: updateClient
+        };
+
     }
 
 }

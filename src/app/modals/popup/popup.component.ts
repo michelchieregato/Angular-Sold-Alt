@@ -14,16 +14,18 @@ export interface DialogData {
 })
 
 export class PopupComponent implements OnInit {
+    confirmationModal: boolean;
 
     constructor(public dialogRef: MatDialogRef<PopupComponent>,
                 @Inject(MAT_DIALOG_DATA) public data: DialogData) {
     }
 
     ngOnInit() {
+        this.confirmationModal = this.data['confirmation'];
     }
 
-    closeModal(): void {
-        this.dialogRef.close();
+    closeModal(confirmation: boolean | undefined): void {
+        this.dialogRef.close(confirmation);
     }
 
 }

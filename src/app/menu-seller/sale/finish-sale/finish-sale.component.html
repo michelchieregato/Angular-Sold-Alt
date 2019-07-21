@@ -12,11 +12,14 @@
 
 <!--Trade-->
 <h2 *ngIf="type === typesOfSale.TRADE">
-    <span [ngClass]="{'line-through': (trade.value != trade.original_value)}">
+    <span [ngClass]="{'line-through': (trade.value != trade.original_value)}" *ngIf="trade.original_value >= 0">
         {{ trade.original_value | currency : 'BRL' }}
     </span>
     <span *ngIf="trade.value != trade.original_value">
         {{ trade.value | currency : 'BRL' }}
+    </span>
+    <span *ngIf="trade.original_value < 0">
+        &nbsp; (Crédito) {{ (-1 * trade.original_value) | currency : 'BRL' }}
     </span>
 </h2>
 <a class="h-link block" (click)="openDiscountModal()"> Dar desconto </a>
@@ -106,7 +109,12 @@
             </span>
         </h3>
         <h3>
-            Troco:
+            <span *ngIf="type === typesOfSale.TRADE && trade.original_value >= 0">
+                Troco:
+            </span>
+            <span *ngIf="type !== typesOfSale.TRADE  || trade.original_value < 0">
+                Crédito:
+            </span>
             <span class="green">
                 {{ salePayment.change | currency : 'BRL' }}
             </span>

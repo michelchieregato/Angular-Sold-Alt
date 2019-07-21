@@ -118,7 +118,7 @@
                 <tbody>
                 <tr *ngFor="let purchasedProduct of trade.purchasedProducts;">
                     <td class="static-400">
-                        <span class="del" (click)="removeProduct(product.id)">
+                        <span class="del" (click)="removeProduct(purchasedProduct.id)">
                             <i class="fas fa-trash-alt"></i>
                         </span>
                         {{ purchasedProduct.name }}

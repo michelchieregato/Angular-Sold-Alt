@@ -20,6 +20,13 @@ export function roundTo(n, digits) {
     return parseFloat(n);
 }
 
+export function preparePaymentForBackend(payment: Payment) {
+    return {
+        paymentMethod: payment.type,
+        value: payment.value
+    };
+}
+
 export class Payment {
     type: PaymentMethod;
     value: number;
@@ -35,8 +42,8 @@ export class SalePayments {
     cashReceived: number = 0;
     cashToReceive: number = 0;
     change: number = 0;
-    payments: Payment[] = [];
     type: TypeOfSale;
+    public payments: Payment[] = [];
 
     constructor(saleOrTrade, type = TypeOfSale.SALE) {
         this.saleOrTrade = saleOrTrade;
