@@ -333,6 +333,7 @@ export class FinishSaleComponent implements OnInit {
     }
 
     finalizeTrade() {
+        if (this.trade.original_value < 0 && (this.trade.sale.client.id !== 0 && this.trade.sale.client.id !== 1)) {
             let modal = this.dialog.open(PopupComponent, {
                 height: '425px',
                 width: '650px',
