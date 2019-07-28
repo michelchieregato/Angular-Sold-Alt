@@ -30,10 +30,27 @@ export class Product {
     }
 }
 
-export function prepareProductForBackend(product: Product) {
+interface SaleProduct {
+    product: any; // May be an id or an object
+    quantity: number;
+    value: number;
+}
+
+export function prepareProductForBackend(product: Product): SaleProduct {
     return {
         product: product.id,
         quantity: product.quantity,
         value: product.price_sell
     };
+}
+
+export function getProductsFromBackend(products: Array<SaleProduct>) {
+    return products.map(
+        (saleProduct) => {
+            return new Product({
+                ...saleProduct.product,
+                ...saleProduct
+            });
+        }
+    );
 }

@@ -1,12 +1,11 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Product} from '../models/product.model';
+import {getProductsFromBackend, Product} from '../models/product.model';
 import {Client} from '../models/client.model';
 import {Sale} from '../models/sale.model';
 import {Withdraw} from '../models/withdraw.model';
 import {map} from 'rxjs/operators';
 import {Trade} from '../models/trade.model';
-import Payment = Electron.Payment;
 import {SalePayments} from '../models/payment.model';
 
 declare const window: any;
@@ -61,7 +60,7 @@ export class ClientService {
 
     finishTrade(trade: Trade, payments: SalePayments, updateClient: boolean) {
         trade.store = remote.getGlobal('store');
-        return this.http.post(remote.getGlobal('default_url') + 'trade/create/', trade.prepareDataToBackend(payments));
+        return this.http.post(remote.getGlobal('default_url') + 'trade/create/', trade.prepareDataToBackend(payments, updateClient));
     }
 
     updateSaleFromOrder(sale: any) {
@@ -86,17 +85,33 @@ export class ClientService {
         );
     }
 
-    getSale(id: number) {
-        return this.http.get(remote.getGlobal('default_url') + 'sale/' + id + '/').pipe(map(
-            (saleProducts: any) => {
-                return saleProducts.products.map(
-                    (saleProduct) => {
-                        return new Product({
-                            ...saleProduct.product,
-                            ...saleProduct
-                        });
+    getTrades(params: any) {
+        store = remote.getGlobal('store');
+        if (!params.store) {
+            params.store = store;
+        } else if (params.store === 'Todas') {
+            params['store'] = '';
+        }
+        return this.http.get<Trade[]>(remote.getGlobal('default_url') + 'trade/', {params: params}).pipe(map(
+            (response) => {
+                console.log(response);
+                return response.map(p => new Trade(p, null));
+            })
+        );
+    }
+
+    getSale(sale: Sale) {
+        return this.http.get(remote.getGlobal('default_url') + 'sale/' + sale.id + '/').pipe(map(
+            (response: any) => {
+                response.products = getProductsFromBackend(response.products);
+                response.trade_set = response.trade_set.map(
+                    (tradeObject) => {
+                        tradeObject['purchasedProducts'] = getProductsFromBackend(tradeObject['purchased_products']);
+                        tradeObject['returnedProducts'] = getProductsFromBackend(tradeObject['returned_products']);
+                        return new Trade(tradeObject, new Sale(sale));
                     }
                 );
+                return response;
             })
         );
     }
@@ -129,7 +144,6 @@ export class ClientService {
         return this.http.get(remote.getGlobal('default_url') + 'withdraw_history/?page=' + page,
             {params: params}).pipe(map(
             (next) => {
-                console.log(next);
                 return next['results'];
             }
         ));

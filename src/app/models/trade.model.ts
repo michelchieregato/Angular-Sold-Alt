@@ -1,29 +1,39 @@
 import {Sale} from './sale.model';
 import {prepareProductForBackend, Product} from './product.model';
 import {preparePaymentForBackend, roundTo, SalePayments} from './payment.model';
-import Payment = Electron.Payment;
+import {Client} from './client.model';
+import {TypeOfSale} from '../constants/enums';
 
 export class Trade {
     id: number;
     sale: Sale;
-    datetime: number;
+    datetime: Date;
     value: number = 0;
     original_value: number = 0;
     discount: number = 0;
     returnedProducts: Product[] = [];
     purchasedProducts: Product[] = [];
+
+    // For search sale screen
     store: any;
+    client: Client;
+    payments: any;
+    TYPE = TypeOfSale.TRADE;
 
     constructor(tradeInfo: any, sale: Sale) {
         this.id = tradeInfo.id;
         this.sale = sale;
-        this.datetime = tradeInfo.datetime;
+        this.datetime = tradeInfo.datetime ? new Date(tradeInfo.datetime) : undefined;
         this.returnedProducts = tradeInfo.returnedProducts || [];
         this.purchasedProducts = tradeInfo.purchasedProducts || [];
         this.value = tradeInfo.value ? parseFloat(tradeInfo.value) : 0;
         this.original_value = tradeInfo.original_value ? parseFloat(tradeInfo.original_value) : 0;
-        this.discount = tradeInfo.discount || 0;
+        this.discount = tradeInfo.discount ? parseFloat(tradeInfo.discount) : 0;
+
+        // For search sale screen
+        this.client = tradeInfo.client;
         this.store = tradeInfo.store;
+        this.payments = tradeInfo.payments;
     }
 
     private getTradeValue() {
@@ -87,6 +97,7 @@ export class Trade {
         this.addProduct('purchasedProducts', productToAdd, 1);
     }
 
+    // noinspection JSUnusedGlobalSymbols
     public removePurchasedProduct(id: number) {
         this.removeProduct('purchasedProducts', id, 1);
     }
@@ -104,28 +115,16 @@ export class Trade {
         this.removeProduct('returnedProducts', id, 1);
     }
 
+    // noinspection JSUnusedGlobalSymbols
     public removeAllReturnedProducts(id: number) {
         this.removeProducts('returnedProducts', id);
     }
-
-    // public updateSale() {
-    //     this.returnedProducts.forEach(
-    //         (returnedProduct) => {
-    //             this.sale.removeProduct(returnedProduct.id, returnedProduct.quantity);
-    //         }
-    //     );
-    //
-    //     this.purchasedProducts.forEach(
-    //         (purchasedProduct) => {
-    //             this.sale.addProduct(purchasedProduct, purchasedProduct.quantity);
-    //         }
-    //     );
-    // }
 
     public prepareDataToBackend(payments: SalePayments, updateClient: boolean) {
         let returnedProducts = this.returnedProducts.map(prepareProductForBackend);
         let purchasedProducts = this.purchasedProducts.map(prepareProductForBackend);
         let paymentsArray = new SalePayments(payments).payments.map(preparePaymentForBackend);
+        this.value = this.value >= 0 ? this.value : 0;
 
         return {
             ...this,
@@ -136,7 +135,7 @@ export class Trade {
             client: this.sale.client.id === 0 ? 1 : this.sale.client.id,
             updateClient: updateClient
         };
-
     }
 
 }
+

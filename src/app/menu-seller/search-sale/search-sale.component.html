@@ -6,7 +6,7 @@
                 <div class="form-group">
                     <div class="input-group">
                         <input type="text" class="form-control" id="inputSearch" placeholder="Nome"
-                        name="name" ngModel #name>
+                               name="name" ngModel #name>
                         <span class="input-group-addon">
                         <i class="fas fa-search"></i>
                     </span>
@@ -14,8 +14,9 @@
 
                     <div class="input-group">
                         <mat-form-field>
-                            <input matInput ngModel name="initialDate" #initialDate [matDatepicker]="picker" placeholder="De"
-                            [(ngModel)]="initial_date">
+                            <input matInput ngModel name="initialDate" #initialDate [matDatepicker]="picker"
+                                   placeholder="De"
+                                   [(ngModel)]="initial_date">
                             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                             <mat-datepicker #picker></mat-datepicker>
                         </mat-form-field>
@@ -44,45 +45,63 @@
         </form>
     </div>
 
-    <table class="table odd" *ngIf="sales.length">
-        <thead>
-        <tr>
-            <th class="static-150">C</th>
-            <th class="static-200">Data</th>
-            <th class="static-400">CPF</th>
-            <th class="static-400">Cliente</th>
-            <th class="static-150">Pagamento</th>
-            <th class="static-200">Valor</th>
-            <th class="static-200">Encomenda</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let sale of sales">
-            <td class="static-150">
-                <img src="assets/images/plus-icon.png" (click)="openSaleDetailModal(sale)">
-                {{ sale.id }}
-            </td>
-            <td class="static-200">
-                {{ sale.datetime | date : 'short'}}
-            </td>
-            <td class="static-375">
-                {{ sale.client.cpf }}
-            </td>
-            <td class="static-400">
-                {{ sale.client.name }}
-            </td>
-            <td class="static-150">
-                {{ sale.payments | paymentPipe }}
-            </td>
-            <td class="static-200">
-                {{ sale.value | currency : 'BRL' }}
-            </td>
-            <td class="static-200">
-                <!--TODO Melhorar a imagem-->
-                <img src="assets/images/checkmark.jpg" *ngIf="sale.finish_later">
-                <img src="assets/images/not.png" *ngIf="!sale.finish_later">
-            </td>
-        </tr>
-        </tbody>
-    </table>
+    <div class="table-container mat-elevation-z8">
+        <table mat-table [dataSource]="sales" class="mat-table odd" *ngIf="sales.length">
+            <!-- Position Column -->
+            <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef> Id</th>
+                <td mat-cell *matCellDef="let sale">
+                    <img src="assets/images/plus-icon.png" (click)="openSaleDetailModal(sale)">
+                    {{sale.id}}
+                </td>
+            </ng-container>
+
+            <!-- Date Column -->
+            <ng-container matColumnDef="data">
+                <th mat-header-cell *matHeaderCellDef> Data</th>
+                <td mat-cell *matCellDef="let sale"> {{sale.datetime | date : 'short'}} </td>
+            </ng-container>
+
+            <!-- Cpf Column -->
+            <ng-container matColumnDef="cpf">
+                <th mat-header-cell *matHeaderCellDef> Cpf</th>
+                <td mat-cell *matCellDef="let sale">
+                    {{sale.client.cpf}}
+                </td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef> Nome</th>
+                <td mat-cell *matCellDef="let sale"> {{sale.client.name}} </td>
+            </ng-container>
+
+            <!-- Payment Column -->
+            <ng-container matColumnDef="payments">
+                <th mat-header-cell *matHeaderCellDef> Pagamentos</th>
+                <td mat-cell *matCellDef="let sale">
+                    {{ sale.payments | paymentPipe }}
+                </td>
+            </ng-container>
+
+            <!-- Type Column -->
+            <ng-container matColumnDef="type">
+                <th mat-header-cell *matHeaderCellDef> Type</th>
+                <td mat-cell *matCellDef="let sale">
+                    {{ sale.TYPE }}
+                </td>
+            </ng-container>
+
+            <!-- Value Column -->
+            <ng-container matColumnDef="value">
+                <th mat-header-cell *matHeaderCellDef> Valor</th>
+                <td mat-cell *matCellDef="let sale">
+                    {{ sale.value | currency : 'BRL' }}
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </div>
 </div>

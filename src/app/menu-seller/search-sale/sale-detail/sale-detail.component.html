@@ -2,51 +2,89 @@
 <div class="saleDetailModal">
     <div class="modal-header">
         <h1 class="h-text orange">
-            Venda {{ data.sale.id }}
+            Venda {{ sale.id }}
         </h1>
     </div>
     <div class="modal-body">
-        <div class="container-modal">
-            <h2>Cliente: {{ data.sale.client.name }}</h2>
-            <a *ngIf="!data.sale.finish_later" [popover]="popTemplate">
-                {{ data.sale.value | currency: 'BRL' }} *
-            </a>
-            <h3 *ngIf="data.sale.finish_later">
-                Encomenda: {{ data.sale.value | currency: 'BRL' }}
-            </h3>
-        </div>
-        <table class="table odd table-sale">
-            <thead>
-            <tr>
-                <th class="static-400">Descricao</th>
-                <th class="static-300">Tamanho</th>
-                <th class="static-300">Qnt</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let saleProduct of saleProducts">
-                <td class="static-400">
-                    {{ saleProduct.name }}
-                </td>
-                <td class="static-300">
-                    {{ saleProduct.size }}
-                </td>
-                <td class="static-300">
-                    {{ saleProduct.quantity }}
-                </td>
-            </tr>
-            </tbody>
-        </table>
+        <mat-tab-group>
+            <!-- TODO Melhorar isso para deixar menos repetitivo -->
+            <!-- Tab de Venda atualizada -->
+            <mat-tab label="Venda Atualizada (após troca)" *ngIf="trades.length">
+                <div class="container-modal">
+                    <h2>Cliente: {{ updatedSale.client.name }}</h2>
+                    <a>
+                        {{ updatedSale.value | currency: 'BRL' }}
+                    </a>
+                </div>
+                <table class="table odd table-sale">
+                    <thead>
+                    <tr>
+                        <th class="static-400">Descricao</th>
+                        <th class="static-300">Tamanho</th>
+                        <th class="static-300">Qnt</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let saleProduct of updatedSale.products">
+                        <td class="static-400">
+                            {{ saleProduct.name }}
+                        </td>
+                        <td class="static-300">
+                            {{ saleProduct.size }}
+                        </td>
+                        <td class="static-300">
+                            {{ saleProduct.quantity }}
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </mat-tab>
+            <!-- Tab da venda normal / encomenta -->
+            <mat-tab [label]="label">
+                <div class="container-modal">
+                    <h2>Cliente: {{ sale.client.name }}</h2>
+                    <a *ngIf="!sale.finish_later" [popover]="popTemplate" placement="bottom" [outsideClick]="true"
+                       containerClass="pop-class" popoverTitle="Pagamentos">
+                        {{ sale.value | currency: 'BRL' }} *
+                    </a>
+                    <h3 *ngIf="sale.finish_later">
+                        Encomenda: {{ sale.value | currency: 'BRL' }}
+                    </h3>
+                </div>
+                <table class="table odd table-sale">
+                    <thead>
+                    <tr>
+                        <th class="static-400">Descricao</th>
+                        <th class="static-300">Tamanho</th>
+                        <th class="static-300">Qnt</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let saleProduct of sale.products">
+                        <td class="static-400">
+                            {{ saleProduct.name }}
+                        </td>
+                        <td class="static-300">
+                            {{ saleProduct.size }}
+                        </td>
+                        <td class="static-300">
+                            {{ saleProduct.quantity }}
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </mat-tab>
+        </mat-tab-group>
     </div>
     <div class="modal-footer">
         <p class="btn btn-lg btn-orange"> Apagar venda </p>
-        <p class="btn btn-lg btn-orange" *ngIf="!data.sale.finish_later" (click)="tradeProducts()">
+        <p class="btn btn-lg btn-orange" *ngIf="!sale.finish_later" (click)="tradeProducts()">
             Realizar Troca
         </p>
-        <p class="btn btn-lg btn-orange" *ngIf="!data.sale.finish_later" (click)="generateTaxCupom()">
+        <p class="btn btn-lg btn-orange" *ngIf="!sale.finish_later" (click)="generateTaxCupom()">
             Gerar relatório
         </p>
-        <p class="btn btn-lg btn-orange" (click)="finishOrder()" *ngIf="data.sale.finish_later">
+        <p class="btn btn-lg btn-orange" (click)="finishOrder()" *ngIf="sale.finish_later">
             Finalizar venda
         </p>
     </div>
@@ -54,12 +92,11 @@
 
 <ng-template #popTemplate>
     <div class="popover-div">
-        <h1>Pagamentos:</h1>
         <p *ngFor="let payment of payments">
             {{ payment.paymentMethod }}: {{ payment.value | currency: 'BRL' }}
         </p>
-        <p *ngIf="(totalReceived - data.sale.value) > 0">
-            Troco: {{ (totalReceived - data.sale.value) | currency: 'BRL' }}
+        <p *ngIf="(totalReceived - sale.value) > 0">
+            Troco: {{ (totalReceived - sale.value) | currency: 'BRL' }}
         </p>
     </div>
 </ng-template>

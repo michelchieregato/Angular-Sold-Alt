@@ -46,6 +46,7 @@ import { CheckOrdersComponent } from './menu-seller/check-orders/check-orders.co
 import { SaleReportComponent } from './menu-seller/report/sale-report/sale-report.component';
 import { ChangeStoreComponent } from './modals/change-store/change-store.component';
 import { TradeComponent } from './menu-seller/sale/trade/trade.component';
+import {MatTableModule} from '@angular/material/table';
 
 @NgModule({
     declarations: [
@@ -99,7 +100,8 @@ import { TradeComponent } from './menu-seller/sale/trade/trade.component';
         ButtonsModule.forRoot(),
         CurrencyMaskModule,
         TypeaheadModule.forRoot(),
-        InfiniteScrollModule
+        InfiniteScrollModule,
+        MatTableModule
     ],
     providers: [MatDialog, MatDatepickerModule, DatePipe, {provide: MAT_DATE_LOCALE, useValue: 'en-GB'}],
     bootstrap: [AppComponent],
