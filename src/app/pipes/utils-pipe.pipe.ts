@@ -1,5 +1,6 @@
 import {Pipe, PipeTransform} from '@angular/core';
 import {User} from '../models/user.model';
+import {TypeOfSale} from '../constants/enums';
 
 @Pipe({
     name: 'paymentPipe'
@@ -48,5 +49,28 @@ export class NameOrUsernamePipe implements PipeTransform {
         }
         return value.username;
     }
+}
 
+@Pipe({
+    name: 'typeOfSale'
+})
+export class TypeOfSalePipe implements PipeTransform {
+
+    transform(value: TypeOfSale, args?: any): any {
+        let toReturn;
+        switch (value) {
+            case TypeOfSale.TRADE:
+                toReturn = 'Troca';
+                break;
+            case TypeOfSale.SALE:
+                toReturn = 'Venda';
+                break;
+            case TypeOfSale.ORDER:
+                toReturn = 'Encomenda';
+                break;
+            default:
+                toReturn = 'Venda';
+        }
+        return toReturn;
+    }
 }

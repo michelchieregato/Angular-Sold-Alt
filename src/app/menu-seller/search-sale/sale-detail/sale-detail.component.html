@@ -9,7 +9,7 @@
         <mat-tab-group>
             <!-- TODO Melhorar isso para deixar menos repetitivo -->
             <!-- Tab de Venda atualizada -->
-            <mat-tab label="Venda Atualizada (após troca)" *ngIf="trades.length">
+            <mat-tab label="Venda Atualizada (após troca)" *ngIf="updatedSale.trades.length && !loading">
                 <div class="container-modal">
                     <h2>Cliente: {{ updatedSale.client.name }}</h2>
                     <a>

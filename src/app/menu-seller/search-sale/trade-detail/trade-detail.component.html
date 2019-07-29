@@ -1,0 +1,66 @@
+<div class="modal-header">
+    <h1 class="h-text orange">
+        Troca {{ trade.id }}
+    </h1>
+</div>
+<div class="modal-body">
+    <app-loading-mask [loading]="loading"></app-loading-mask>
+    <div class="container-modal">
+        <h2>Cliente: {{ trade.client.name }}</h2>
+        <a>
+            {{ trade.value | currency: 'BRL' }}
+        </a>
+    </div>
+    <mat-tab-group>
+        <!-- Tab de Venda atualizada -->
+        <mat-tab label="Venda Produtos Adicionados" *ngIf="trade.purchasedProducts">
+            <table class="table odd table-sale">
+                <thead>
+                <tr>
+                    <th class="static-400">Descricao</th>
+                    <th class="static-300">Tamanho</th>
+                    <th class="static-300">Qnt</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let purchasedProduct of trade.purchasedProducts">
+                    <td class="static-400">
+                        {{ purchasedProduct.name }}
+                    </td>
+                    <td class="static-300">
+                        {{ purchasedProduct.size }}
+                    </td>
+                    <td class="static-300">
+                        {{ purchasedProduct.quantity }}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </mat-tab>
+        <!-- Tab da venda normal / encomenta -->
+        <mat-tab label="Produtos Retornados" *ngIf="trade.purchasedProducts">
+            <table class="table odd table-sale">
+                <thead>
+                <tr>
+                    <th class="static-400">Descricao</th>
+                    <th class="static-300">Tamanho</th>
+                    <th class="static-300">Qnt</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let returnedProduct of trade.returnedProducts">
+                    <td class="static-400">
+                        {{ returnedProduct.name }}
+                    </td>
+                    <td class="static-300">
+                        {{ returnedProduct.size }}
+                    </td>
+                    <td class="static-300">
+                        {{ returnedProduct.quantity }}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </mat-tab>
+    </mat-tab-group>
+</div>

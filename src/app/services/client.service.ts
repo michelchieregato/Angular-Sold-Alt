@@ -116,6 +116,18 @@ export class ClientService {
         );
     }
 
+    getTrade(trade: Trade) {
+        return this.http.get(remote.getGlobal('default_url') + 'trade/' + trade.id + '/').pipe(map(
+            (response: any) => {
+                console.log(response);
+                console.log(response.returned_products);
+                trade.returnedProducts = getProductsFromBackend(response.returned_products);
+                trade.purchasedProducts = getProductsFromBackend(response.purchased_products);
+                return trade;
+            })
+        );
+    }
+
     getWithdrawInformation(params: any) {
         store = remote.getGlobal('store');
         params['store'] = store;

@@ -10,7 +10,7 @@ const {ipcRenderer, remote} = window.require('electron');
 import * as _ from 'lodash';
 
 export interface SaleDetailData {
-    sale: Sale;
+    transaction: Sale;
 }
 
 @Component({
@@ -19,13 +19,12 @@ export interface SaleDetailData {
     styleUrls: ['./sale-detail.component.scss']
 })
 export class SaleDetailComponent implements OnInit {
-    sale: Sale;
-    updatedSale: Sale;
+    sale: Sale = new Sale({});
+    updatedSale: Sale = new Sale({});
     label: string;
     payments = [];
     totalReceived = 0;
     loading = true;
-    trades: Trade[] = [];
 
     constructor(public dialogRef: MatDialogRef<SaleDetailComponent>,
                 @Inject(MAT_DIALOG_DATA) public data: SaleDetailData,
@@ -33,13 +32,13 @@ export class SaleDetailComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.sale = this.data.sale;
+        this.sale = this.data.transaction;
         this.label = this.sale.finish_later ?  'Encomenda' : 'Venda Original';
 
-        this.clientService.getSale(this.data.sale).subscribe(
+        this.clientService.getSale(this.data.transaction).subscribe(
             (response) => {
                 this.sale.products = response.products;
-                this.trades = response.trade_set;
+                this.sale.trades = response.trade_set;
                 this.getUpdatedSale();
                 this.loading = false;
             },
@@ -48,17 +47,17 @@ export class SaleDetailComponent implements OnInit {
             }
         );
 
-        this.payments = this.data.sale.payments;
+        this.payments = this.data.transaction.payments;
         if (this.payments.length) {
             this.totalReceived = this.payments.map(p => parseFloat(p.value)).reduce((a, b) => a + b);
         }
     }
 
     private getUpdatedSale() {
-        if (this.trades.length) {
-            this.updatedSale = _.cloneDeep(this.sale);
+        this.updatedSale = _.cloneDeep(this.sale);
+        if (this.sale.trades.length) {
             let returnedProducts = [], purchasedProducts = [];
-            this.trades.forEach(
+            this.sale.trades.forEach(
                 (trade) => {
                     returnedProducts = [...returnedProducts, ...trade.returnedProducts];
                     purchasedProducts = [...purchasedProducts, ...trade.purchasedProducts];
@@ -82,6 +81,7 @@ export class SaleDetailComponent implements OnInit {
     }
 
     private getUrlToGo(componentPath: string) {
+        console.log(this.updatedSale);
         const urlTree = this.router.createUrlTree(['sale', componentPath]);
         urlTree.queryParams = {
             sale: JSON.stringify(this.updatedSale)
@@ -102,12 +102,12 @@ export class SaleDetailComponent implements OnInit {
 
     generateTaxCupom() {
         const a = this.router.createUrlTree(['tax-cupom']);
-        this.data.sale.products = this.sale.products;
-        this.data.sale.user = remote.getGlobal('user');
-        this.data.sale.store = remote.getGlobal('store');
-        const change = this.totalReceived - this.data.sale.value;
+        this.data.transaction.products = this.sale.products;
+        this.data.transaction.user = remote.getGlobal('user');
+        this.data.transaction.store = remote.getGlobal('store');
+        const change = this.totalReceived - this.data.transaction.value;
         a.queryParams = {
-            sale: JSON.stringify(this.data.sale),
+            sale: JSON.stringify(this.data.transaction),
             payments: JSON.stringify(this.payments),
             change: Math.round(change * 100) / 100
         };

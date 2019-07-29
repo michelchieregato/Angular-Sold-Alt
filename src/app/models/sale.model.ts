@@ -3,6 +3,7 @@ import {Client} from './client.model';
 import {Product} from './product.model';
 import {roundTo} from './payment.model';
 import {TypeOfSale} from '../constants/enums';
+import {Trade} from './trade.model';
 
 export class Sale {
     id: number;
@@ -16,6 +17,7 @@ export class Sale {
     products: Array<Product>;
     payments: any;
     discount: number;
+    trades: Trade[] = [];
     TYPE = TypeOfSale.SALE;
 
     constructor(saleInfo: any) {
@@ -30,6 +32,10 @@ export class Sale {
         this.products = saleInfo.products || [];
         this.discount = saleInfo.discount;
         this.payments = saleInfo.payments || [];
+
+        if (saleInfo.finish_later) {
+            this.TYPE = TypeOfSale.ORDER;
+        }
     }
 
     public getProductOnSaleList(id) {

@@ -3,7 +3,7 @@ import {NgModule} from '@angular/core';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {LoginComponent} from './login/login.component';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NavbarSellerComponent} from './navbar-seller/navbar-seller.component';
 import {MenuSellerComponent} from './menu-seller/menu-seller.component';
 import {MenuComponent} from './menu-seller/menu/menu.component';
@@ -38,7 +38,7 @@ import { ReportComponent } from './menu-seller/report/report.component';
 import {DatePipe} from '@angular/common';
 import { PaymentReportComponent } from './menu-seller/report/payment-report/payment-report.component';
 import { ProductReportComponent } from './menu-seller/report/product-report/product-report.component';
-import {NameOrUsernamePipe, PaymentPipe, WithdrawInOrOutPipe} from './pipes/utils-pipe.pipe';
+import {NameOrUsernamePipe, PaymentPipe, TypeOfSalePipe, WithdrawInOrOutPipe} from './pipes/utils-pipe.pipe';
 import { OrderComponent } from './menu-seller/sale/order/order.component';
 import { WithdrawHistoryComponent } from './menu-seller/withdraw/withdraw-history/withdraw-history.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
@@ -47,6 +47,7 @@ import { SaleReportComponent } from './menu-seller/report/sale-report/sale-repor
 import { ChangeStoreComponent } from './modals/change-store/change-store.component';
 import { TradeComponent } from './menu-seller/sale/trade/trade.component';
 import {MatTableModule} from '@angular/material/table';
+import { TradeDetailComponent } from './menu-seller/search-sale/trade-detail/trade-detail.component';
 
 @NgModule({
     declarations: [
@@ -75,12 +76,14 @@ import {MatTableModule} from '@angular/material/table';
         PaymentPipe,
         WithdrawInOrOutPipe,
         NameOrUsernamePipe,
+        TypeOfSalePipe,
         OrderComponent,
         WithdrawHistoryComponent,
         CheckOrdersComponent,
         SaleReportComponent,
         ChangeStoreComponent,
-        TradeComponent
+        TradeComponent,
+        TradeDetailComponent
     ],
     imports: [
         BrowserModule,
@@ -101,14 +104,16 @@ import {MatTableModule} from '@angular/material/table';
         CurrencyMaskModule,
         TypeaheadModule.forRoot(),
         InfiniteScrollModule,
-        MatTableModule
+        MatTableModule,
+        ReactiveFormsModule
     ],
-    providers: [MatDialog, MatDatepickerModule, DatePipe, {provide: MAT_DATE_LOCALE, useValue: 'en-GB'}],
+    providers: [MatDialog, MatDatepickerModule, DatePipe, {provide: MAT_DATE_LOCALE, useValue: 'pt'}],
     bootstrap: [AppComponent],
     entryComponents: [
         PopupComponent,
         DiscountComponent,
         AddClientComponent,
+        TradeDetailComponent,
         SaleDetailComponent,
         WithdrawComponent,
         WithdrawHistoryComponent,
