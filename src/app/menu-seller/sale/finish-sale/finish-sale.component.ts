@@ -14,8 +14,6 @@ import {TypeOfSale} from '../../../constants/enums';
 import {SaleCommunicationService} from '../../../services/sale-communication.service';
 import {SalePayments} from '../../../models/payment.model';
 
-// noinspection ES6UnusedImports
-import * as electron from 'electron';
 import {Trade} from '../../../models/trade.model';
 import {selectTrade} from '../../../store/selectors/trade.selectors';
 
@@ -77,7 +75,6 @@ export class FinishSaleComponent implements OnInit {
                     this.trade = new Trade(trade, trade.sale);
                     this.salePayment = new SalePayments(this.trade);
                     this.addPayment = this.salePayment.cashToReceive;
-                    console.log(this.trade);
                 }
             );
         }

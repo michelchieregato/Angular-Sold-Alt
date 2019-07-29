@@ -1,14 +1,12 @@
-import {Component, DoCheck, KeyValueDiffer, KeyValueDiffers, OnChanges, OnInit} from '@angular/core';
+import {Component, KeyValueDiffer, KeyValueDiffers, OnInit} from '@angular/core';
 import {Product} from '../../../models/product.model';
 import {ClientService} from '../../../services/client.service';
 import {select, Store} from '@ngrx/store';
 import {MovePage, RestartSale, UpdateFullSale} from '../../../store/actions/sale.actions';
 import {MatDialog} from '@angular/material/dialog';
 import {AppState} from '../../../store/state/app.state';
-import {selectProducts, selectSale, selectTotal} from '../../../store/selectors/sale.selectors';
+import {selectSale, selectTotal} from '../../../store/selectors/sale.selectors';
 import {PopupComponent} from '../../../modals/popup/popup.component';
-import {UpdateCheckbookWithdraw, UpdateMoneyWithdraw} from '../../../store/actions/withdraw.actions';
-import {Withdraw} from '../../../models/withdraw.model';
 import {Sale} from '../../../models/sale.model';
 
 const async = require('async');
@@ -18,7 +16,7 @@ const async = require('async');
     templateUrl: './add-to-sale.component.html',
     styleUrls: ['./add-to-sale.component.scss']
 })
-export class AddToSaleComponent implements OnInit, DoCheck {
+export class AddToSaleComponent implements OnInit {
     sale: Sale;
     products = [];
     displayProducts = [];
@@ -38,32 +36,11 @@ export class AddToSaleComponent implements OnInit, DoCheck {
 
 
     ngOnInit() {
-        async.parallel({
-                products: (callback) => {
-                    this.clientServer.getProducts().subscribe(
-                        (success) => {
-                            callback(null, success);
-                        });
-                },
-                money: (callback) => {
-                    this.clientServer.getWithdrawInformation({name: 'Dinheiro'}).subscribe(
-                        (success) => {
-                            callback(null, success);
-                        });
-                },
-                checkbook: (callback) => {
-                    this.clientServer.getWithdrawInformation({name: 'Cheque'}).subscribe(
-                        (success) => {
-                            callback(null, success);
-                        });
-                }
-            },
-            (err, results) => {
-                this.products = results.products;
+        this.clientServer.getProducts().subscribe(
+            (results) => {
+                this.products = results;
                 this.displayProducts = this.products;
                 this.product = this.products[0];
-                this.store.dispatch(new UpdateMoneyWithdraw(new Withdraw(results.money)));
-                this.store.dispatch(new UpdateCheckbookWithdraw(new Withdraw(results.checkbook)));
                 this.ready = true;
             });
 
@@ -73,13 +50,6 @@ export class AddToSaleComponent implements OnInit, DoCheck {
                 this.sale.value = this.sale.original_value;
             }
         );
-    }
-
-    ngDoCheck() {
-        const changes = this.saleDiffer.diff(this.sale);
-        if (changes) {
-            this.store.dispatch(new UpdateFullSale(this.sale));
-        }
     }
 
     updatePanel(product) {
@@ -109,10 +79,12 @@ export class AddToSaleComponent implements OnInit, DoCheck {
     addProduct() {
         this.sale.addProduct(this.product, this.qnt);
         this.qnt = 1;
+        this.store.dispatch(new UpdateFullSale(this.sale));
     }
 
     removeProduct(id: number) {
         this.sale.removeProducts(id);
+        this.store.dispatch(new UpdateFullSale(this.sale));
     }
 
     endSale(isOrder) {
