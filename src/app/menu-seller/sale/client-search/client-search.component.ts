@@ -26,6 +26,7 @@ export class ClientSearchComponent implements OnInit {
     type: number;
     selectedRow;
     typesOfSale = TypeOfSale;
+    displayedColumns = ['name', 'cpf', 'email', 'credit'];
 
     constructor(private clientServer: ClientService, private store: Store<AppState>,
                 public dialog: MatDialog, private router: Router) {
@@ -58,9 +59,9 @@ export class ClientSearchComponent implements OnInit {
         }
     }
 
-    selectClient(client: Client, index: number) {
+    selectClient(client: Client) {
         this.clientSelected = client;
-        this.selectedRow = index;
+        this.selectedRow = client.id;
     }
 
     openNewClientModal() {

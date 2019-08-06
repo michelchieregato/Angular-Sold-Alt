@@ -40,14 +40,13 @@ exports.createWindow = (args) => {
                     });
 
                     winPDF.loadURL(path.resolve(__dirname) + '/../../print.pdf');
-                    // this.win.close();
+                    this.win.close();
                 })
             })
         });
     }
 
     // Handling closing
-
     this.win.on('closed', () => {
         this.win = null
     })

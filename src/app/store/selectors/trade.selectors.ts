@@ -8,3 +8,8 @@ export const selectTrade = createSelector(
     selectTradeState,
     (state: TradeState) => state.trade
 );
+
+export const selectTradeDiscount = createSelector(
+    selectTradeState,
+    (state: TradeState) => state.trade.discount
+)

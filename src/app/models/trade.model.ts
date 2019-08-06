@@ -52,7 +52,7 @@ export class Trade {
                 return a + b;
             }) * 100) / 100;
         }
-        this.original_value = purchasedPrice - returnedValue;
+        this.original_value = roundTo(purchasedPrice - returnedValue, 2);
         this.value = roundTo(this.original_value * (1 - this.discount / 100), 2);
         this.value = this.value >= 0 ? this.value : 0;
     }

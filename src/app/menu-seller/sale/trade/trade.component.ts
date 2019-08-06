@@ -9,6 +9,8 @@ import {Product} from '../../../models/product.model';
 import {TypeaheadMatch} from 'ngx-bootstrap';
 import {Trade} from '../../../models/trade.model';
 import {UpdateFullTrade} from '../../../store/actions/trade.actions';
+import {PopupComponent} from '../../../modals/popup/popup.component';
+import {MatDialog} from '@angular/material';
 
 @Component({
     selector: 'app-trade',
@@ -27,7 +29,7 @@ export class TradeComponent implements OnInit, DoCheck {
     tradeDiffer: KeyValueDiffer<any, any>;
 
     constructor(private router: ActivatedRoute, private store: Store<AppState>, private clientServer: ClientService,
-                private _differs: KeyValueDiffers) {
+                private _differs: KeyValueDiffers, public dialog: MatDialog) {
         this.trade = new Trade({}, new Sale({}));
         this.tradeDiffer = this._differs.find(this.trade).create();
     }
@@ -118,6 +120,18 @@ export class TradeComponent implements OnInit, DoCheck {
     }
 
     endTrade() {
+        if (!this.trade.returnedProducts.length) {
+            this.dialog.open(PopupComponent, {
+                height: '400px',
+                width: '500px',
+                data: {
+                    'type': 'ok-face',
+                    'title': 'Retorne algum produto!',
+                    'text': 'Caso só precise vender produtos, faça uma venda.'
+                }
+            });
+            return;
+        }
         this.store.dispatch(new MovePage(true));
     }
 

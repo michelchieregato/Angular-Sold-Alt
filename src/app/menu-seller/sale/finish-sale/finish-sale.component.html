@@ -22,8 +22,7 @@
         &nbsp; (Crédito) {{ (-1 * trade.original_value) | currency : 'BRL' }}
     </span>
 </h2>
-<a class="h-link block" (click)="openDiscountModal()"> Dar desconto </a>
-
+<a class="h-link block" (click)="openDiscountModal()" *ngIf="type === typesOfSale.TRADE && trade.original_value > 0"> Dar desconto </a>
 <div class="btn-toolbar" data-toggle="buttons">
 
     <label class="btn btn-default opt" id="Dinheiro" [ngClass]="{active: btnSelected == 'Dinheiro'}"
@@ -57,10 +56,10 @@
         <div class="input-group">
             <div class="input-group-addon">$</div>
             <input type="text" class="form-control" placeholder="Valor" (keyup.enter)="addToSale()"
-                   [(ngModel)]="addPayment">
+                   [(ngModel)]="addPayment" [disabled]="type === typesOfSale.TRADE && trade.original_value <= 0">
         </div>
     </div>
-    <p class="btn btn-default" (click)="addToSale()">Adicionar</p>
+    <button class="btn btn-default" (click)="addToSale()" [disabled]="type === typesOfSale.TRADE && trade.original_value <= 0">Adicionar</button>
 </div>
 
 <div class="row">
@@ -92,7 +91,6 @@
             </tr>
             </tfoot>
         </table>
-
     </div>
 
     <div class="col-md-6 money-labels">
@@ -120,10 +118,7 @@
             </span>
         </h3>
     </div>
-
 </div>
-
-
 <div class="final-btn">
     <button class="btn orange" (click)="backPage()">
         Voltar a tela

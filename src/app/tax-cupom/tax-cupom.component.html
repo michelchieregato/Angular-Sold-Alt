@@ -2,14 +2,14 @@
     <h1>Pueri Store</h1>
     <div class="infos clearfix">
         <div class="pull-left">
-            <h3 class="vendedor">Vendedor: {{ sale.user.first_name }} {{ sale.user.last_name }}</h3>
+            <h3 class="vendedor">Vendedor: {{ user.first_name }} {{ user.last_name }}</h3>
             <h3 class="vendedor" *ngIf="client.id != 0">
                 {{ client.name }}
             </h3>
         </div>
         <div class="loja">
             <h3>
-                Unidade: {{ sale.store }}
+                Unidade: {{ store }}
             </h3>
             <h3>
                 {{ date | date : "dd/MM/yy hh:mm a"}}
@@ -21,7 +21,7 @@
     <br><br>
     <br><br>
     <div class="max-size">
-        <table class="table table-sale">
+        <table class="table table-sale" *ngIf="type === 1 || trade.purchasedProducts.length > 0">
             <thead>
             <tr>
                 <th class="static-600">Descricao</th>
@@ -31,7 +31,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let product of sale.products">
+            <tr *ngFor="let product of products">
                 <td class="static-600">
                     {{ product.name }}
                 </td>
@@ -51,16 +51,17 @@
                 <th class="static-600"></th>
                 <th class="static-300"></th>
                 <th class="static-300 text-center">Total:</th>
-                <th class="static-200 text-center">R$ {{ sale.original_value | number : '1.2-2' }}</th>
+                <th class="static-200 text-center">R$ {{ total_value | number : '1.2-2' }}</th>
             </tr>
             </tfoot>
         </table>
 
-        <p *ngIf="sale.discount"> Desconto: {{ sale.discount }} %</p>
-        <p>Valor total da venda : {{ sale.value | currency : 'BRL' }}</p>
-        <p *ngIf="change > 0">Total Recebido: {{ (sale.value + change) | currency : 'BRL' }}</p>
+        <p *ngIf="returnedValue"> Valor de produtos retornados: {{ returnedValue | currency : 'BRL' }} </p>
+        <p *ngIf="discount"> Desconto: {{ discount }} %</p>
+        <p>Valor total da venda : {{ value | currency : 'BRL' }}</p>
+        <p *ngIf="change > 0">Total Recebido: {{ (value + change) | currency : 'BRL' }}</p>
         <p *ngIf="change > 0">Troco: {{ change | currency : 'BRL' }}</p>
-        <p>Forma de Pagamento:</p>
+        <p *ngIf="payments.length">Forma de Pagamento:</p>
         <p *ngFor="let payment of payments">
             - {{ payment.type }} {{ payment.value | currency: 'BRL' }}
         </p>

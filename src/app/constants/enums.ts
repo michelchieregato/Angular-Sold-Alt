@@ -7,7 +7,8 @@ export enum TypeOfSale {
 export enum WithdrawChoices {
     D = 'Deposito',
     S = 'Venda',
-    W = 'Retirada'
+    W = 'Retirada',
+    T = 'Troca'
 }
 
 export enum PaymentMethod {

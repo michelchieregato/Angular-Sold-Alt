@@ -75,6 +75,7 @@ export class FinishSaleComponent implements OnInit {
                     this.trade = new Trade(trade, trade.sale);
                     this.salePayment = new SalePayments(this.trade);
                     this.addPayment = this.salePayment.cashToReceive;
+                    console.log(this.trade);
                 }
             );
         }
@@ -132,13 +133,21 @@ export class FinishSaleComponent implements OnInit {
     }
 
     private makeTaxCupom() {
-        const a = this.router.createUrlTree(['tax-cupom']);
-        a.queryParams = {
-            sale: JSON.stringify(this.sale),
+        const urlTree = this.router.createUrlTree(['tax-cupom']);
+        urlTree.queryParams = {
             payments: JSON.stringify(this.salePayment.payments),
             change: JSON.stringify(this.salePayment.change)
         };
-        ipcRenderer.send('pdf', {'url': a.toString().substring(1)});
+
+        if (this.type === TypeOfSale.SALE) {
+            urlTree.queryParams.sale = JSON.stringify(this.sale);
+            urlTree.queryParams.type = this.type;
+        } else {
+            urlTree.queryParams.trade = JSON.stringify(this.trade);
+            urlTree.queryParams.type = this.type;
+        }
+
+        ipcRenderer.send('pdf', {'url': urlTree.toString().substring(1)});
     }
 
     finalize() {
@@ -389,7 +398,7 @@ export class FinishSaleComponent implements OnInit {
                 } else {
                     this.clientServer.createWithdrawHistory({
                         name: 'Dinheiro',
-                        withdraw: 'S',
+                        withdraw: 'T',
                         quantity: this.withdrawUpdated.money
                     }).subscribe(
                         (next) => callback(null, next),
@@ -403,7 +412,7 @@ export class FinishSaleComponent implements OnInit {
                 } else {
                     this.clientServer.createWithdrawHistory({
                         name: 'Cheque',
-                        withdraw: 'S',
+                        withdraw: 'T',
                         quantity: this.withdrawUpdated.checkbook
                     }).subscribe(
                         (next) => callback(null, next),
@@ -425,7 +434,7 @@ export class FinishSaleComponent implements OnInit {
                 this.sending = false;
                 return;
             }
-
+            this.makeTaxCupom();
             this.sending = false;
             const win = remote.getCurrentWindow();
             win.close();

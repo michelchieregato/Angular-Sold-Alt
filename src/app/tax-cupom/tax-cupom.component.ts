@@ -2,6 +2,11 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Client} from '../models/client.model';
 import {Sale} from '../models/sale.model';
+import {TypeOfSale} from '../constants/enums';
+import {Trade} from '../models/trade.model';
+import {Product} from '../models/product.model';
+import {User} from '../models/user.model';
+import {roundTo} from '../models/payment.model';
 
 @Component({
     selector: 'app-tax-cupom',
@@ -12,35 +17,65 @@ export class TaxCupomComponent implements OnInit {
 
     client = new Client({});
     sale = new Sale({});
+    trade = new Trade({}, null);
     date = new Date();
-    payments = {};
+    payments = [];
     change = 0;
+    user: User;
+    store: any;
+    discount: number;
+    value: number;
+    total_value: number = 0;
+    returnedValue: number = 0;
+    products: Product[] = [];
+    type: TypeOfSale;
 
     constructor(private router: ActivatedRoute) {
     }
 
     ngOnInit() {
-        console.log('aquiii')
-        this.sale = new Sale(JSON.parse(this.router.snapshot.queryParams.sale));
 
-        console.log(this.sale);
-        // TODO arrumar migues
-        // if (this.sale.products[0]) {
-        //     console.log('aquiii')
-        //     this.sale.products = this.sale.products.map(p => {
-        //         console.log(p)
-        //         return {
-        //             quantity: p['quantity'],
-        //             ...p.product
-        //         };
-        //     });
-        // }
-        console.log(this.sale);
-        this.client = new Client(this.sale.client);
+        // tslint:disable-next-line:triple-equals
+        if (this.router.snapshot.queryParams.type == TypeOfSale.SALE) {
+            this.type = TypeOfSale.SALE;
+            this.sale = new Sale(JSON.parse(this.router.snapshot.queryParams.sale));
+            this.products = this.sale.products;
+            this.store = this.sale.store;
+            this.value = this.sale.value;
+            this.user = this.sale.user;
+            this.client = new Client(this.sale.client);
+            this.date = (this.sale.datetime ? new Date(this.sale.datetime) : this.date);
+            this.total_value = this.sale.original_value;
+            this.discount = this.sale.discount;
+        } else {
+            this.type = TypeOfSale.TRADE;
+            this.trade = new Trade(JSON.parse(this.router.snapshot.queryParams.trade),
+                JSON.parse(this.router.snapshot.queryParams.trade)['sale']);
+            console.log(this.trade)
+            this.products = this.trade.purchasedProducts;
+            console.log(this.products)
+            this.store = this.trade.store;
+            this.value = this.trade.value;
+            this.user = this.trade.sale.user;
+            this.client = new Client(this.trade.sale.client);
+            this.date = (this.trade.datetime ? new Date(this.trade.datetime) : this.date);
+            this.discount = this.trade.discount;
+            this.returnedValue = roundTo(this.trade.returnedProducts.map((product) => {
+                return product.quantity * product.price_sell;
+            }).reduce((a, b) => {
+                return a + b;
+            }), 2);
+            if (this.trade.purchasedProducts) {
+                this.total_value = roundTo(this.trade.purchasedProducts.map((product) => {
+                    return product.quantity * product.price_sell;
+                }).reduce((a, b) => {
+                    return a + b;
+                }), 2);
+            }
+        }
+
         this.payments = JSON.parse(this.router.snapshot.queryParams.payments);
-        this.date = (this.sale.datetime ? new Date(this.sale.datetime) : this.date);
         this.change = parseFloat(this.router.snapshot.queryParams.change);
-        // this.sale.value = parseFloat(this.sale.value);
     }
 
 }

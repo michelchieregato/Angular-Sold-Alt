@@ -26,7 +26,6 @@ export class TradeDetailComponent implements OnInit {
         this.clientService.getTrade(this.data.transaction).subscribe(
             (trade) => {
                 this.trade = trade;
-                console.log(trade);
                 this.loading = false;
             },
             (error) => {
