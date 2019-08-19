@@ -8,6 +8,7 @@ import {AppState} from '../../../store/state/app.state';
 import {selectSale, selectTotal} from '../../../store/selectors/sale.selectors';
 import {PopupComponent} from '../../../modals/popup/popup.component';
 import {Sale} from '../../../models/sale.model';
+import {Trade} from '../../../models/trade.model';
 
 const async = require('async');
 
@@ -102,7 +103,9 @@ export class AddToSaleComponent implements OnInit {
         }
 
         if (!isOrder.checked) {
-            this.store.dispatch(new MovePage(true));
+            this.getClientDiscount(this.sale, () => {
+                this.store.dispatch(new MovePage(true));
+            });
         } else {
             this.sale.finish_later = true;
             this.ready = false;
@@ -137,6 +140,36 @@ export class AddToSaleComponent implements OnInit {
                     this.ready = true;
                 }
             );
+        }
+    }
+
+    getClientDiscount(transaction: Trade | Sale, callback: any) {
+        let modal, discountToApply;
+        if (transaction.original_value > 0 && transaction.client.id !== 0) {
+            discountToApply = transaction.value > transaction.client.credit ? transaction.client.credit : transaction.value;
+            modal = this.dialog.open(PopupComponent, {
+                data: {
+                    height: '425px',
+                    width: '650px',
+                    'type': 'ok-face',
+                    'title': 'O cliente apresenta um crédito com a loja!',
+                    'text': 'Você deseja aplicar o valor de R$' +
+                        (discountToApply).toString() + ' como desconto, devido ao crédito do cliente?',
+                    'confirmation': true
+                }
+            });
+
+            modal.afterClosed().subscribe(
+                (confirmation) => {
+                    if (confirmation) {
+                        transaction.value -= discountToApply;
+                        transaction.client.credit -= discountToApply;
+                        callback();
+                    }
+                }
+            );
+        } else {
+            callback();
         }
     }
 

@@ -94,7 +94,6 @@ export class ClientService {
         }
         return this.http.get<Trade[]>(remote.getGlobal('default_url') + 'trade/', {params: params}).pipe(map(
             (response) => {
-                console.log(response);
                 return response.map(p => new Trade(p, null));
             })
         );
@@ -108,7 +107,7 @@ export class ClientService {
                     (tradeObject) => {
                         tradeObject['purchasedProducts'] = getProductsFromBackend(tradeObject['purchased_products']);
                         tradeObject['returnedProducts'] = getProductsFromBackend(tradeObject['returned_products']);
-                        return new Trade(tradeObject, new Sale(sale));
+                        return new Trade(tradeObject, sale.id);
                     }
                 );
                 return response;
@@ -119,8 +118,6 @@ export class ClientService {
     getTrade(trade: Trade) {
         return this.http.get(remote.getGlobal('default_url') + 'trade/' + trade.id + '/').pipe(map(
             (response: any) => {
-                console.log(response);
-                console.log(response.returned_products);
                 trade.returnedProducts = getProductsFromBackend(response.returned_products);
                 trade.purchasedProducts = getProductsFromBackend(response.purchased_products);
                 return trade;
@@ -185,6 +182,10 @@ export class ClientService {
         store = remote.getGlobal('store');
         params['store'] = store;
         return this.http.put(remote.getGlobal('default_url') + 'withdraw/add_withdraw/', {...params});
+    }
+
+    updateClient(client: Client) {
+        return this.http.put(remote.getGlobal('default_url') + 'client/' + client.id + '/', client);
     }
 
 }

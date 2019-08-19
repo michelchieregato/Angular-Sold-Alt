@@ -4,34 +4,19 @@ import {Product} from './product.model';
 import {roundTo} from './payment.model';
 import {TypeOfSale} from '../constants/enums';
 import {Trade} from './trade.model';
+import {Transaction} from './transaction.model';
 
-export class Sale {
-    id: number;
-    client: Client;
-    user: User;
-    store: number;
-    datetime: Date;
-    original_value: number;
-    value: number;
-    finish_later: boolean;
+export class Sale extends Transaction {
     products: Array<Product>;
-    payments: any;
-    discount: number;
+    finish_later: boolean;
     trades: Trade[] = [];
     TYPE = TypeOfSale.SALE;
 
     constructor(saleInfo: any) {
-        this.id = saleInfo.id;
-        this.client = saleInfo.client;
-        this.user = saleInfo.user;
-        this.store = saleInfo.store;
-        this.datetime = saleInfo.datetime ? new Date(saleInfo.datetime) : undefined;
-        this.original_value = parseFloat(saleInfo.original_value);
-        this.value = parseFloat(saleInfo.value);
+        super(saleInfo);
+
         this.finish_later = saleInfo.finish_later;
         this.products = saleInfo.products || [];
-        this.discount = saleInfo.discount;
-        this.payments = saleInfo.payments || [];
 
         if (saleInfo.finish_later) {
             this.TYPE = TypeOfSale.ORDER;
@@ -89,9 +74,6 @@ export class Sale {
 
     public calculateValue() {
         this.value = roundTo(this.original_value * (1 - this.discount / 100), 2);
-        var a = 1;
-        console.log(a);
-
     }
 
     public prepareToSendSale(paymentsList) {

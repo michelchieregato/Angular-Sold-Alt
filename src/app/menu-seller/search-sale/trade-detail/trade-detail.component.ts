@@ -22,6 +22,7 @@ export class TradeDetailComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.loading = true;
         this.trade = this.data.transaction;
         this.clientService.getTrade(this.data.transaction).subscribe(
             (trade) => {

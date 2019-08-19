@@ -56,8 +56,8 @@ export class TaxCupomComponent implements OnInit {
             console.log(this.products)
             this.store = this.trade.store;
             this.value = this.trade.value;
-            this.user = this.trade.sale.user;
-            this.client = new Client(this.trade.sale.client);
+            this.user = this.trade.user;
+            this.client = new Client(this.trade.client);
             this.date = (this.trade.datetime ? new Date(this.trade.datetime) : this.date);
             this.discount = this.trade.discount;
             this.returnedValue = roundTo(this.trade.returnedProducts.map((product) => {

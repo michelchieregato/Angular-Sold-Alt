@@ -1,39 +1,21 @@
 import {Sale} from './sale.model';
 import {prepareProductForBackend, Product} from './product.model';
 import {preparePaymentForBackend, roundTo, SalePayments} from './payment.model';
-import {Client} from './client.model';
 import {TypeOfSale} from '../constants/enums';
+import {Transaction} from './transaction.model';
 
-export class Trade {
-    id: number;
-    sale: Sale;
-    datetime: Date;
-    value: number = 0;
-    original_value: number = 0;
-    discount: number = 0;
+export class Trade extends Transaction {
+    saleID: number;
     returnedProducts: Product[] = [];
     purchasedProducts: Product[] = [];
-
-    // For search sale screen
-    store: any;
-    client: Client;
-    payments: any;
     TYPE = TypeOfSale.TRADE;
 
-    constructor(tradeInfo: any, sale: Sale) {
-        this.id = tradeInfo.id;
-        this.sale = sale;
+    constructor(tradeInfo: any, saleId: number) {
+        super(tradeInfo);
+        this.saleID = saleId;
         this.datetime = tradeInfo.datetime ? new Date(tradeInfo.datetime) : undefined;
         this.returnedProducts = tradeInfo.returnedProducts || [];
         this.purchasedProducts = tradeInfo.purchasedProducts || [];
-        this.value = tradeInfo.value ? parseFloat(tradeInfo.value) : 0;
-        this.original_value = tradeInfo.original_value ? parseFloat(tradeInfo.original_value) : 0;
-        this.discount = tradeInfo.discount ? parseFloat(tradeInfo.discount) : 0;
-
-        // For search sale screen
-        this.client = tradeInfo.client;
-        this.store = tradeInfo.store;
-        this.payments = tradeInfo.payments;
     }
 
     private getTradeValue() {
@@ -131,8 +113,8 @@ export class Trade {
             returned_products: returnedProducts,
             purchased_products: purchasedProducts,
             payments: paymentsArray,
-            sale: this.sale.id,
-            client: this.sale.client.id === 0 ? 1 : this.sale.client.id,
+            sale: this.saleID,
+            client: this.client.id === 0 ? 1 : this.client.id,
             updateClient: updateClient
         };
     }

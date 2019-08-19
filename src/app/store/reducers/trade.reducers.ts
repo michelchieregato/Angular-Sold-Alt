@@ -11,7 +11,7 @@ export function tradeReducer(state = initialTradeState, action: TradeActions) {
                 ...state,
                 trade: new Trade({
                     ...action.payload
-                }, action.payload.sale)
+                }, action.payload.saleID)
             };
         case TradeEnumActions.UPDATE_TRADE_DISCOUNT:
             state.trade.discount = action.payload;
@@ -20,7 +20,7 @@ export function tradeReducer(state = initialTradeState, action: TradeActions) {
                 ...state,
                 trade: new Trade({
                     ...state.trade,
-                }, state.trade.sale)
+                }, state.trade.saleID)
             };
         default:
             return state;

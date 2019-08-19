@@ -1,3 +1,5 @@
+import {roundTo} from './payment.model';
+
 export class Client {
     id: number;
     cpf: string;
@@ -5,6 +7,7 @@ export class Client {
     email: string;
     tel: string;
     cep: string;
+    credit: number;
 
     constructor(clientInfo: any) {
         this.id = clientInfo.id;
@@ -13,5 +16,6 @@ export class Client {
         this.email = clientInfo.email;
         this.tel = clientInfo.tel;
         this.cep = clientInfo.cep;
+        this.credit = roundTo(clientInfo.credit, 2);
     }
 }

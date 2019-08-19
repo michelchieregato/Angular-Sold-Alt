@@ -30,7 +30,7 @@ export class TradeComponent implements OnInit, DoCheck {
 
     constructor(private router: ActivatedRoute, private store: Store<AppState>, private clientServer: ClientService,
                 private _differs: KeyValueDiffers, public dialog: MatDialog) {
-        this.trade = new Trade({}, new Sale({}));
+        this.trade = new Trade({}, null);
         this.tradeDiffer = this._differs.find(this.trade).create();
     }
 
@@ -55,7 +55,8 @@ export class TradeComponent implements OnInit, DoCheck {
     ngOnInit() {
         this.sale = new Sale(JSON.parse(this.router.snapshot.queryParams.sale));
         this.store.dispatch(new AddClient(this.sale.client));
-        this.trade = new Trade({}, this.sale);
+        this.trade = new Trade({}, this.sale.id);
+        this.trade.client = this.sale.client;
 
         this.clientServer.getProducts().subscribe(
             (products: Array<Product>) => {

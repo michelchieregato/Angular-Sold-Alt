@@ -72,7 +72,8 @@ export class FinishSaleComponent implements OnInit {
         } else {
             this.tradeObserver.subscribe(
                 (trade) => {
-                    this.trade = new Trade(trade, trade.sale);
+                    console.log(trade)
+                    this.trade = new Trade(trade, trade.saleID);
                     this.salePayment = new SalePayments(this.trade);
                     this.addPayment = this.salePayment.cashToReceive;
                     console.log(this.trade);
@@ -339,7 +340,7 @@ export class FinishSaleComponent implements OnInit {
     }
 
     finalizeTrade() {
-        if (this.trade.original_value < 0 && (this.trade.sale.client.id !== 0 && this.trade.sale.client.id !== 1)) {
+        if (this.trade.original_value < 0 && (this.trade.client.id !== 0 && this.trade.client.id !== 1)) {
             let modal = this.dialog.open(PopupComponent, {
                 height: '425px',
                 width: '650px',
