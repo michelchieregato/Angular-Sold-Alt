@@ -48,6 +48,7 @@ import { ChangeStoreComponent } from './modals/change-store/change-store.compone
 import { TradeComponent } from './menu-seller/sale/trade/trade.component';
 import {MatTableModule} from '@angular/material/table';
 import { TradeDetailComponent } from './menu-seller/search-sale/trade-detail/trade-detail.component';
+import {MatSliderModule} from '@angular/material/slider';
 
 @NgModule({
     declarations: [
@@ -105,7 +106,8 @@ import { TradeDetailComponent } from './menu-seller/search-sale/trade-detail/tra
         TypeaheadModule.forRoot(),
         InfiniteScrollModule,
         MatTableModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        MatSliderModule
     ],
     providers: [MatDialog, MatDatepickerModule, DatePipe, {provide: MAT_DATE_LOCALE, useValue: 'pt'}],
     bootstrap: [AppComponent],

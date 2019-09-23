@@ -85,7 +85,7 @@ export class FinishSaleComponent implements OnInit {
     openDiscountModal() {
         this.dialog.open(DiscountComponent, {
             disableClose: true,
-            height: '200px',
+            height: '400px',
             width: '700px',
             data: {
                 type: this.type
