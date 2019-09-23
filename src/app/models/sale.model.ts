@@ -1,5 +1,3 @@
-import {User} from './user.model';
-import {Client} from './client.model';
 import {Product} from './product.model';
 import {roundTo} from './payment.model';
 import {TypeOfSale} from '../constants/enums';

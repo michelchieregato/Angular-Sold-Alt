@@ -8,7 +8,6 @@ import {AppState} from '../../../store/state/app.state';
 import {selectSale, selectTotal} from '../../../store/selectors/sale.selectors';
 import {PopupComponent} from '../../../modals/popup/popup.component';
 import {Sale} from '../../../models/sale.model';
-import {Trade} from '../../../models/trade.model';
 
 const async = require('async');
 
@@ -103,9 +102,7 @@ export class AddToSaleComponent implements OnInit {
         }
 
         if (!isOrder.checked) {
-            this.getClientDiscount(this.sale, () => {
-                this.store.dispatch(new MovePage(true));
-            });
+            this.store.dispatch(new MovePage(true));
         } else {
             this.sale.finish_later = true;
             this.ready = false;

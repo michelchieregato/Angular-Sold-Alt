@@ -1,9 +1,5 @@
 import {Client} from './client.model';
 import {User} from './user.model';
-import {Trade} from './trade.model';
-import {Sale} from './sale.model';
-import {PopupComponent} from '../modals/popup/popup.component';
-import {MatDialog} from '@angular/material';
 
 export abstract class Transaction {
     id: number;
@@ -17,7 +13,7 @@ export abstract class Transaction {
     payments: any;
     clientDiscount = 0;
 
-    constructor(info,  public dialog: MatDialog) {
+    protected constructor(info) {
         this.id = info.id;
         this.client = info.client;
         this.user = info.user;
@@ -33,34 +29,18 @@ export abstract class Transaction {
         return this.clientDiscount > 0;
     }
 
-    getClientDiscount(transaction: Trade | Sale, callback: any) {
-        let modal, discountToApply;
-        if (transaction.original_value > 0 && transaction.client.id !== 0 && !transaction.hasClientDiscount()) {
-            discountToApply = transaction.value > transaction.client.credit ? transaction.client.credit : transaction.value;
-            modal = this.dialog.open(PopupComponent, {
-                data: {
-                    height: '425px',
-                    width: '650px',
-                    'type': 'ok-face',
-                    'title': 'O cliente apresenta um crédito com a loja!',
-                    'text': 'Você deseja aplicar o valor de R$' +
-                        (discountToApply).toString() + ' como desconto, devido ao crédito do cliente?',
-                    'confirmation': true
-                }
-            });
-
-            modal.afterClosed().subscribe(
-                (confirmation) => {
-                    if (confirmation) {
-                        transaction.value -= discountToApply;
-                        transaction.client.credit -= discountToApply;
-                        transaction.clientDiscount = discountToApply;
-                        callback();
-                    }
-                }
-            );
+    getClientDiscount() {
+        if (this.original_value > 0 && this.client.id !== 0 && !this.hasClientDiscount()) {
+            return this.value > this.client.credit ? this.client.credit : this.value;
         } else {
-            callback();
+            return 0;
         }
     }
+
+    applyClientDiscount(discountToApply) {
+        this.value -= discountToApply;
+        this.client.credit -= discountToApply;
+        this.clientDiscount = discountToApply;
+    }
 }
+
