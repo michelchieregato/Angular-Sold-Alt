@@ -49,6 +49,7 @@ import { TradeComponent } from './menu-seller/sale/trade/trade.component';
 import {MatTableModule} from '@angular/material/table';
 import { TradeDetailComponent } from './menu-seller/search-sale/trade-detail/trade-detail.component';
 import {MatSliderModule} from '@angular/material/slider';
+import {MatCheckboxModule} from '@angular/material';
 
 @NgModule({
     declarations: [
@@ -107,7 +108,8 @@ import {MatSliderModule} from '@angular/material/slider';
         InfiniteScrollModule,
         MatTableModule,
         ReactiveFormsModule,
-        MatSliderModule
+        MatSliderModule,
+        MatCheckboxModule
     ],
     providers: [MatDialog, MatDatepickerModule, DatePipe, {provide: MAT_DATE_LOCALE, useValue: 'pt'}],
     bootstrap: [AppComponent],

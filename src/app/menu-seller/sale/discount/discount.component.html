@@ -5,7 +5,14 @@
     </div>
     <div class="slidecontainer">
         <mat-slider min="0" max="10" class="slider" [(ngModel)]="discount"></mat-slider>
-        <span class="block">{{ discount}} %</span>
     </div>
+    <span class="block">{{ discount}} %</span>
+
+    <div *ngIf="clientDiscout > 0">
+        <mat-checkbox color="accent">
+            Aplicar desconto de {{ clientDiscout | currency: 'BRL' }}?
+        </mat-checkbox>
+    </div>
+
     <p class="btn btn-lg btn-orange pull-right" (click)="applyDiscount()"> Dar Desconto </p>
 </div>

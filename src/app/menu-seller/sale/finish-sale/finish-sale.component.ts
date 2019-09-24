@@ -87,9 +87,7 @@ export class FinishSaleComponent implements OnInit {
             disableClose: true,
             height: '400px',
             width: '700px',
-            data: {
-                type: this.type
-            }
+            data: this.type === TypeOfSale.SALE ? this.sale : this.trade
         });
         return;
     }
