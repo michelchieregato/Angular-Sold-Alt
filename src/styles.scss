@@ -2,7 +2,7 @@
 $icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
 @import "~bootstrap-sass/assets/stylesheets/bootstrap";
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
-@import "~src/_variables.scss";
+@import "theme";
 
 @font-face {
     font-family: "Microsoft JhengHei Light";

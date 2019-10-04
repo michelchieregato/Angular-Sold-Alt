@@ -1,18 +1,22 @@
 <div class="discountModal">
     <div class="modal-header">
-        <span class="close" (click)="closeModal()">&times;</span>
-        <h2 class="h-text orange">Dar Desconto</h2>
+        <span class="close" (click)="closeModal()">
+            &times;
+        </span>
+        <h2 class="h-text orange">
+            Dar Desconto
+        </h2>
     </div>
     <div class="slidecontainer">
-        <mat-slider min="0" max="10" class="slider" [(ngModel)]="discount"></mat-slider>
+        <mat-slider min="0" max="10" class="slider" (change)="onSlideChange()" [(ngModel)]="discount"></mat-slider>
     </div>
-    <span class="block">{{ discount}} %</span>
-
-    <div *ngIf="clientDiscout > 0">
-        <mat-checkbox color="accent">
-            Aplicar desconto de {{ clientDiscout | currency: 'BRL' }}?
-        </mat-checkbox>
-    </div>
-
-    <p class="btn btn-lg btn-orange pull-right" (click)="applyDiscount()"> Dar Desconto </p>
+    <span class="discount block">
+        {{ discount}} %
+    </span>
+    <mat-checkbox class="client-discount" [(ngModel)]="checked" *ngIf="clientDiscount > 0">
+        Aplicar desconto de {{ clientDiscount | currency: 'BRL' }} (Devido ao crédito do cliente)?
+    </mat-checkbox>
+    <p class="btn btn-lg btn-orange pull-right" (click)="applyDiscount()">
+        Dar Desconto
+    </p>
 </div>

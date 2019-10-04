@@ -1,10 +1,14 @@
-@import "~src/_variables.scss";
+@import "../../../../theme";
 
 /* Modal Header */
 .discountModal {
     position: relative;
     height: 100%;
     background-color: $primary-color;
+}
+
+.h-text {
+    padding: 20px 0;
 }
 
 .modal-header {
@@ -35,4 +39,14 @@ span {
     position: absolute;
     right: 20px;
     bottom: 20px;
+}
+
+.discount {
+    float: left;
+    margin-left: 5%;
+}
+
+.client-discount {
+    float: right;
+    margin-right: 5%;
 }

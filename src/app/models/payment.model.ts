@@ -47,7 +47,7 @@ export class SalePayments {
 
     constructor(saleOrTrade, type = TypeOfSale.SALE) {
         this.saleOrTrade = saleOrTrade;
-        this.saleOrTrade.value = roundTo(saleOrTrade.original_value * (1 - saleOrTrade.discount / 100), 2);
+        this.saleOrTrade.value = this.saleOrTrade.calculateValue();
         this.cashToReceive = (this.saleOrTrade.value - this.cashReceived) > 0 ? (this.saleOrTrade.value - this.cashReceived) : 0;
         this.cashToReceive = roundTo(this.cashToReceive, 2);
         this.change = (this.saleOrTrade.value - this.cashReceived) < 0 ? -1 * (this.saleOrTrade.value - this.cashReceived) : 0;

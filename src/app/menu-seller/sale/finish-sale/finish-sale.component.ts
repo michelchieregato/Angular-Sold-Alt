@@ -72,11 +72,9 @@ export class FinishSaleComponent implements OnInit {
         } else {
             this.tradeObserver.subscribe(
                 (trade) => {
-                    console.log(trade)
                     this.trade = new Trade(trade, trade.saleID);
                     this.salePayment = new SalePayments(this.trade);
                     this.addPayment = this.salePayment.cashToReceive;
-                    console.log(this.trade);
                 }
             );
         }
@@ -85,7 +83,7 @@ export class FinishSaleComponent implements OnInit {
     openDiscountModal() {
         this.dialog.open(DiscountComponent, {
             disableClose: true,
-            height: '400px',
+            height: '250px',
             width: '700px',
             data: this.type === TypeOfSale.SALE ? this.sale : this.trade
         });
@@ -222,7 +220,6 @@ export class FinishSaleComponent implements OnInit {
             }]
         }, (err) => {
             if (err) {
-                console.log(err);
                 this.dialog.open(PopupComponent, {
                     height: '400px',
                     width: '500px',

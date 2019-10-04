@@ -1,5 +1,6 @@
 import {Client} from './client.model';
 import {User} from './user.model';
+import {roundTo} from './payment.model';
 
 export abstract class Transaction {
     id: number;
@@ -23,6 +24,7 @@ export abstract class Transaction {
         this.original_value = info.original_value ? parseFloat(info.original_value) : 0;
         this.discount = info.discount ? parseFloat(info.discount) : 0;
         this.payments = info.payments;
+        this.clientDiscount = info.clientDiscount ? info.clientDiscount : 0;
     }
 
     hasClientDiscount() {
@@ -37,10 +39,8 @@ export abstract class Transaction {
         }
     }
 
-    applyClientDiscount(discountToApply) {
-        this.value -= discountToApply;
-        this.client.credit -= discountToApply;
-        this.clientDiscount = discountToApply;
+    public calculateValue() {
+        return roundTo(roundTo(this.original_value * (1 - this.discount / 100), 2) - this.clientDiscount, 2);
     }
 }
 

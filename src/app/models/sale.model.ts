@@ -1,5 +1,4 @@
 import {Product} from './product.model';
-import {roundTo} from './payment.model';
 import {TypeOfSale} from '../constants/enums';
 import {Trade} from './trade.model';
 import {Transaction} from './transaction.model';
@@ -54,7 +53,6 @@ export class Sale extends Transaction {
 
     public removeProduct(id: number, qnt: number) {
         const getProduct = this.getProductOnSaleList(id);
-        console.log(getProduct)
         if (getProduct && getProduct.quantity > qnt) {
             getProduct.quantity -= qnt;
             this.getSaleValue();
@@ -68,10 +66,6 @@ export class Sale extends Transaction {
             return saleProduct.id !== id;
         });
         this.getSaleValue();
-    }
-
-    public calculateValue() {
-        this.value = roundTo(this.original_value * (1 - this.discount / 100), 2);
     }
 
     public prepareToSendSale(paymentsList) {
