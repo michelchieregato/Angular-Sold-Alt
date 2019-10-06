@@ -27,6 +27,7 @@ export class TaxCupomComponent implements OnInit {
     value: number;
     total_value: number = 0;
     returnedValue: number = 0;
+    clientDiscount = 0;
     products: Product[] = [];
     type: TypeOfSale;
 
@@ -35,9 +36,12 @@ export class TaxCupomComponent implements OnInit {
 
     ngOnInit() {
 
+        console.log(this.router.snapshot.queryParams.type);
+
         // tslint:disable-next-line:triple-equals
         if (this.router.snapshot.queryParams.type == TypeOfSale.SALE) {
             this.type = TypeOfSale.SALE;
+            console.log(this.router.snapshot.queryParams.sale);
             this.sale = new Sale(JSON.parse(this.router.snapshot.queryParams.sale));
             this.products = this.sale.products;
             this.store = this.sale.store;
@@ -47,19 +51,19 @@ export class TaxCupomComponent implements OnInit {
             this.date = (this.sale.datetime ? new Date(this.sale.datetime) : this.date);
             this.total_value = this.sale.original_value;
             this.discount = this.sale.discount;
+            this.clientDiscount = this.sale.clientDiscount;
         } else {
             this.type = TypeOfSale.TRADE;
             this.trade = new Trade(JSON.parse(this.router.snapshot.queryParams.trade),
                 JSON.parse(this.router.snapshot.queryParams.trade)['sale']);
-            console.log(this.trade)
             this.products = this.trade.purchasedProducts;
-            console.log(this.products)
             this.store = this.trade.store;
             this.value = this.trade.value;
             this.user = this.trade.user;
             this.client = new Client(this.trade.client);
             this.date = (this.trade.datetime ? new Date(this.trade.datetime) : this.date);
             this.discount = this.trade.discount;
+            this.clientDiscount = this.trade.clientDiscount;
             this.returnedValue = roundTo(this.trade.returnedProducts.map((product) => {
                 return product.quantity * product.price_sell;
             }).reduce((a, b) => {

@@ -115,7 +115,8 @@ export class Trade extends Transaction {
             payments: paymentsArray,
             sale: this.saleID,
             client: this.client.id === 0 ? 1 : this.client.id,
-            updateClient: updateClient
+            updateClient: updateClient,
+            client_discount: this.clientDiscount
         };
     }
 

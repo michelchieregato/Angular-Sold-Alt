@@ -25,6 +25,10 @@ export abstract class Transaction {
         this.discount = info.discount ? parseFloat(info.discount) : 0;
         this.payments = info.payments;
         this.clientDiscount = info.clientDiscount ? info.clientDiscount : 0;
+
+        if (!this.clientDiscount && info.client_discount) {
+            this.clientDiscount = parseFloat(info.client_discount);
+        }
     }
 
     hasClientDiscount() {

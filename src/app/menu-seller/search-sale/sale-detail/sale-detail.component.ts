@@ -8,6 +8,7 @@ import {Trade} from '../../../models/trade.model';
 declare const window: any;
 const {ipcRenderer, remote} = window.require('electron');
 import * as _ from 'lodash';
+import {TypeOfSale} from '../../../constants/enums';
 
 export interface SaleDetailData {
     transaction: Sale;
@@ -109,7 +110,8 @@ export class SaleDetailComponent implements OnInit {
         a.queryParams = {
             sale: JSON.stringify(this.data.transaction),
             payments: JSON.stringify(this.payments),
-            change: Math.round(change * 100) / 100
+            change: Math.round(change * 100) / 100,
+            type: TypeOfSale.SALE
         };
         ipcRenderer.send('pdf', {'url': a.toString().substring(1)});
     }

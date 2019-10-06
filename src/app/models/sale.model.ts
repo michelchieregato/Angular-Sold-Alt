@@ -94,10 +94,11 @@ export class Sale extends Transaction {
             store: this.store,
             original_value: this.original_value,
             discount: this.discount,
-            value: this.value ? this.value : this.original_value,
+            value: this.value,
             finish_later: this.finish_later,
             products: saleProducts,
-            payments: payments
+            payments: payments,
+            client_discount: this.clientDiscount
         };
     }
 
