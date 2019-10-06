@@ -105,7 +105,7 @@ export class Trade extends Transaction {
     public prepareDataToBackend(payments: SalePayments, updateClient: boolean) {
         let returnedProducts = this.returnedProducts.map(prepareProductForBackend);
         let purchasedProducts = this.purchasedProducts.map(prepareProductForBackend);
-        let paymentsArray = new SalePayments(payments).payments.map(preparePaymentForBackend);
+        let paymentsArray = payments.payments.map(preparePaymentForBackend);
         this.value = this.value >= 0 ? this.value : 0;
 
         return {
