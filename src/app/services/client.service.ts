@@ -58,6 +58,10 @@ export class ClientService {
         ));
     }
 
+    deleteSale(sale: any) {
+        return this.http.delete(remote.getGlobal('default_url') + 'sale/' + sale.id + '/');
+    }
+
     finishTrade(trade: Trade, payments: SalePayments, updateClient: boolean) {
         trade.store = remote.getGlobal('store');
         return this.http.post(remote.getGlobal('default_url') + 'trade/create/', trade.prepareDataToBackend(payments, updateClient));

@@ -77,7 +77,7 @@
         </mat-tab-group>
     </div>
     <div class="modal-footer">
-        <p class="btn btn-lg btn-orange"> Apagar venda </p>
+        <p class="btn btn-lg btn-orange" (click)="deleteSale()"> Apagar venda </p>
         <p class="btn btn-lg btn-orange" *ngIf="!sale.finish_later" (click)="tradeProducts()">
             Realizar Troca
         </p>

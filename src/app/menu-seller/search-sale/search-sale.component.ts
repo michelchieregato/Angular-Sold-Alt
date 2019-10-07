@@ -85,7 +85,6 @@ export class SearchSaleComponent implements OnInit {
         trade: false,
     };
 
-
     constructor(private clientServer: ClientService,
                 @Inject(LOCALE_ID) private locale: string,
                 public dialog: MatDialog) {
@@ -102,7 +101,7 @@ export class SearchSaleComponent implements OnInit {
     openSaleDetailModal(transaction: Sale | Trade) {
         const component: any = transaction.TYPE === TypeOfSale.TRADE ? TradeDetailComponent : SaleDetailComponent;
 
-        this.dialog.open(component, {
+        const modal = this.dialog.open(component, {
             disableClose: false,
             maxHeight: '570px',
             width: '900px',
@@ -110,6 +109,13 @@ export class SearchSaleComponent implements OnInit {
                 'transaction': transaction
             }
         });
+
+        modal.afterClosed().subscribe(saleId => {
+            if (saleId) {
+                this.sales = this.sales.filter(s => s.id !== saleId);
+            }
+        });
+
         return;
     }
 

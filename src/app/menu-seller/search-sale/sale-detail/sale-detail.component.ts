@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {ClientService} from '../../../services/client.service';
 import {Sale} from '../../../models/sale.model';
 import {Router} from '@angular/router';
@@ -9,6 +9,7 @@ declare const window: any;
 const {ipcRenderer, remote} = window.require('electron');
 import * as _ from 'lodash';
 import {TypeOfSale} from '../../../constants/enums';
+import {PopupComponent} from '../../../modals/popup/popup.component';
 
 export interface SaleDetailData {
     transaction: Sale;
@@ -29,7 +30,8 @@ export class SaleDetailComponent implements OnInit {
 
     constructor(public dialogRef: MatDialogRef<SaleDetailComponent>,
                 @Inject(MAT_DIALOG_DATA) public data: SaleDetailData,
-                private clientService: ClientService, private router: Router) {
+                private clientService: ClientService, private router: Router,
+                public dialog: MatDialog) {
     }
 
     ngOnInit() {
@@ -114,6 +116,37 @@ export class SaleDetailComponent implements OnInit {
             type: TypeOfSale.SALE
         };
         ipcRenderer.send('pdf', {'url': a.toString().substring(1)});
+    }
+
+    deleteSale() {
+        console.log('iu');
+        if (this.sale.finish_later) {
+            this.loading = true;
+            this.clientService.deleteSale(this.sale).subscribe(() => {
+                this.loading = false;
+                this.dialogRef.close(this.sale.id);
+            }, () => {
+                this.dialog.open(PopupComponent, {
+                    height: '400px',
+                    width: '500px',
+                    data: {
+                        'type': 'sad',
+                        'title': 'Erro',
+                        'text': 'Você não pode deletar uma venda já finalizada (apenas encomendas). Peça para o gerente fazer isso.'
+                    }
+                });
+            });
+        } else {
+            this.dialog.open(PopupComponent, {
+                height: '400px',
+                width: '500px',
+                data: {
+                    'type': 'ok-face',
+                    'title': 'Sem permissão',
+                    'text': 'Você não pode deletar uma venda já finalizada (apenas encomendas). Peça para o gerente fazer isso.'
+                }
+            });
+        }
     }
 
 }

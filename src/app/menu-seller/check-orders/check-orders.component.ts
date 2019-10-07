@@ -35,7 +35,7 @@ export class CheckOrdersComponent implements OnInit {
         }).subscribe(
             (next) => {
                 this.sales = next;
-                this.displaySales = this.sales;
+                this.displaySales = _.clone(this.sales);
                 this.calculateProducts();
                 this.loading = false;
             },
@@ -46,15 +46,22 @@ export class CheckOrdersComponent implements OnInit {
     }
 
     openSaleDetailModal(sale: Sale) {
-        this.dialog.open(SaleDetailComponent, {
+        const modal = this.dialog.open(SaleDetailComponent, {
             disableClose: false,
             maxHeight: '500px',
             width: '900px',
             data: {
-                'sale': sale
+                'transaction': sale
             }
         });
-        return;
+
+        modal.afterClosed().subscribe(saleId => {
+            if (saleId) {
+                this.displaySales = this.displaySales.filter(s => s.id !== saleId);
+                this.sales = this.sales.filter(s => s.id !== saleId);
+                this.calculateProducts();
+            }
+        });
     }
 
     changeStoreFilter() {

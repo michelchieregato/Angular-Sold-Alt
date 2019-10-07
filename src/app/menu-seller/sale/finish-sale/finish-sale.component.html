@@ -108,10 +108,10 @@
                 </span>
             </h3>
             <h3>
-                <span *ngIf="type === typesOfSale.TRADE && trade.original_value >= 0">
+                <span *ngIf="type !== typesOfSale.TRADE || trade.original_value >= 0">
                     Troco:
                 </span>
-                <span *ngIf="type !== typesOfSale.TRADE  || trade.original_value < 0">
+                <span *ngIf="type === typesOfSale.TRADE  && trade.original_value < 0">
                     Crédito:
                 </span>
                 <span class="green">
