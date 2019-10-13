@@ -2,24 +2,23 @@
     <div class="container-filter">
         <h2>Relatório de vendas por forma de pagamento</h2>
         <div>
-            <div class="form-group">
-                <div class='input-group'>
-                    <label class="sr-only" for="datepicker1">Datepicker1</label>
-                    <input type="date" class="form-control " id="datepicker1" [(ngModel)]="initialDatePayment"/>
-                    <span class="input-group-addon">
-                <i class="fas fa-calendar"></i>
-            </span>
-                </div>
-                <div class='input-group'>
-                    <label class="sr-only" for="datepicker2">Datepicker2</label>
-                    <input type='date' class="form-control" id="datepicker2" [(ngModel)]="finalDatePayment"/>
-                    <span class="input-group-addon">
-                        <i class="fas fa-calendar"></i>
-                    </span>
-                </div>
+            <div class="input-group">
+                <mat-form-field>
+                    <input matInput name="initialDate" #initialDate [matDatepicker]="picker"
+                           placeholder="De" [formControl]="initialDatePayment">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
             </div>
-        </div>
-        <button class="btn btn-orange orange" id="btn-pesquisa" [disabled]="loading" (click)="searchPaymentReport()">
+
+            <mat-form-field>
+                <input name="finalDate" #finalDate matInput [matDatepicker]="picker2" placeholder="Até"
+                       [formControl]="finalDatePayment">
+                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                <mat-datepicker #picker2></mat-datepicker>
+            </mat-form-field>
+
+            <button class="btn btn-orange orange" id="btn-pesquisa" [disabled]="loading" (click)="searchPaymentReport()">
             Pesquisar
             <span *ngIf="loading">
                 <i class="fa fa-spinner fa-spin"></i>

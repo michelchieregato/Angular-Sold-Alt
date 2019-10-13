@@ -1,15 +1,15 @@
 <div class="container-filter">
-    <h1>Venda Por Forma De Pagamento - De {{ infos.initial_date }} a {{ infos.final_date }}</h1>
+    <h1>Venda Por Forma De Pagamento - De {{ initialDate }} a {{ finalDate }}</h1>
 </div>
 <div class="infos clearfix">
     <div class="loja">
-        <h3>Unidade: {{ infos.store }}</h3>
+        <h3>Unidade: {{ store }}</h3>
     </div>
 </div>
 
 <ul>
-    <li *ngFor="let item of moneyPerType | keyvalue">
+    <li *ngFor="let item of values | keyvalue">
         {{ item.key }}: <span class="price">{{ item.value | currency: 'BRL' }}</span>
     </li>
-    <li>Total: <span class="price">{{ infos.total | currency: 'BRL' }}</span></li>
+    <li>Total: <span class="price">{{ total | currency: 'BRL' }}</span></li>
 </ul>

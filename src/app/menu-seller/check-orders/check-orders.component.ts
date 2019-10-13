@@ -31,7 +31,7 @@ export class CheckOrdersComponent implements OnInit {
         this.clientServer.getSales({
             store: this.storeSelected,
             full: true,
-            is_order: true,
+            order: true,
         }).subscribe(
             (next) => {
                 this.sales = next;
@@ -82,13 +82,11 @@ export class CheckOrdersComponent implements OnInit {
         this.displaySales.forEach((sale) => {
             sale.products.forEach((product) => {
                 const hasInNewSale = _.some(_.map(this.orderProducts, 'product'), product.product);
-                console.log(hasInNewSale);
                 if (!hasInNewSale) {
                     this.orderProducts.push(_.clone(product));
                 } else {
                     this.orderProducts.forEach((saleProduct) => {
                         if (_.isEqual(saleProduct.product, product.product)) {
-                            console.log('is equal', saleProduct.product, product.quantity)
                             saleProduct.quantity += product.quantity;
                         }
                     });

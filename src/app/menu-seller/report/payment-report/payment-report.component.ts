@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {Sale} from '../../../models/sale.model';
+import * as _ from 'lodash';
 
 @Component({
     selector: 'app-payment-report',
@@ -8,18 +8,23 @@ import {Sale} from '../../../models/sale.model';
     styleUrls: ['./payment-report.component.scss']
 })
 export class PaymentReportComponent implements OnInit {
-    infos: any;
-    moneyPerType: any;
+    initialDate: string;
+    finalDate: string;
+    store: string;
+    values =  {};
+    total = 0;
 
     constructor(private router: ActivatedRoute) {
     }
 
     ngOnInit() {
-        this.infos = JSON.parse(this.router.snapshot.queryParams.infos);
-        console.log(this.router.snapshot.queryParams)
-        this.moneyPerType = {};
-        for (let i = 0; i < this.infos.lojas.length; i++) {
-            this.moneyPerType[this.infos.lojas[i]] = this.infos.forma_de_pagamento[i];
+        this.initialDate = this.router.snapshot.queryParams.initialDate;
+        this.finalDate = this.router.snapshot.queryParams.finalDate;
+        this.store = this.router.snapshot.queryParams.store;
+        const values = JSON.parse(this.router.snapshot.queryParams.values);
+        for (const [key, value] of Object.entries(values)) {
+            this.values[key] = value['value__sum'] || 0;
+            this.total += this.values[key];
         }
     }
 
