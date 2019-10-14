@@ -28,30 +28,37 @@ const {ipcRenderer} = window.require('electron');
 export class ReportComponent implements OnInit {
     initialDatePayment = new FormControl(new Date());
     finalDatePayment = new FormControl(new Date());
-    initialDateProduct;
-    finalDateProduct;
+    initialDateProduct = new FormControl(new Date());
+    finalDateProduct = new FormControl(new Date());
     loading = false;
 
     constructor(private datePipe: DatePipe, private clientServer: ClientService,
                 private router: Router) {
-        this.initialDateProduct = this.transformDate(new Date());
-        this.finalDateProduct = this.transformDate(new Date());
     }
 
     transformDate(date) {
-        return this.datePipe.transform(date, 'yyyy-MM-dd');
+        return this.datePipe.transform(date, 'yyyy-MM-ddTHH:mm:ssZ');
     }
 
     ngOnInit() {
     }
 
-    searchPaymentReport() {
+    prepareData(dateType: string) {
         this.loading = true;
-
-        const auxInitial = this.transformDate(this.initialDatePayment.value);
-        let auxFinal = _.cloneDeep(this.finalDatePayment.value);
-        auxFinal.setDate(auxFinal.getDate() + 1);
+        let auxInitial = _.cloneDeep(this['initialDate' + dateType].value);
+        auxInitial.setHours(0, 0, 0);
+        auxInitial = this.transformDate(auxInitial);
+        let auxFinal = _.cloneDeep(this['finalDate' + dateType].value);
         auxFinal = this.transformDate(auxFinal);
+
+        return [auxInitial, auxFinal];
+    }
+
+    searchPaymentReport() {
+        const [auxInitial, auxFinal] = this.prepareData('Payment');
+
+        console.log(auxInitial);
+        console.log(auxFinal);
 
         this.clientServer.getReportByPayments({
             initialDate: auxInitial,
@@ -78,19 +85,23 @@ export class ReportComponent implements OnInit {
 
     searchProductReport() {
         this.loading = true;
+        const [auxInitial, auxFinal] = this.prepareData('Product');
+        console.log(auxInitial);
+        console.log(auxFinal);
         this.clientServer.getReportByProduct({
-            initial_date: this.initialDatePayment,
-            final_date: this.finalDatePayment
+            initialDate: auxInitial,
+            finalDate: auxFinal,
+            store: store
         }).subscribe(
             (success) => {
                 this.loading = false;
-                console.log((success));
-                const customRoute = this.router.createUrlTree(['product-report']);
-                success['initialDate'] = this.initialDatePayment;
-                success['finalDate'] = this.finalDatePayment;
-                customRoute.queryParams = {
-                    infos: JSON.stringify(success)
-                };
+                console.log(success);
+                // const customRoute = this.router.createUrlTree(['product-report']);
+                // success['initialDate'] = this.initialDatePayment;
+                // success['finalDate'] = this.finalDatePayment;
+                // customRoute.queryParams = {
+                //     infos: JSON.stringify(success)
+                // };
                 // ipcRenderer.send('pdf', {'url': customRoute.toString().substring(1)});
             },
             (error) => {

@@ -171,15 +171,11 @@ export class ClientService {
     }
 
     getReportByPayments(params: any) {
-        store = remote.getGlobal('store');
-        params['store'] = store;
         return this.http.get(remote.getGlobal('default_url') + 'payment/report_by_payment/', {params: params});
     }
 
     getReportByProduct(params: any) {
-        store = remote.getGlobal('store');
-        params['store'] = store;
-        return this.http.get(remote.getGlobal('default_url') + 'reports/report_by_products', {params: params});
+        return this.http.get(remote.getGlobal('default_url') + 'sale_product/report_by_products/', {params: params});
     }
 
     addWithdraw(params: any) {

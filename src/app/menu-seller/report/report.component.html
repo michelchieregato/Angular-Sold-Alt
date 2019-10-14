@@ -4,7 +4,7 @@
         <div>
             <div class="input-group">
                 <mat-form-field>
-                    <input matInput name="initialDate" #initialDate [matDatepicker]="picker"
+                    <input matInput name="initialDate" [matDatepicker]="picker"
                            placeholder="De" [formControl]="initialDatePayment">
                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
@@ -18,42 +18,41 @@
                 <mat-datepicker #picker2></mat-datepicker>
             </mat-form-field>
 
-            <button class="btn btn-orange orange" id="btn-pesquisa" [disabled]="loading" (click)="searchPaymentReport()">
-            Pesquisar
-            <span *ngIf="loading">
-                <i class="fa fa-spinner fa-spin"></i>
+            <button class="btn btn-orange orange btn-pesquisa" [disabled]="loading"
+                    (click)="searchPaymentReport()">
+                Pesquisar
+                <span *ngIf="loading">
+                <em class="fa fa-spinner fa-spin"></em>
             </span>
-        </button>
+            </button>
+        </div>
+    </div>
+    <div class="container-filter">
+        <h2>Relatório de vendas por produto</h2>
+        <div>
+            <div class="input-group">
+                <mat-form-field>
+                    <input matInput name="initialDate" [matDatepicker]="picker3"
+                           placeholder="De" [formControl]="initialDateProduct">
+                    <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                    <mat-datepicker #picker3></mat-datepicker>
+                </mat-form-field>
+            </div>
+
+            <mat-form-field>
+                <input name="finalDate" matInput [matDatepicker]="picker4" placeholder="Até"
+                       [formControl]="finalDateProduct">
+                <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+                <mat-datepicker #picker4></mat-datepicker>
+            </mat-form-field>
+
+            <button class="btn btn-orange orange btn-pesquisa" [disabled]="loading"
+                    (click)="searchProductReport()">
+                Pesquisar
+                <span *ngIf="loading">
+                    <em class="fa fa-spinner fa-spin"></em>
+                </span>
+            </button>
+        </div>
     </div>
 </div>
-<!--<div class="div-table">-->
-    <!--<div class="container-filter">-->
-        <!--<h2>Relatório de vendas por produto</h2>-->
-        <!--<div>-->
-            <!--<div class="form-group">-->
-                <!--<div class='input-group'>-->
-                    <!--<label class="sr-only" for="datepicker3">Datepicker3</label>-->
-                    <!--<input type="date" class="form-control" id="datepicker3"-->
-                           <!--[(ngModel)]="initialDateProduct"/>-->
-                    <!--<span class="input-group-addon">-->
-                <!--<i class="fas fa-calendar"></i>-->
-            <!--</span>-->
-                <!--</div>-->
-                <!--<div class='input-group'>-->
-                    <!--<label class="sr-only" for="datepicker4">Datepicker4</label>-->
-                    <!--<input type='date' class="form-control" id="datepicker4"-->
-                           <!--[(ngModel)]="finalDateProduct"/>-->
-                    <!--<span class="input-group-addon">-->
-                        <!--<i class="fas fa-calendar"></i>-->
-                    <!--</span>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
-        <!--<button class="btn btn-orange orange" [disabled]="loading" id="btn-pesquisa2" (click)="searchProductReport()">-->
-            <!--Pesquisar-->
-            <!--<span *ngIf="loading">-->
-                <!--<i class="fa fa-spinner fa-spin"></i>-->
-            <!--</span>-->
-        <!--</button>-->
-    <!--</div>-->
-<!--</div>-->
