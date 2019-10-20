@@ -5,7 +5,7 @@ import {MenuSellerComponent} from './menu-seller/menu-seller.component';
 import {MenuComponent} from './menu-seller/menu/menu.component';
 import {SaleComponent} from './menu-seller/sale/sale.component';
 import {SearchSaleComponent} from './menu-seller/search-sale/search-sale.component';
-import {StockTransferComponent} from './menu-seller/stock-transfer/stock-transfer.component';
+import {StockTransferComponent} from './menu-seller/stock-manager/stock-transfer/stock-transfer.component';
 import {TaxCupomComponent} from './tax-cupom/tax-cupom.component';
 import {ReportComponent} from './menu-seller/report/report.component';
 import {PaymentReportComponent} from './menu-seller/report/payment-report/payment-report.component';
@@ -15,14 +15,14 @@ import {OrderComponent} from './menu-seller/sale/order/order.component';
 import {CheckOrdersComponent} from './menu-seller/check-orders/check-orders.component';
 import {SaleReportComponent} from './menu-seller/report/sale-report/sale-report.component';
 import {TradeComponent} from './menu-seller/sale/trade/trade.component';
-import {StockManagerComponent} from './menu-seller/stock-transfer/stock-manager/stock-manager.component';
+import {StockManagerComponent} from './menu-seller/stock-manager/stock-manager.component';
 
 const appRoutes: Routes = [
     {
         path: 'seller', component: MenuSellerComponent, children: [
             {path: 'menu', component: MenuComponent},
             {path: 'search-sale', component: SearchSaleComponent},
-            {path: 'stock-manager', component: StockManagerComponent},
+            {path: 'stock-transfer', component: StockManagerComponent},
             {path: 'report', component: ReportComponent},
             {path: 'check-orders', component: CheckOrdersComponent}
         ]

@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {ClientService} from '../../services/client.service';
+import {ClientService} from '../../../services/client.service';
 import {TypeaheadMatch} from 'ngx-bootstrap';
-import {Product} from '../../models/product.model';
-import {PopupComponent} from '../../modals/popup/popup.component';
+import {Product} from '../../../models/product.model';
+import {PopupComponent} from '../../../modals/popup/popup.component';
 import {MatDialog} from '@angular/material/dialog';
 
 @Component({

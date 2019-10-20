@@ -34,7 +34,7 @@ export class NavbarSellerComponent implements OnInit {
                 case '/seller/search-sale':
                     this.title = 'Pesquisar Venda';
                     break;
-                case '/seller/stock-manager':
+                case '/seller/stock-transfer':
                     this.title = 'Estoque';
                     break;
                 case '/seller/check-orders':

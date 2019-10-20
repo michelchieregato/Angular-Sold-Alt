@@ -26,7 +26,7 @@ import { SaleDetailComponent } from './menu-seller/search-sale/sale-detail/sale-
 import {PopoverModule, TypeaheadModule, ButtonsModule} from 'ngx-bootstrap';
 import { WithdrawComponent } from './menu-seller/withdraw/withdraw.component';
 import {CurrencyMaskModule} from 'ng2-currency-mask';
-import { StockTransferComponent } from './menu-seller/stock-transfer/stock-transfer.component';
+import { StockTransferComponent } from './menu-seller/stock-manager/stock-transfer/stock-transfer.component';
 import { TaxCupomComponent } from './tax-cupom/tax-cupom.component';
 import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -50,7 +50,7 @@ import {MatTableModule} from '@angular/material/table';
 import { TradeDetailComponent } from './menu-seller/search-sale/trade-detail/trade-detail.component';
 import {MatSliderModule} from '@angular/material/slider';
 import {MatCheckboxModule} from '@angular/material';
-import { StockManagerComponent } from './menu-seller/stock-transfer/stock-manager/stock-manager.component';
+import { StockManagerComponent } from './menu-seller/stock-manager/stock-manager.component';
 
 @NgModule({
     declarations: [
