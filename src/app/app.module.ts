@@ -50,6 +50,7 @@ import {MatTableModule} from '@angular/material/table';
 import { TradeDetailComponent } from './menu-seller/search-sale/trade-detail/trade-detail.component';
 import {MatSliderModule} from '@angular/material/slider';
 import {MatCheckboxModule} from '@angular/material';
+import { StockManagerComponent } from './menu-seller/stock-transfer/stock-manager/stock-manager.component';
 
 @NgModule({
     declarations: [
@@ -85,7 +86,8 @@ import {MatCheckboxModule} from '@angular/material';
         SaleReportComponent,
         ChangeStoreComponent,
         TradeComponent,
-        TradeDetailComponent
+        TradeDetailComponent,
+        StockManagerComponent
     ],
     imports: [
         BrowserModule,

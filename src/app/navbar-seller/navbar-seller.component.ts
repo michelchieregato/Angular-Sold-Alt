@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {NavigationEnd, Router} from '@angular/router';
 import {filter} from 'rxjs/operators';
 import {User} from '../models/user.model';
-import {WithdrawComponent} from '../menu-seller/withdraw/withdraw.component';
 import {MatDialog} from '@angular/material/dialog';
 import {ChangeStoreComponent} from '../modals/change-store/change-store.component';
 
@@ -35,8 +34,8 @@ export class NavbarSellerComponent implements OnInit {
                 case '/seller/search-sale':
                     this.title = 'Pesquisar Venda';
                     break;
-                case '/seller/stock-transfer':
-                    this.title = 'Transferência de estoque';
+                case '/seller/stock-manager':
+                    this.title = 'Estoque';
                     break;
                 case '/seller/check-orders':
                     this.title = 'Estoque: Todas as unidades';

@@ -15,13 +15,14 @@ import {OrderComponent} from './menu-seller/sale/order/order.component';
 import {CheckOrdersComponent} from './menu-seller/check-orders/check-orders.component';
 import {SaleReportComponent} from './menu-seller/report/sale-report/sale-report.component';
 import {TradeComponent} from './menu-seller/sale/trade/trade.component';
+import {StockManagerComponent} from './menu-seller/stock-transfer/stock-manager/stock-manager.component';
 
 const appRoutes: Routes = [
     {
         path: 'seller', component: MenuSellerComponent, children: [
             {path: 'menu', component: MenuComponent},
             {path: 'search-sale', component: SearchSaleComponent},
-            {path: 'stock-transfer', component: StockTransferComponent},
+            {path: 'stock-manager', component: StockManagerComponent},
             {path: 'report', component: ReportComponent},
             {path: 'check-orders', component: CheckOrdersComponent}
         ]

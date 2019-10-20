@@ -58,6 +58,7 @@
     position: relative;
     color: white;
     margin: 0;
+    line-height: 50px;
 
     a {
         color: #337ab7;
@@ -71,10 +72,11 @@
 }
 
 .h-text img {
-    float: left;
-    width: 48px;
-    cursor: pointer;
-    margin: .1em;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 15px;
+    margin: auto;
 }
 
 .orange {
