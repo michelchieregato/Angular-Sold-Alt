@@ -1,5 +1,7 @@
 <div class="container-filter">
-    <h1>Venda Por Forma De Pagamento - De {{ initialDate }} a {{ finalDate }}</h1>
+    <h1>
+        Venda Por Forma De Pagamento - De {{ initialDate | date: 'dd/MM/yyyy'  }} a {{ finalDate | date: 'dd/MM/yyyy'  }}
+    </h1>
 </div>
 <div class="infos clearfix">
     <div class="loja">

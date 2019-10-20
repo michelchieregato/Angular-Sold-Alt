@@ -1,37 +1,74 @@
 <div class="report">
     <div class="container-filter">
-        <h1 *ngIf="!infos.order">Venda Por Forma De Pagamento - De {{ infos.initial_date }} a {{ infos.final_date }}</h1>
-        <h1 *ngIf="infos.order">Encomendas em aberto - por produto</h1>
+        <h1>
+            Venda Por Produtos - De {{ initialDate | date: 'dd/MM/yyyy' }} a {{ finalDate | date: 'dd/MM/yyyy' }}
+        </h1>
     </div>
-
     <div class="infos clearfix">
         <div class="loja">
-            <h3>Unidade: {{ infos.store }}</h3>
+            <h3>
+                Unidade: {{ store }}
+            </h3>
         </div>
     </div>
-
-    <div class="max-size">
-        <table class="table odd table-sale">
-            <thead>
-            <tr>
-                <th class="static-500">Descricao</th>
-                <th class="static-300">Tamanho</th>
-                <th class="static-200">Qnt</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let product of infos.list_of_products">
-                <td class="static-500">
-                    {{ product.product.name }}
-                </td>
-                <td class="static-300">
-                    {{ product.product.size }}
-                </td>
-                <td class="static-200">
-                    {{ product.quantity }}
-                </td>
-            </tr>
-            </tbody>
-        </table>
+    <br><br>
+    <div *ngIf="purchasedProducts.length">
+        <h1>
+            Produtos comprados
+        </h1>
+        <div class="max-size">
+            <table class="table odd table-sale">
+                <thead>
+                <tr>
+                    <th class="static-500">Descricao</th>
+                    <th class="static-300">Tamanho</th>
+                    <th class="static-200">Qnt</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let product of purchasedProducts">
+                    <td class="static-500">
+                        {{ product.name }}
+                    </td>
+                    <td class="static-300">
+                        {{ product.size }}
+                    </td>
+                    <td class="static-200">
+                        {{ product.quantity }}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br><br>
+    <div *ngIf="returnedProducts.length">
+        <h1>
+            Produtos retornados
+        </h1>
+        <div class="max-size">
+            <table class="table odd table-sale">
+                <thead>
+                <tr>
+                    <th class="static-500">Descricao</th>
+                    <th class="static-300">Tamanho</th>
+                    <th class="static-200">Qnt</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let product of returnedProducts">
+                    <td class="static-500">
+                        {{ product.name }}
+                    </td>
+                    <td class="static-300">
+                        {{ product.size }}
+                    </td>
+                    <td class="static-200">
+                        {{ product.quantity }}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>

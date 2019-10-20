@@ -86,23 +86,23 @@ export class ReportComponent implements OnInit {
     searchProductReport() {
         this.loading = true;
         const [auxInitial, auxFinal] = this.prepareData('Product');
-        console.log(auxInitial);
-        console.log(auxFinal);
         this.clientServer.getReportByProduct({
             initialDate: auxInitial,
             finalDate: auxFinal,
             store: store
         }).subscribe(
-            (success) => {
+            (success: {returned_products, purchased_products}) => {
                 this.loading = false;
                 console.log(success);
-                // const customRoute = this.router.createUrlTree(['product-report']);
-                // success['initialDate'] = this.initialDatePayment;
-                // success['finalDate'] = this.finalDatePayment;
-                // customRoute.queryParams = {
-                //     infos: JSON.stringify(success)
-                // };
-                // ipcRenderer.send('pdf', {'url': customRoute.toString().substring(1)});
+                const customRoute = this.router.createUrlTree(['product-report']);
+                customRoute.queryParams = {
+                    purchasedProducts: JSON.stringify(success.purchased_products),
+                    returnedProducts: JSON.stringify(success.returned_products),
+                    initialDate: auxInitial,
+                    finalDate: auxFinal,
+                    store: store
+                };
+                ipcRenderer.send('pdf', {'url': customRoute.toString().substring(1)});
             },
             (error) => {
                 this.loading = false;
