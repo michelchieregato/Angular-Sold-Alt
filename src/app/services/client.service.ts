@@ -22,8 +22,8 @@ export class ClientService {
         return this.http.post(remote.getGlobal('default_url') + 'login/', auth);
     }
 
-    getProducts() {
-        return this.http.get<Product[]>(remote.getGlobal('default_url') + 'product/').pipe(map(
+    getProducts(full: any = false) {
+        return this.http.get<Product[]>(remote.getGlobal('default_url') + 'product/', {params: {'full': full}}).pipe(map(
             (response) => {
                 return response.map(p => new Product(p));
             }

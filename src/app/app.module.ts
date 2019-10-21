@@ -51,6 +51,8 @@ import {TradeDetailComponent} from './menu-seller/search-sale/trade-detail/trade
 import {MatSliderModule} from '@angular/material/slider';
 import {MatCheckboxModule} from '@angular/material';
 import {StockManagerComponent} from './menu-seller/stock-manager/stock-manager.component';
+import {CheckStockComponent} from './menu-seller/stock-manager/check-stock/check-stock.component';
+import {HotTableModule} from '@handsontable/angular';
 
 @NgModule({
     declarations: [
@@ -87,7 +89,8 @@ import {StockManagerComponent} from './menu-seller/stock-manager/stock-manager.c
         ChangeStoreComponent,
         TradeComponent,
         TradeDetailComponent,
-        StockManagerComponent
+        StockManagerComponent,
+        CheckStockComponent
     ],
     imports: [
         BrowserModule,
@@ -111,7 +114,8 @@ import {StockManagerComponent} from './menu-seller/stock-manager/stock-manager.c
         MatTableModule,
         ReactiveFormsModule,
         MatSliderModule,
-        MatCheckboxModule
+        MatCheckboxModule,
+        HotTableModule.forRoot()
     ],
     providers: [MatDialog, MatDatepickerModule, DatePipe, {provide: MAT_DATE_LOCALE, useValue: 'pt'}],
     bootstrap: [AppComponent],

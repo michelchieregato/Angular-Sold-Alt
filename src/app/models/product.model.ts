@@ -17,7 +17,7 @@ export class Product {
         this.size = productInfo.size;
         this.price_cost = productInfo.price_cost;
         this.price_sell = productInfo.price_sell;
-        this.stock = productInfo.stock;
+        this.stock = productInfo.stock ? productInfo.stock.map(stock => new Stock(stock)) : undefined;
 
         // Only when part of sale
         this.quantity = productInfo.quantity || 1;
@@ -27,6 +27,10 @@ export class Product {
     setStock(stock: Array<any>) {
         stock = stock.map((s) => new Stock((s)));
         this.stock = stock;
+    }
+
+    getStock(store: string) {
+        return this.stock.filter(stock => stock.store === store)[0].quantity;
     }
 }
 
