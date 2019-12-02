@@ -188,4 +188,8 @@ export class ClientService {
         return this.http.put(remote.getGlobal('default_url') + 'client/' + client.id + '/', client);
     }
 
+    updateAllStock(stock) {
+        return this.http.patch(remote.getGlobal('default_url') + 'update_storage/', stock);
+    }
+
 }

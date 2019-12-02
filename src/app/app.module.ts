@@ -53,6 +53,7 @@ import {MatCheckboxModule} from '@angular/material';
 import {StockManagerComponent} from './menu-seller/stock-manager/stock-manager.component';
 import {CheckStockComponent} from './menu-seller/stock-manager/check-stock/check-stock.component';
 import {HotTableModule} from '@handsontable/angular';
+import { ConfirmStockComponent } from './menu-seller/stock-manager/confirm-stock/confirm-stock.component';
 
 @NgModule({
     declarations: [
@@ -90,7 +91,8 @@ import {HotTableModule} from '@handsontable/angular';
         TradeComponent,
         TradeDetailComponent,
         StockManagerComponent,
-        CheckStockComponent
+        CheckStockComponent,
+        ConfirmStockComponent
     ],
     imports: [
         BrowserModule,
@@ -127,7 +129,8 @@ import {HotTableModule} from '@handsontable/angular';
         SaleDetailComponent,
         WithdrawComponent,
         WithdrawHistoryComponent,
-        ChangeStoreComponent
+        ChangeStoreComponent,
+        ConfirmStockComponent
     ]
 })
 export class AppModule {

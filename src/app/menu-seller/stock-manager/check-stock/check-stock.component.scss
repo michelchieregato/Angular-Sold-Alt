@@ -1,0 +1,53 @@
+@import "../../../../theme";
+
+// Styling handsome table
+
+
+.table-container {
+    width: 95%;
+    margin: auto;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+
+.mat-header-row .mat-header-cell:not(:first-child) {
+    text-align: center;
+    padding-right: 0;
+}
+
+.mat-header-cell, .mat-table tr td {
+    position: relative;
+}
+
+.mat-header-row .mat-header-cell {
+    font-size: 14px !important;
+    font-weight: bolder !important;
+}
+
+.mat-table tr td:not(:first-child) {
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    text-align: center;
+    width: 68px;
+}
+
+.mat-table tr td:last-child {
+    border-right: none;
+    padding-right: 0;
+}
+
+.edit-mode-container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+
+    input {
+        height: 100%;
+        text-align: center;
+        border: none;
+    }
+
+}
+
+.btn-orange {
+    margin: 10px 0;
+}

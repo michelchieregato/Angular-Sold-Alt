@@ -18,3 +18,5 @@ export enum PaymentMethod {
     Credit = 'Credito',
     Transfer = 'Transferencia'
 }
+
+export const SIZES = ['00', '02', '04', '06', '08', '10', '12', '14', 'PP', 'P', 'M', 'G', 'GG'];
