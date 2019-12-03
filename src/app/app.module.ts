@@ -23,7 +23,7 @@ import {AddClientComponent} from './modals/add-client/add-client.component';
 import {MaskDirective} from './directives/cpf-mask.directive';
 import {SearchSaleComponent} from './menu-seller/search-sale/search-sale.component';
 import {SaleDetailComponent} from './menu-seller/search-sale/sale-detail/sale-detail.component';
-import {PopoverModule, TypeaheadModule, ButtonsModule} from 'ngx-bootstrap';
+import {PopoverModule, TypeaheadModule, ButtonsModule, TooltipModule} from 'ngx-bootstrap';
 import {WithdrawComponent} from './menu-seller/withdraw/withdraw.component';
 import {CurrencyMaskModule} from 'ng2-currency-mask';
 import {StockTransferComponent} from './menu-seller/stock-manager/stock-transfer/stock-transfer.component';
@@ -109,6 +109,7 @@ import { ConfirmStockComponent } from './menu-seller/stock-manager/confirm-stock
         MatInputModule,
         MatTabsModule,
         PopoverModule.forRoot(),
+        TooltipModule.forRoot(),
         ButtonsModule.forRoot(),
         CurrencyMaskModule,
         TypeaheadModule.forRoot(),

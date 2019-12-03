@@ -45,7 +45,8 @@ export class Sale extends Transaction {
             getProduct.quantity += qnt;
             this.products = [...this.products];
         } else {
-            product.quantity = qnt;
+            console.log(qnt);
+            productToAdd.quantity = qnt;
             this.products = [...this.products, productToAdd];
         }
         this.getSaleValue();

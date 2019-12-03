@@ -77,9 +77,10 @@ export class AddToSaleComponent implements OnInit {
     }
 
     addProduct() {
+        console.log(this.qnt);
         this.sale.addProduct(this.product, this.qnt);
-        this.qnt = 1;
         this.store.dispatch(new UpdateFullSale(this.sale));
+        this.qnt = 1;
     }
 
     removeProduct(id: number) {

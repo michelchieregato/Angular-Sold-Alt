@@ -73,7 +73,7 @@
                         R$ {{ product.price_sell | number : '1.2-2' }}
                     </td>
                     <td class="static-100">
-                        <a [popover]="popTemplate" [outsideClick]="true" (click)="getStock(product)">
+                        <a [tooltip]="popTemplate" tooltipTrigger="click" (click)="getStock(product)" placement="left" [adaptivePosition]="false">
                             Ver estoque
                         </a>
                     </td>
