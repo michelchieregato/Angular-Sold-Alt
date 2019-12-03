@@ -5,6 +5,7 @@ import {SaleDetailComponent} from '../search-sale/sale-detail/sale-detail.compon
 import {MatDialog} from '@angular/material/dialog';
 import * as _ from 'lodash';
 import {Router} from '@angular/router';
+import {getProductsFromBackend} from '../../models/product.model';
 
 declare const window: any;
 const {ipcRenderer} = window.require('electron');
@@ -35,6 +36,7 @@ export class CheckOrdersComponent implements OnInit {
         }).subscribe(
             (next) => {
                 this.sales = next;
+                this.sales.map((sale) => sale.products = getProductsFromBackend(sale.products));
                 this.displaySales = _.clone(this.sales);
                 this.calculateProducts();
                 this.loading = false;
@@ -81,12 +83,12 @@ export class CheckOrdersComponent implements OnInit {
         this.orderProducts = [];
         this.displaySales.forEach((sale) => {
             sale.products.forEach((product) => {
-                const hasInNewSale = _.some(_.map(this.orderProducts, 'product'), product.product);
+                const hasInNewSale = _.some(_.map(this.orderProducts, 'product'), product);
                 if (!hasInNewSale) {
                     this.orderProducts.push(_.clone(product));
                 } else {
                     this.orderProducts.forEach((saleProduct) => {
-                        if (_.isEqual(saleProduct.product, product.product)) {
+                        if (_.isEqual(saleProduct, product)) {
                             saleProduct.quantity += product.quantity;
                         }
                     });
@@ -110,11 +112,11 @@ export class CheckOrdersComponent implements OnInit {
     generateOrderReport() {
         const infos = {};
         const a = this.router.createUrlTree(['product-report']);
-        infos['list_of_products'] = this.orderProducts;
         infos['store'] = this.storeSelected;
-        infos['order'] = true;
         a.queryParams = {
-            infos: JSON.stringify(infos)
+            purchasedProducts: JSON.stringify(this.orderProducts),
+            order: true,
+            store: this.storeSelected
         };
         ipcRenderer.send('pdf', {'url': a.toString().substring(1)});
     }

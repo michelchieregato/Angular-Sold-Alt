@@ -1,4 +1,4 @@
-<div class="report">
+<div class="report" *ngIf="!order">
     <div class="container-filter">
         <h1>
             Venda Por Produtos - De {{ initialDate | date: 'dd/MM/yyyy' }} a {{ finalDate | date: 'dd/MM/yyyy' }}
@@ -57,6 +57,48 @@
                 </thead>
                 <tbody>
                 <tr *ngFor="let product of returnedProducts">
+                    <td class="static-500">
+                        {{ product.name }}
+                    </td>
+                    <td class="static-300">
+                        {{ product.size }}
+                    </td>
+                    <td class="static-200">
+                        {{ product.quantity }}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="report" *ngIf="order">
+    <div class="container-filter">
+        <h1>
+            Produtos em encomenda
+        </h1>
+    </div>
+    <div class="infos clearfix">
+        <div class="loja">
+            <h3>
+                Unidade: {{ store }}
+            </h3>
+        </div>
+    </div>
+    <br><br>
+    <div *ngIf="purchasedProducts.length">
+        <div class="max-size">
+            <table class="table odd table-sale">
+                <thead>
+                <tr>
+                    <th class="static-500">Descricao</th>
+                    <th class="static-300">Tamanho</th>
+                    <th class="static-200">Qnt</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let product of purchasedProducts">
                     <td class="static-500">
                         {{ product.name }}
                     </td>

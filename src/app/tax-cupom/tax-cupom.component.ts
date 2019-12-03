@@ -39,7 +39,7 @@ export class TaxCupomComponent implements OnInit {
         console.log(this.router.snapshot.queryParams.type);
 
         // tslint:disable-next-line:triple-equals
-        if (this.router.snapshot.queryParams.type == TypeOfSale.SALE) {
+        if (this.router.snapshot.queryParams.type != TypeOfSale.TRADE) {
             this.type = TypeOfSale.SALE;
             console.log(this.router.snapshot.queryParams.sale);
             this.sale = new Sale(JSON.parse(this.router.snapshot.queryParams.sale));
@@ -54,6 +54,9 @@ export class TaxCupomComponent implements OnInit {
             this.clientDiscount = this.sale.clientDiscount;
         } else {
             this.type = TypeOfSale.TRADE;
+            console.log(this.router.snapshot.queryParams);
+            console.log(this.router.snapshot.queryParams.trade);
+            console.log(JSON.parse(this.router.snapshot.queryParams.trade));
             this.trade = new Trade(JSON.parse(this.router.snapshot.queryParams.trade),
                 JSON.parse(this.router.snapshot.queryParams.trade)['sale']);
             this.products = this.trade.purchasedProducts;

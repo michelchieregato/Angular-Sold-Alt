@@ -38,7 +38,7 @@ export class NavbarSellerComponent implements OnInit {
                     this.title = 'Estoque';
                     break;
                 case '/seller/check-orders':
-                    this.title = 'Estoque: Todas as unidades';
+                    this.title = 'Encomendas';
                     break;
                 default:
                     this.isMenu = true;

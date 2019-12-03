@@ -136,7 +136,7 @@ export class FinishSaleComponent implements OnInit {
             change: JSON.stringify(this.salePayment.change)
         };
 
-        if (this.type === TypeOfSale.SALE) {
+        if (this.type !== TypeOfSale.TRADE) {
             urlTree.queryParams.sale = JSON.stringify(this.sale);
             urlTree.queryParams.type = this.type;
         } else {
