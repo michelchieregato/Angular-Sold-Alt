@@ -7,6 +7,9 @@ import {Trade} from '../models/trade.model';
 import {Product} from '../models/product.model';
 import {User} from '../models/user.model';
 import {roundTo} from '../models/payment.model';
+declare const window: any;
+const {remote} = window.require('electron');
+let user = remote.getGlobal('user');
 
 @Component({
     selector: 'app-tax-cupom',
@@ -46,7 +49,7 @@ export class TaxCupomComponent implements OnInit {
             this.products = this.sale.products;
             this.store = this.sale.store;
             this.value = this.sale.value;
-            this.user = this.sale.user;
+            this.user = user;
             this.client = new Client(this.sale.client);
             this.date = (this.sale.datetime ? new Date(this.sale.datetime) : this.date);
             this.total_value = this.sale.original_value;
@@ -54,15 +57,12 @@ export class TaxCupomComponent implements OnInit {
             this.clientDiscount = this.sale.clientDiscount;
         } else {
             this.type = TypeOfSale.TRADE;
-            console.log(this.router.snapshot.queryParams);
-            console.log(this.router.snapshot.queryParams.trade);
-            console.log(JSON.parse(this.router.snapshot.queryParams.trade));
             this.trade = new Trade(JSON.parse(this.router.snapshot.queryParams.trade),
-                JSON.parse(this.router.snapshot.queryParams.trade)['sale']);
+                JSON.parse(this.router.snapshot.queryParams.trade)['saleID']);
             this.products = this.trade.purchasedProducts;
             this.store = this.trade.store;
             this.value = this.trade.value;
-            this.user = this.trade.user;
+            this.user = user;
             this.client = new Client(this.trade.client);
             this.date = (this.trade.datetime ? new Date(this.trade.datetime) : this.date);
             this.discount = this.trade.discount;
