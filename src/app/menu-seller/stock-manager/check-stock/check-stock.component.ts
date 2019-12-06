@@ -4,6 +4,7 @@ import {Product} from '../../../models/product.model';
 import * as _ from 'lodash';
 import {MatDialog} from '@angular/material';
 import {ConfirmStockComponent} from '../confirm-stock/confirm-stock.component';
+import {User} from '../../../models/user.model';
 
 declare const window: any;
 const {remote} = window.require('electron');
@@ -21,7 +22,8 @@ export class CheckStockComponent implements OnInit {
     copyOfData: StockProduct[] = [];
     displayData: DisplayedProducts[] = [];
     displayedColumns = ['name', '00', '02', '04', '06', '08', '10', '12', '14', 'PP', 'P', 'M', 'G', 'GG'];
-    editMode = true;
+    user = new User(remote.getGlobal('user'));
+    editMode = false;
 
 
     constructor(private clientServer: ClientService, public dialog: MatDialog) {
@@ -55,6 +57,9 @@ export class CheckStockComponent implements OnInit {
     }
 
     ngOnInit() {
+        if (this.user.is_admin) {
+            this.editMode = true;
+        }
         this.store = remote.getGlobal('store');
         this.clientServer.getProducts().subscribe(
             (results) => {

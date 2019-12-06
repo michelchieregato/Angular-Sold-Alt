@@ -208,7 +208,7 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
 
-    <button class="btn btn-orange pull-right" (click)="updateStock()">
+    <button class="btn btn-orange pull-right" *ngIf="editMode" (click)="updateStock()">
         Atualizar estoque da loja
     </button>
 
