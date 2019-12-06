@@ -32,11 +32,10 @@
         </thead>
         <tbody infiniteScroll
                class="scroll"
-               [infiniteScrollDistance]="1"
+               [infiniteScrollDistance]="2"
                (scrolled)="onScroll()"
-               [fromRoot]="true"
-               [alwaysCallback]="true"
-               [infiniteScrollContainer]="selector">
+               [scrollWindow]="false"
+               [infiniteScrollDisabled]="loading">
         <tr *ngFor="let history of withdrawHistory">
             <td class="static-200">{{ history.date | date : 'short' }}</td>
             <td class="static-200">{{ history.user | nameOrUsername }}</td>
