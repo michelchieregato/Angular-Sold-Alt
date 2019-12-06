@@ -10,7 +10,7 @@ const {ipcRenderer, remote} = window.require('electron');
     styleUrls: ['./change-store.component.scss']
 })
 export class ChangeStoreComponent implements OnInit {
-    stores = ['Verbo Divino', 'Aclimação', 'Itaim', 'Aldeia da Serra'];
+    stores = ['Verbo Divino', 'Aclimação', 'Itaim', 'Perdizes'];
     storeSelected = remote.getGlobal('store');
 
     constructor(public dialogRef: MatDialogRef<any>, private router: Router,) {

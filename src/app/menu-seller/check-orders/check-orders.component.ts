@@ -17,7 +17,7 @@ const {ipcRenderer} = window.require('electron');
 })
 export class CheckOrdersComponent implements OnInit {
     loading = true;
-    stores = ['Todas', 'Verbo Divino', 'Aclimação', 'Itaim', 'Aldeia da Serra'];
+    stores = ['Todas', 'Verbo Divino', 'Aclimação', 'Itaim', 'Perdizes'];
     storeSelected = 'Todas';
     displaySales = [];
     orderProducts = [];
