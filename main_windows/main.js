@@ -13,38 +13,23 @@ const ini = require('ini');
 const fs = require('fs');
 const path = require('path');
 const url = require('url');
+
 const config_path = '/Users/michelchieregato/PycharmProjects/SoldAlt/Angular-Sold-Alt/config/config.ini'; // (electron.app || electron.remote.app).getPath('userData') + '/config.ini';
 const config = ini.parse(fs.readFileSync(config_path, 'utf-8'));
-const crypto = require('crypto');
-const cryptoAlgo = 'aes-128-cbc';
-const cryptoPassword = 'soldalt';
 
-// funções de crypto
-function encrypt(text) {
-    let cipher = crypto.createCipher(cryptoAlgo, cryptoPassword);
-    let crypted = cipher.update(text, 'utf8', 'hex');
-    crypted += cipher.final('hex');
-    return crypted
-}
 
-function decrypt(crypted) {
-    let decipher = crypto.createDecipher(cryptoAlgo, cryptoPassword);
-    let text = decipher.update(crypted, 'hex', 'utf8');
-    text += decipher.final('utf8');
-    return text
-}
+// global['default_url'] = '/api/';
+// global['angular_path'] = 'http://localhost:4200/';
 
-global['default_url'] = '/api/';
-global['angular_path'] = 'http://localhost:4200/';
-
-// global['default_url'] = 'http://www.pueristore.com.br/django_sold_alt/';
-// global['angular_path'] = url.format({
-//     pathname: path.join(__dirname, '..', 'angular', 'index.html'),
-//     protocol: 'file:',
-//     slashes: true,
-// });
+global['default_url'] = 'http://www.pueristore.kinghost.net/sold_alt/';
+global['angular_path'] = url.format({
+    pathname: path.join(__dirname, '..', 'angular', 'index.html'),
+    protocol: 'file:',
+    slashes: true
+});
+console.log(global['angular_path'])
 global['user'] = {};
-global['store'] = decrypt(config.storeName);
+global['store'] = config.storeName;
 
 app.on('ready', () => {
     mainWindow.createWindow({'url': 'login.html'});
