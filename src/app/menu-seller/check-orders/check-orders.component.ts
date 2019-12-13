@@ -6,6 +6,7 @@ import {MatDialog} from '@angular/material/dialog';
 import * as _ from 'lodash';
 import {Router} from '@angular/router';
 import {getProductsFromBackend} from '../../models/product.model';
+import {SIZES} from '../../constants/enums';
 
 declare const window: any;
 const {ipcRenderer} = window.require('electron');
@@ -83,16 +84,32 @@ export class CheckOrdersComponent implements OnInit {
         this.orderProducts = [];
         this.displaySales.forEach((sale) => {
             sale.products.forEach((product) => {
-                const hasInNewSale = _.some(_.map(this.orderProducts, 'product'), product);
+                const hasInNewSale = _.some(this.orderProducts, (p) => {
+                    return product.id === p.id;
+                });
                 if (!hasInNewSale) {
                     this.orderProducts.push(_.clone(product));
                 } else {
                     this.orderProducts.forEach((saleProduct) => {
-                        if (_.isEqual(saleProduct, product)) {
+                        if (saleProduct.id === product.id) {
                             saleProduct.quantity += product.quantity;
                         }
                     });
                 }
+            this.orderProducts.sort(
+                    (a, b) => {
+                        if (a.name < b.name) {
+                            return -1;
+                        } else if (a.name > b.name) {
+                            return 1;
+                        } else if (SIZES.indexOf(a.size) > SIZES.indexOf(b.size)) {
+                            return -1;
+                        } else if (SIZES.indexOf(a.size) < SIZES.indexOf(b.size)) {
+                            return 1;
+                        }
+                        return 0;
+                    }
+                );
             });
         });
     }

@@ -50,7 +50,7 @@ export class ReportComponent implements OnInit {
         auxInitial.setHours(0, 0, 0);
         auxInitial = this.transformDate(auxInitial);
         let auxFinal = _.cloneDeep(this['finalDate' + dateType].value);
-        // auxFinal.setHours(23, 59, 59);
+        auxFinal.setHours(23, 59, 59);
         auxFinal = this.transformDate(auxFinal);
 
         return [auxInitial, auxFinal];
