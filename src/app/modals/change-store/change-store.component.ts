@@ -11,12 +11,13 @@ const {ipcRenderer, remote} = window.require('electron');
 })
 export class ChangeStoreComponent implements OnInit {
     stores = ['Verbo Divino', 'Aclimação', 'Itaim', 'Perdizes'];
-    storeSelected = remote.getGlobal('store');
+    storeSelected;
 
     constructor(public dialogRef: MatDialogRef<any>, private router: Router,) {
     }
 
     ngOnInit() {
+        this.storeSelected = remote.getGlobal('store');
     }
 
     close() {

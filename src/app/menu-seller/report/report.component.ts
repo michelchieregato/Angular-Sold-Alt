@@ -9,7 +9,6 @@ import * as _ from 'lodash';
 
 declare const window: any;
 const {remote} = window.require('electron');
-const store = remote.getGlobal('store');
 const {ipcRenderer} = window.require('electron');
 
 @Component({
@@ -31,6 +30,7 @@ export class ReportComponent implements OnInit {
     initialDateProduct = new FormControl(new Date());
     finalDateProduct = new FormControl(new Date());
     loading = false;
+    store;
 
     constructor(private datePipe: DatePipe, private clientServer: ClientService,
                 private router: Router) {
@@ -41,6 +41,7 @@ export class ReportComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.store = remote.getGlobal('store');
     }
 
     prepareData(dateType: string) {
@@ -49,6 +50,7 @@ export class ReportComponent implements OnInit {
         auxInitial.setHours(0, 0, 0);
         auxInitial = this.transformDate(auxInitial);
         let auxFinal = _.cloneDeep(this['finalDate' + dateType].value);
+        // auxFinal.setHours(23, 59, 59);
         auxFinal = this.transformDate(auxFinal);
 
         return [auxInitial, auxFinal];
@@ -57,13 +59,10 @@ export class ReportComponent implements OnInit {
     searchPaymentReport() {
         const [auxInitial, auxFinal] = this.prepareData('Payment');
 
-        console.log(auxInitial);
-        console.log(auxFinal);
-
         this.clientServer.getReportByPayments({
             initialDate: auxInitial,
             finalDate: auxFinal,
-            store: store
+            store: this.store
         }).subscribe(
             (success) => {
                 this.loading = false;
@@ -72,7 +71,7 @@ export class ReportComponent implements OnInit {
                     values: JSON.stringify(success),
                     initialDate: auxInitial,
                     finalDate: auxFinal,
-                    store: store
+                    store: this.store
                 };
                 ipcRenderer.send('pdf', {'url': customRoute.toString().substring(1)});
             },
@@ -89,7 +88,7 @@ export class ReportComponent implements OnInit {
         this.clientServer.getReportByProduct({
             initialDate: auxInitial,
             finalDate: auxFinal,
-            store: store
+            store: this.store
         }).subscribe(
             (success: {returned_products, purchased_products}) => {
                 this.loading = false;
@@ -100,7 +99,7 @@ export class ReportComponent implements OnInit {
                     returnedProducts: JSON.stringify(success.returned_products),
                     initialDate: auxInitial,
                     finalDate: auxFinal,
-                    store: store
+                    store: this.store
                 };
                 ipcRenderer.send('pdf', {'url': customRoute.toString().substring(1)});
             },
