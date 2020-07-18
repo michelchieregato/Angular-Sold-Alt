@@ -1,9 +1,11 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {ClientService} from '../../../services/client.service';
+import {StockType} from '../../../constants/enums';
 
 interface ConfirmData {
     products: Array<StockProduct>;
+    type: StockType;
 }
 
 @Component({
@@ -13,8 +15,9 @@ interface ConfirmData {
 })
 export class ConfirmStockComponent implements OnInit {
     products: Array<StockProduct> = [];
-    columns = ['name', 'size', 'quantity'];
+    columns = ['name', 'size', 'oldQuantity', 'quantity'];
     disabled = false;
+    type: StockType;
 
     constructor(private clientServer: ClientService,
                 public dialogRef: MatDialogRef<ConfirmStockComponent>,
@@ -23,7 +26,7 @@ export class ConfirmStockComponent implements OnInit {
 
     ngOnInit() {
         this.products = this.data.products;
-        console.log(this.products);
+        this.type = this.data.type;
     }
 
     closeModal(confirmation: boolean | undefined): void {

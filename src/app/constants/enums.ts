@@ -19,4 +19,11 @@ export enum PaymentMethod {
     Transfer = 'Transferencia'
 }
 
+export enum StockType {
+    EDIT ,
+    ADD,
+    TRANSFER,
+    VISUALIZE
+}
+
 export const SIZES = ['00', '02', '04', '06', '08', '10', '12', '14', 'PP', 'P', 'M', 'G', 'GG'];
