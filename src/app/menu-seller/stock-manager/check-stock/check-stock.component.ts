@@ -65,11 +65,9 @@ export class CheckStockComponent implements OnInit {
                 this.data = this.products.map(product => {
                     let stock = 0;
                     let oldStock = product.getStock(this.store);
-
                     if (this.type === this.stockType.EDIT || this.type === this.stockType.VISUALIZE) {
                         stock = oldStock;
                     }
-
                     return {
                         id: product.id,
                         name: product.name.trim(),

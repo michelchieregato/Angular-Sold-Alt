@@ -28,6 +28,13 @@
                 </td>
             </ng-container>
 
+            <ng-container matColumnDef="addedQuantity" *ngIf="this.type == stockOptions.ADD">
+                <th mat-header-cell *matHeaderCellDef>Estoque Adicionado</th>
+                <td mat-cell *matCellDef="let product">
+                    {{ product.addedStock }}
+                </td>
+            </ng-container>
+
             <ng-container matColumnDef="quantity">
                 <th mat-header-cell *matHeaderCellDef>Novo Estoque</th>
                 <td mat-cell *matCellDef="let product">

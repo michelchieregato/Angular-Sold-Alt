@@ -15,9 +15,10 @@ interface ConfirmData {
 })
 export class ConfirmStockComponent implements OnInit {
     products: Array<StockProduct> = [];
-    columns = ['name', 'size', 'oldQuantity', 'quantity'];
+    columns = ['name', 'size', 'oldQuantity', 'addedQuantity', 'quantity'];
     disabled = false;
     type: StockType;
+    stockOptions = StockType;
 
     constructor(private clientServer: ClientService,
                 public dialogRef: MatDialogRef<ConfirmStockComponent>,
@@ -27,6 +28,15 @@ export class ConfirmStockComponent implements OnInit {
     ngOnInit() {
         this.products = this.data.products;
         this.type = this.data.type;
+        if (this.type === StockType.ADD) {
+            // Se é para adicionar, o estoque final é adicionado
+            this.products.forEach(
+                (product) => {
+                    product.addedStock = product.stock;
+                    product.stock += product.oldStock;
+                }
+            );
+        }
     }
 
     closeModal(confirmation: boolean | undefined): void {
@@ -59,4 +69,6 @@ interface StockProduct {
     name: string;
     size: string;
     stock: number;
+    addedStock: number;
+    oldStock: number;
 }
