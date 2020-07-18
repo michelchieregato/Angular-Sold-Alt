@@ -35,10 +35,23 @@
     padding-right: 0;
 }
 
+td.colored {
+    background-color: lightgray;
+
+    .edit-mode-container {
+        background-color: lightgray;
+
+        input {
+            background-color: lightgray;
+        }
+    }
+}
+
 .edit-mode-container {
     position: absolute;
     top: 0;
     bottom: 0;
+
 
     input {
         height: 100%;

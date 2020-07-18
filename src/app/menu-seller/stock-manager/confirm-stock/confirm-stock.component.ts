@@ -15,7 +15,7 @@ interface ConfirmData {
 })
 export class ConfirmStockComponent implements OnInit {
     products: Array<StockProduct> = [];
-    columns = ['name', 'size', 'oldQuantity', 'addedQuantity', 'quantity'];
+    columns = ['name', 'size', 'oldQuantity', 'quantity'];
     disabled = false;
     type: StockType;
     stockOptions = StockType;
@@ -26,8 +26,11 @@ export class ConfirmStockComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.products = this.data.products;
         this.type = this.data.type;
+        if (this.type === StockType.ADD) {
+            this.columns = ['name', 'size', 'oldQuantity', 'addedQuantity', 'quantity'];
+        }
+        this.products = this.data.products;
         if (this.type === StockType.ADD) {
             // Se é para adicionar, o estoque final é adicionado
             this.products.forEach(

@@ -6,6 +6,7 @@ import {MatDialog} from '@angular/material';
 import {ConfirmStockComponent} from '../confirm-stock/confirm-stock.component';
 import {User} from '../../../models/user.model';
 import {StockType} from '../../../constants/enums';
+import {PopupComponent} from '../../../modals/popup/popup.component';
 
 declare const window: any;
 const {remote} = window.require('electron');
@@ -83,6 +84,23 @@ export class CheckStockComponent implements OnInit {
 
     updateStock() {
         let productsToUpdate = [];
+        const hasNullValues = this.data.find(product => {
+            return product.stock === null;
+        });
+
+        if (hasNullValues) {
+            this.dialog.open(PopupComponent, {
+                width: '625px',
+                height: '350px',
+                data: {
+                    'type': 'ok-face',
+                    'title': 'Adicione algum valor!',
+                    'text': 'Pelo menos algum dos valores modificados é inválido.'
+                }
+            });
+            return;
+        }
+
         for (let i = 0; i < this.data.length; i++) {
             if (this.data[i].stock !== this.data[i].oldStock) {
                 productsToUpdate.push(_.cloneDeep(this.data[i]));
@@ -106,13 +124,31 @@ export class CheckStockComponent implements OnInit {
 
     addStock() {
         let productsToUpdate = [];
+        let modal;
+        const hasNegativeValues = this.data.find(product => {
+            return product.stock < 0;
+        });
+
+        if (hasNegativeValues) {
+            this.dialog.open(PopupComponent, {
+                width: '625px',
+                height: '350px',
+                data: {
+                    'type': 'ok-face',
+                    'title': 'Quantidade negativa!',
+                    'text': 'Você não pode adicionar quantidade negativa de produtos.'
+                }
+            });
+            return;
+        }
+
         for (let i = 0; i < this.data.length; i++) {
             if (this.data[i].stock !== 0) {
                 productsToUpdate.push(_.cloneDeep(this.data[i]));
             }
         }
 
-        const modal = this.dialog.open(ConfirmStockComponent, {
+        modal = this.dialog.open(ConfirmStockComponent, {
             width: '625px',
             data: {
                 'products': productsToUpdate,
