@@ -1,5 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {StockType} from '../../constants/enums';
+import {User} from '../../models/user.model';
+
+declare const window: any;
+const {remote} = window.require('electron');
 
 @Component({
     selector: 'app-stock-manager',
@@ -8,7 +12,8 @@ import {StockType} from '../../constants/enums';
 })
 export class StockManagerComponent implements OnInit {
     stockType = StockType;
-    tabIndex = 0 ;
+    tabIndex = 0;
+    user = new User(remote.getGlobal('user'));
 
     constructor() {
     }
