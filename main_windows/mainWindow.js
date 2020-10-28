@@ -34,7 +34,7 @@ exports.createWindow = (args) => {
 
     this.win.loadURL(global['angular_path']);
 
-    this.win.webContents.openDevTools();
+    // this.win.webContents.openDevTools();
     // // Handle window closed
     this.win.on('closed', () => {
         this.win = null
