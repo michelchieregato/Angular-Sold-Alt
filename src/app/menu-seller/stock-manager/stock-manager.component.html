@@ -1,13 +1,18 @@
 <div class="main-content">
-    <mat-tab-group>
+    <mat-tab-group selectedIndex="0" (selectedTabChange)="changeTab($event)">
         <mat-tab label="Ver Estoque">
             <div class="full-height">
-                <app-check-stock></app-check-stock>
+                <app-check-stock *ngIf="tabIndex === 0" [type]="stockType.VISUALIZE"></app-check-stock>
             </div>
         </mat-tab>
-        <mat-tab label="Transferir Estoque">
+        <mat-tab label="Editar Estoque" *ngIf="user.is_admin">
             <div class="full-height">
-                <app-stock-transfer></app-stock-transfer>
+                <app-check-stock *ngIf="tabIndex === 1" [type]="stockType.EDIT"></app-check-stock>
+            </div>
+        </mat-tab>
+        <mat-tab label="Receber Estoque">
+            <div class="full-height">
+                <app-check-stock *ngIf="tabIndex === 2" [type]="stockType.ADD"></app-check-stock>
             </div>
         </mat-tab>
     </mat-tab-group>

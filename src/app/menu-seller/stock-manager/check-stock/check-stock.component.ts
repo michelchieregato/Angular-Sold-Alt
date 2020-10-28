@@ -1,10 +1,12 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ClientService} from '../../../services/client.service';
 import {Product} from '../../../models/product.model';
 import * as _ from 'lodash';
 import {MatDialog} from '@angular/material';
 import {ConfirmStockComponent} from '../confirm-stock/confirm-stock.component';
 import {User} from '../../../models/user.model';
+import {StockType} from '../../../constants/enums';
+import {PopupComponent} from '../../../modals/popup/popup.component';
 
 declare const window: any;
 const {remote} = window.require('electron');
@@ -19,11 +21,11 @@ export class CheckStockComponent implements OnInit {
     loading = true;
     products: Product[] = [];
     data: StockProduct[] = [];
-    copyOfData: StockProduct[] = [];
     displayData: DisplayedProducts[] = [];
     displayedColumns = ['name', '00', '02', '04', '06', '08', '10', '12', '14', 'PP', 'P', 'M', 'G', 'GG'];
     user = new User(remote.getGlobal('user'));
-    editMode = false;
+    @Input() type: StockType;
+    stockType = StockType;
 
 
     constructor(private clientServer: ClientService, public dialog: MatDialog) {
@@ -57,24 +59,24 @@ export class CheckStockComponent implements OnInit {
     }
 
     ngOnInit() {
-        if (this.user.is_admin) {
-            this.editMode = true;
-        }
         this.store = remote.getGlobal('store');
-        this.clientServer.getProducts().subscribe(
+        this.clientServer.getProducts(true, false).subscribe(
             (results) => {
-                this.products = results.filter(product => {
-                    return !product.name.includes('*(A)');
-                });
+                this.products = results;
                 this.data = this.products.map(product => {
+                    let stock = 0;
+                    let oldStock = product.getStock(this.store);
+                    if (this.type === this.stockType.EDIT || this.type === this.stockType.VISUALIZE) {
+                        stock = oldStock;
+                    }
                     return {
                         id: product.id,
                         name: product.name.trim(),
                         size: product.size,
-                        stock: product.getStock(this.store)
+                        oldStock: oldStock,
+                        stock: stock
                     };
                 });
-                this.copyOfData = _.cloneDeep(this.data);
                 this.prepareData();
                 this.loading = false;
             });
@@ -82,8 +84,25 @@ export class CheckStockComponent implements OnInit {
 
     updateStock() {
         let productsToUpdate = [];
+        const hasNullValues = this.data.find(product => {
+            return product.stock === null;
+        });
+
+        if (hasNullValues) {
+            this.dialog.open(PopupComponent, {
+                width: '625px',
+                height: '350px',
+                data: {
+                    'type': 'ok-face',
+                    'title': 'Adicione algum valor!',
+                    'text': 'Pelo menos algum dos valores modificados é inválido.'
+                }
+            });
+            return;
+        }
+
         for (let i = 0; i < this.data.length; i++) {
-            if (this.data[i].stock !== this.copyOfData[i].stock) {
+            if (this.data[i].stock !== this.data[i].oldStock) {
                 productsToUpdate.push(_.cloneDeep(this.data[i]));
             }
         }
@@ -102,6 +121,48 @@ export class CheckStockComponent implements OnInit {
             }
         });
     }
+
+    addStock() {
+        let productsToUpdate = [];
+        let modal;
+        const hasNegativeValues = this.data.find(product => {
+            return product.stock < 0;
+        });
+
+        if (hasNegativeValues) {
+            this.dialog.open(PopupComponent, {
+                width: '625px',
+                height: '350px',
+                data: {
+                    'type': 'ok-face',
+                    'title': 'Quantidade negativa!',
+                    'text': 'Você não pode adicionar quantidade negativa de produtos.'
+                }
+            });
+            return;
+        }
+
+        for (let i = 0; i < this.data.length; i++) {
+            if (this.data[i].stock !== 0) {
+                productsToUpdate.push(_.cloneDeep(this.data[i]));
+            }
+        }
+
+        modal = this.dialog.open(ConfirmStockComponent, {
+            width: '625px',
+            data: {
+                'products': productsToUpdate,
+                'type': this.type
+            }
+        });
+
+        modal.afterClosed().subscribe(updated => {
+            if (updated) {
+                this.loading = true;
+                this.ngOnInit();
+            }
+        });
+    }
 }
 
 interface StockProduct {
@@ -109,6 +170,7 @@ interface StockProduct {
     name: string;
     size: string;
     stock: number;
+    oldStock: number;
 }
 
 interface DisplayedProducts {
