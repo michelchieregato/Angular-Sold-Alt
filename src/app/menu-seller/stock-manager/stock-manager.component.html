@@ -15,5 +15,10 @@
                 <app-check-stock *ngIf="tabIndex === 2" [type]="stockType.ADD"></app-check-stock>
             </div>
         </mat-tab>
+        <mat-tab label="Transferir Estoque">
+            <div class="full-height">
+                <app-stock-transfer *ngIf="tabIndex === 3"></app-stock-transfer>
+            </div>
+        </mat-tab>
     </mat-tab-group>
 </div>

@@ -50,17 +50,15 @@
         </tbody>
     </table>
     <div class="bottom">
-        <h3> Fazer transferência* <br>
-            <span
-                class="small">Ao selecionar a própria unidade, você estará confirmando o recebimento de mercadoria</span>
+        <h3> Fazer transferência
         </h3>
         <div class="form-group select">
             <label>
                 <select class="form-control" id="select-store" [(ngModel)]="store">
-                    <option value="Verbo Divino">Verbo Divino</option>
-                    <option value="Perdizes">Perdizes</option>
-                    <option value="Aclimação">Aclimação</option>
-                    <option value="Itaim">Itaim</option>
+                    <option value="Verbo Divino" *ngIf="currentStore !== 'Verbo Divino'">Verbo Divino</option>
+                    <option value="Perdizes" *ngIf="currentStore !== 'Perdizes'">Perdizes</option>
+                    <option value="Aclimação" *ngIf="currentStore !== 'Aclimação'">Aclimação</option>
+                    <option value="Itaim" *ngIf="currentStore !== 'Itaim'">Itaim</option>
                 </select>
             </label>
             <button class="btn btn-orange" (click)="updateStock()" [disabled]="disabled">

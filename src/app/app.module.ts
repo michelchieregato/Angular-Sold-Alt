@@ -54,6 +54,7 @@ import {StockManagerComponent} from './menu-seller/stock-manager/stock-manager.c
 import {CheckStockComponent} from './menu-seller/stock-manager/check-stock/check-stock.component';
 import {HotTableModule} from '@handsontable/angular';
 import { ConfirmStockComponent } from './menu-seller/stock-manager/confirm-stock/confirm-stock.component';
+import { ConfirmTransferComponent } from './menu-seller/stock-manager/confirm-transfer/confirm-transfer.component';
 
 @NgModule({
     declarations: [
@@ -92,7 +93,8 @@ import { ConfirmStockComponent } from './menu-seller/stock-manager/confirm-stock
         TradeDetailComponent,
         StockManagerComponent,
         CheckStockComponent,
-        ConfirmStockComponent
+        ConfirmStockComponent,
+        ConfirmTransferComponent
     ],
     imports: [
         BrowserModule,
@@ -131,7 +133,8 @@ import { ConfirmStockComponent } from './menu-seller/stock-manager/confirm-stock
         WithdrawComponent,
         WithdrawHistoryComponent,
         ChangeStoreComponent,
-        ConfirmStockComponent
+        ConfirmStockComponent,
+        ConfirmTransferComponent
     ]
 })
 export class AppModule {

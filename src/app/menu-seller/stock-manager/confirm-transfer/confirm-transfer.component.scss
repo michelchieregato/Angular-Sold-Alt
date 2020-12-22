@@ -1,0 +1,75 @@
+div {
+    text-align: center;
+    font-family: 'Times New Roman', Times, serif;
+
+    .happy {
+        background-color: #00BF46;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .sad {
+        background-color: red;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .ok-face {
+        background-color: #FFBF46;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    h2 {
+        color: white;
+        margin: 1em;
+        text-align: center;
+    }
+
+    p {
+        color: #808080;
+        margin: 1em;
+        text-align: center;
+        font-size: 1.5em;
+    }
+
+    .btn {
+        padding: auto;
+        width: 25%;
+        color: white;
+    }
+}
+
+.mat-header-row .mat-header-cell {
+    text-align: left;
+}
+
+.mat-header-cell, .mat-table tr td {
+    text-align: left;
+}
+
+#popup {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+
+    .jumbotron {
+        padding: 0;
+    }
+
+    .table-container {
+        max-height: 300px;
+        width: 95%;
+        margin: 20px auto;
+        overflow: scroll;
+    }
+
+    #field {
+        display: flex;
+        margin: auto 0 20px 0;
+    }
+}
+
+::-webkit-scrollbar-track {
+    background: none;
+}

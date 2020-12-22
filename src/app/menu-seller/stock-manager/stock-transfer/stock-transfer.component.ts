@@ -2,8 +2,12 @@ import {Component, OnInit} from '@angular/core';
 import {ClientService} from '../../../services/client.service';
 import {TypeaheadMatch} from 'ngx-bootstrap';
 import {Product} from '../../../models/product.model';
-import {PopupComponent} from '../../../modals/popup/popup.component';
 import {MatDialog} from '@angular/material/dialog';
+import {ConfirmTransferComponent} from '../confirm-transfer/confirm-transfer.component';
+import {PopupComponent} from '../../../modals/popup/popup.component';
+
+declare const window: any;
+const {remote} = window.require('electron');
 
 @Component({
     selector: 'app-stock-transfer',
@@ -18,13 +22,14 @@ export class StockTransferComponent implements OnInit {
     qnt = 1;
     products = [];
     selectedProducts = [];
-    store = 'Verbo Divino';
+    currentStore = remote.getGlobal('store');
+    store = ['Verbo Divino', 'Perdizes', 'Aclimação', 'Itaim'].filter(store => store !== this.currentStore)[0];
 
     constructor(private clientServer: ClientService, public dialog: MatDialog) {
     }
 
     ngOnInit() {
-        this.clientServer.getProducts().subscribe(
+        this.clientServer.getProducts(true, false).subscribe(
             (response) => {
                 this.products = response;
                 this.ready = true;
@@ -48,8 +53,7 @@ export class StockTransferComponent implements OnInit {
         if (getProduct.length) {
             getProduct[0].quantity += qnt;
         } else {
-            product.quantity = qnt;
-            this.selectedProducts.push(product);
+            this.selectedProducts.push(new StockTransferProduct(product, qnt));
         }
     }
 
@@ -65,34 +69,74 @@ export class StockTransferComponent implements OnInit {
     }
 
     updateStock() {
-        this.disabled = true;
-        const productsToSend = {};
-        this.selectedProducts.forEach((product) => {
-            productsToSend[product.id] = product.quantity;
+        if (this.selectedProducts.length <= 0) {
+            this.dialog.open(PopupComponent, {
+                width: '625px',
+                height: '350px',
+                data: {
+                    'type': 'ok-face',
+                    'title': 'Nenhum produto selecionado!',
+                    'text': 'Adicione algum produto.'
+                }
+            });
+            return;
+        }
+
+        const modal = this.dialog.open(ConfirmTransferComponent, {
+            width: '750px',
+            data: {
+                products: this.selectedProducts,
+                currentStore: this.currentStore,
+                newStore: this.store
+            }
         });
-        const data = {
-            to_store: this.store,
-            products: productsToSend,
-        };
-        this.clientServer.updateStock(data).subscribe(
-            (n) => {
-                console.log(n);
-                this.disabled = false;
+
+        modal.afterClosed().subscribe(updated => {
+            if (updated) {
+                this.ready = false;
                 this.selectedProducts = [];
                 this.typeaheadText = undefined;
                 this.dialog.open(PopupComponent, {
-                    height: '400px',
-                    width: '500px',
+                    width: '625px',
+                    height: '350px',
                     data: {
                         'type': 'happy',
-                        'title': 'Transferência de estoque realizada com sucesso!',
-                        'text': 'Os produtos foram transferidos. Para ver o historico de transferências, clicke em Ver histórico.'
+                        'title': 'Transferencia feita com sucesso!'
                     }
                 });
-            },
-            (e) => {
-                console.log(e);
-                this.disabled = false;
-            });
+                this.ngOnInit();
+            }
+        });
+    }
+}
+
+
+export class StockTransferProduct {
+    product: Product;
+    quantity: number;
+
+    constructor(product: Product, quantity: number) {
+        this.product = product;
+        this.quantity = quantity;
+    }
+
+    get id() {
+        return this.product.id;
+    }
+
+    get name() {
+        return this.product.name;
+    }
+
+    get size() {
+        return this.product.size;
+    }
+
+    getNewStoreStock(store: string) {
+        return this.product.getStock(store) + this.quantity;
+    }
+
+    getCurrentStoreStock(store: string) {
+        return this.product.getStock(store) - this.quantity;
     }
 }
