@@ -1,100 +1,102 @@
 {
-  "name": "PDStore",
-  "version": "0.0.0",
-  "main": "main_windows/main.js",
-  "scripts": {
-    "ng": "ng",
-    "start": "ng serve --proxy-config=proxy.config.js",
-    "build": "ng build",
-    "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e",
-    "electron-build": "ng build --prod"
-  },
-  "private": true,
-  "dependencies": {
-    "@angular/animations": "~8.2.7",
-    "@angular/cdk": "^8.2.0",
-    "@angular/common": "~8.2.7",
-    "@angular/compiler": "~8.2.7",
-    "@angular/core": "~8.2.7",
-    "@angular/forms": "~8.2.7",
-    "@angular/material": "^8.2.0",
-    "@angular/platform-browser": "~8.2.7",
-    "@angular/platform-browser-dynamic": "~8.2.7",
-    "@angular/router": "~8.2.7",
-    "@handsontable/angular": "^5.1.0",
-    "@ng-bootstrap/ng-bootstrap": "^4.0.1",
-    "@ngrx/store": "^7.0.0",
-    "async": "^2.6.1",
-    "bootstrap": "^4.1.1",
-    "bootstrap-sass": "^3.3.7",
-    "core-js": "^2.5.4",
-    "electron-log": "^2.2.17",
-    "electron-pdf-window": "^1.0.12",
-    "electron-updater": "^3.2.3",
-    "hammerjs": "^2.0.8",
-    "handsontable": "^7.2.1",
-    "ini": "^1.3.5",
-    "jquery": "^3.3.1",
-    "lodash": "^4.17.11",
-    "ng2-currency-mask": "^5.3.1",
-    "ngx-bootstrap": "^5.0.0",
-    "ngx-infinite-scroll": "^7.0.1",
-    "popper.js": "^1.14.6",
-    "rxjs": "~6.5.3",
-    "tslib": "^1.9.0",
-    "zone.js": "~0.9.1"
-  },
-  "devDependencies": {
-    "@angular-devkit/build-angular": "~0.803.5",
-    "@angular/cli": "~8.3.5",
-    "@angular/compiler-cli": "~8.2.7",
-    "@angular/language-service": "~8.2.7",
-    "@types/async": "^3.0.0",
-    "@types/bootstrap": "^4.3.1",
-    "@types/core-js": "^2.5.2",
-    "@types/ini": "^1.3.30",
-    "@types/jasmine": "~2.8.8",
-    "@types/jasminewd2": "~2.0.3",
-    "@types/jquery": "^3.3.30",
-    "@types/karma": "^3.0.3",
-    "@types/lodash": "^4.14.120",
-    "@types/node": "^8.10.39",
-    "codelyzer": "^5.0.1",
-    "electron": "^3.0.8",
-    "fs": "0.0.1-security",
-    "jasmine-core": "~2.99.1",
-    "jasmine-spec-reporter": "~4.2.1",
-    "karma": "~3.0.0",
-    "karma-chrome-launcher": "~2.2.0",
-    "karma-coverage-istanbul-reporter": "~2.0.1",
-    "karma-jasmine": "~1.1.2",
-    "karma-jasmine-html-reporter": "^0.2.2",
-    "protractor": "~5.4.0",
-    "ts-node": "~7.0.0",
-    "tslint": "~5.11.0",
-    "typescript": "~3.5.3"
-  },
-  "files": [
-    "*.js",
-    "build",
-    "node_modules"
-  ],
-  "build": {
-    "appId": "br.com.pueristore.angular_sold_alt",
-    "directories": {
-      "buildResources": "build"
+    "name": "PDStore",
+    "version": "0.0.1",
+    "main": "main_windows/main.js",
+    "scripts": {
+        "ng": "ng",
+        "start": "ng serve --proxy-config=proxy.config.js",
+        "build": "ng build",
+        "test": "ng test",
+        "lint": "ng lint",
+        "e2e": "ng e2e",
+        "electron-build": "ng build --prod",
+        "build-final": "electron-builder -w"
     },
-    "win": {
-      "publish": [
-        "github"
-      ],
-      "publisherName": "angularSoldAlt"
+    "private": true,
+    "dependencies": {
+        "@angular/animations": "~8.2.7",
+        "@angular/cdk": "^8.2.0",
+        "@angular/common": "~8.2.7",
+        "@angular/compiler": "~8.2.7",
+        "@angular/core": "~8.2.7",
+        "@angular/forms": "~8.2.7",
+        "@angular/material": "^8.2.0",
+        "@angular/platform-browser": "~8.2.7",
+        "@angular/platform-browser-dynamic": "~8.2.7",
+        "@angular/router": "~8.2.7",
+        "@handsontable/angular": "^5.1.0",
+        "@ng-bootstrap/ng-bootstrap": "^4.0.1",
+        "@ngrx/store": "^7.0.0",
+        "async": "^2.6.1",
+        "bootstrap": "^4.1.1",
+        "bootstrap-sass": "^3.3.7",
+        "core-js": "^2.5.4",
+        "electron-log": "^2.2.17",
+        "electron-pdf-window": "^1.0.12",
+        "electron-updater": "^4.3.5",
+        "hammerjs": "^2.0.8",
+        "handsontable": "^7.2.1",
+        "ini": "^1.3.5",
+        "jquery": "^3.3.1",
+        "lodash": "^4.17.11",
+        "ng2-currency-mask": "^5.3.1",
+        "ngx-bootstrap": "^5.0.0",
+        "ngx-infinite-scroll": "^7.0.1",
+        "nvm": "0.0.4",
+        "popper.js": "^1.14.6",
+        "rxjs": "~6.5.3",
+        "tslib": "^1.9.0",
+        "zone.js": "~0.9.1"
+    },
+    "devDependencies": {
+        "@angular-devkit/build-angular": "~0.803.5",
+        "@angular/cli": "~8.3.5",
+        "@angular/compiler-cli": "~8.2.7",
+        "@angular/language-service": "~8.2.7",
+        "@types/async": "^3.0.0",
+        "@types/bootstrap": "^4.3.1",
+        "@types/core-js": "^2.5.2",
+        "@types/ini": "^1.3.30",
+        "@types/jasmine": "~2.8.8",
+        "@types/jasminewd2": "~2.0.3",
+        "@types/jquery": "^3.3.30",
+        "@types/karma": "^3.0.3",
+        "@types/lodash": "^4.14.120",
+        "@types/node": "^8.10.39",
+        "codelyzer": "^5.0.1",
+        "electron": "^3.0.8",
+        "fs": "0.0.1-security",
+        "jasmine-core": "~2.99.1",
+        "jasmine-spec-reporter": "~4.2.1",
+        "karma": "~3.0.0",
+        "karma-chrome-launcher": "~2.2.0",
+        "karma-coverage-istanbul-reporter": "~2.0.1",
+        "karma-jasmine": "~1.1.2",
+        "karma-jasmine-html-reporter": "^0.2.2",
+        "protractor": "~5.4.0",
+        "ts-node": "~7.0.0",
+        "tslint": "~5.11.0",
+        "typescript": "~3.5.3"
+    },
+    "files": [
+        "*.js",
+        "build",
+        "node_modules"
+    ],
+    "build": {
+        "appId": "br.com.pueristore.angular_sold_alt",
+        "directories": {
+            "buildResources": "build"
+        },
+        "win": {
+            "publish": [
+                "github"
+            ],
+            "publisherName": "angularSoldAlt"
+        }
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/michelchieregato/Angular-Sold-Alt"
     }
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/michelchieregato/Angular-Sold-Alt"
-  }
 }
