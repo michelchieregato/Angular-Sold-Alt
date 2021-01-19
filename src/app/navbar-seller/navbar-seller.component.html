@@ -5,7 +5,7 @@
     <h1 class="h-text orange clearfix">
         <img alt="O" id="nav-img" src="assets/images/options.png" (click)="open = !open">
         {{ title }}
-        <a *ngIf="isMenu && user.is_admin" (click)="openChangeStoreModal()">
+        <a *ngIf="isMenu" (click)="openChangeStoreModal()">
             Trocar de loja
         </a>
     </h1>
