@@ -3,6 +3,15 @@
 #loginScreen {
     background-color: #000;
 
+    .form-container {
+        height: 100%;
+        padding-top: 55px;
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        margin-top: 25px;
+    }
+
     .login {
         z-index: 1;
         position: relative;

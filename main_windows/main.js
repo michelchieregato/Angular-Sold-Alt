@@ -19,15 +19,15 @@ console.log(config_path);
 const config = ini.parse(fs.readFileSync(config_path, 'utf-8'));
 
 
-// global['default_url'] = '/api/';
-// global['angular_path'] = 'http://localhost:4200/';
+global['default_url'] = '/api/';
+global['angular_path'] = 'http://localhost:4200/';
 
-global['default_url'] = 'http://www.pueristore.kinghost.net/sold_alt/';
-global['angular_path'] = url.format({
-    pathname: path.join(__dirname, '..', 'angular', 'index.html'),
-    protocol: 'file:',
-    slashes: true
-});
+// global['default_url'] = 'http://www.pueristore.kinghost.net/sold_alt/';
+// global['angular_path'] = url.format({
+//     pathname: path.join(__dirname, '..', 'angular', 'index.html'),
+//     protocol: 'file:',
+//     slashes: true
+// });
 console.log(global['angular_path'])
 global['user'] = {};
 global['store'] = config.storeName;
