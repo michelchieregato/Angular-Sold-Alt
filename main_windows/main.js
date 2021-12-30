@@ -19,6 +19,9 @@ console.log(config_path);
 const config = ini.parse(fs.readFileSync(config_path, 'utf-8'));
 
 
+const PUERI = 0
+const RIO = 1
+
 global['default_url'] = '/api/';
 global['angular_path'] = 'http://localhost:4200/';
 
@@ -31,6 +34,8 @@ global['angular_path'] = 'http://localhost:4200/';
 console.log(global['angular_path'])
 global['user'] = {};
 global['store'] = config.storeName;
+global['school'] = config.school || PUERI;
+
 
 app.on('ready', () => {
     mainWindow.createWindow({'url': 'login.html'});
@@ -66,6 +71,10 @@ ipcMain.on('setUser', (event, user) => {
 
 ipcMain.on('setStore', (event, store) => {
     global['store'] = store;
+});
+
+ipcMain.on('setSchool', (event, school) => {
+    global['school'] = school;
 });
 
 // Tela de venda
