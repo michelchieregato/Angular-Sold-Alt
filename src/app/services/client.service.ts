@@ -82,6 +82,7 @@ export class ClientService {
             params.store = store;
         } else if (params.store === 'Todas') {
             params['store'] = '';
+            params['school'] = remote.getGlobal('school');
         }
         return this.http.get<Sale[]>(remote.getGlobal('default_url') + 'sale/', {params: params}).pipe(map(
             (response) => {

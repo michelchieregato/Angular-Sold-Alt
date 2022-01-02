@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import { getStoreOptions } from 'src/app/utils';
 import {ClientService} from '../../services/client.service';
 import {Sale} from '../../models/sale.model';
 import {SaleDetailComponent} from '../search-sale/sale-detail/sale-detail.component';
@@ -18,7 +19,7 @@ const {ipcRenderer} = window.require('electron');
 })
 export class CheckOrdersComponent implements OnInit {
     loading = true;
-    stores = ['Todas', 'Verbo Divino', 'Aclimação', 'Itaim', 'Perdizes'];
+    stores = [];
     storeSelected = 'Todas';
     displaySales = [];
     orderProducts = [];
@@ -30,6 +31,7 @@ export class CheckOrdersComponent implements OnInit {
 
     ngOnInit() {
         this.loading = true;
+        this.stores = getStoreOptions(true);
         this.clientServer.getSales({
             store: this.storeSelected,
             full: true,
