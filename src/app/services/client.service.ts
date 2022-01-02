@@ -23,7 +23,8 @@ export class ClientService {
     }
 
     getProducts(full: any = false, old: any = true) {
-        return this.http.get<Product[]>(remote.getGlobal('default_url') + 'product/', {params: {full, old}}).pipe(map(
+        let school = remote.getGlobal('school');
+        return this.http.get<Product[]>(remote.getGlobal('default_url') + 'product/', {params: {school, full, old}}).pipe(map(
             (response) => {
                 return response.map(p => new Product(p));
             }

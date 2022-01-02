@@ -12,6 +12,10 @@ const {ipcRenderer, remote} = window.require('electron');
 })
 export class ChangeStoreComponent implements OnInit {
     stores = [];
+    storeOptions = {
+        [School.Pueri]: ['Verbo Divino', 'Aclimação', 'Itaim', 'Perdizes'],
+        [School.Rio]: ['São Conrado', 'Recreio', 'Gente Miúda', 'Golfe Olímpio'],
+    };
     storeSelected;
     schoolSelected;
 
@@ -19,11 +23,6 @@ export class ChangeStoreComponent implements OnInit {
     }
 
     ngOnInit() {
-        const storeOptions = {
-            [School.Pueri]: ['Verbo Divino', 'Aclimação', 'Itaim', 'Perdizes'],
-            [School.Rio]: ['São Conrado', 'Recreio', 'Gente Miúda', 'Golfe Olímpio'],
-        };
-
         const school = remote.getGlobal('school');
 
         const isAdmin = remote.getGlobal('user').is_admin;
@@ -34,20 +33,21 @@ export class ChangeStoreComponent implements OnInit {
                 'São Conrado', 'Recreio', 'Gente Miúda', 'Golfe Olímpio',
             ];
         } else {
-            this.stores = storeOptions[school];
+            this.stores = this.storeOptions[school];
         }
         this.storeSelected = remote.getGlobal('store');
+    }
 
-        if (storeOptions[School.Pueri].includes(this.storeSelected)) {
+    close() {
+        if (this.storeOptions[School.Pueri].includes(this.storeSelected)) {
             this.schoolSelected = School.Pueri;
         } else {
             this.schoolSelected = School.Rio;
         }
-    }
 
-    close() {
         ipcRenderer.send('setStore', this.storeSelected);
         ipcRenderer.send('setSchool', this.schoolSelected);
+        console.log(this.schoolSelected);
         this.dialogRef.close();
     }
 

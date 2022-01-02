@@ -6,7 +6,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {ChangeStoreComponent} from '../modals/change-store/change-store.component';
 
 declare const window: any;
-const {remote, global} = window.require('electron');
+const {remote} = window.require('electron');
 
 @Component({
     selector: 'app-navbar-seller',
@@ -29,16 +29,16 @@ export class NavbarSellerComponent implements OnInit {
             this.isMenu = false;
             switch (value['url']) {
                 case '/seller/report':
-                    this.title = 'Relatórios';
+                    this.title = 'Relatórios - ' + remote.getGlobal('store');
                     break;
                 case '/seller/search-sale':
-                    this.title = 'Pesquisar Venda';
+                    this.title = 'Pesquisar Venda - ' + remote.getGlobal('store');
                     break;
                 case '/seller/stock-transfer':
-                    this.title = 'Estoque';
+                    this.title = 'Estoque - ' + remote.getGlobal('store');
                     break;
                 case '/seller/check-orders':
-                    this.title = 'Encomendas';
+                    this.title = 'Encomendas - ' + remote.getGlobal('store');
                     break;
                 default:
                     this.isMenu = true;
