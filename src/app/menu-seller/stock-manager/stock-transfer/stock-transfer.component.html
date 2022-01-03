@@ -54,11 +54,11 @@
         </h3>
         <div class="form-group select">
             <label>
-                <select class="form-control" id="select-store" [(ngModel)]="store">
-                    <option value="Verbo Divino" *ngIf="currentStore !== 'Verbo Divino'">Verbo Divino</option>
-                    <option value="Perdizes" *ngIf="currentStore !== 'Perdizes'">Perdizes</option>
-                    <option value="Aclimação" *ngIf="currentStore !== 'Aclimação'">Aclimação</option>
-                    <option value="Itaim" *ngIf="currentStore !== 'Itaim'">Itaim</option>
+                <select class="form-control" id="select-store" [(ngModel)]="store" [value]="store">
+                    <option *ngFor="let storeSelection of storesOptions"
+                            [value]="storeSelection">
+                        {{ storeSelection }}
+                    </option>
                 </select>
             </label>
             <button class="btn btn-orange" (click)="updateStock()" [disabled]="disabled">

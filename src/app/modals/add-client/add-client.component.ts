@@ -8,6 +8,9 @@ import {Store} from '@ngrx/store';
 import {AppState} from '../../store/state/app.state';
 import {AddClient} from '../../store/actions/sale.actions';
 
+declare const window: any;
+const {remote} = window.require('electron');
+
 @Component({
     selector: 'app-add-client',
     templateUrl: './add-client.component.html',
@@ -25,13 +28,17 @@ export class AddClientComponent implements OnInit {
     }
 
     onSubmit(form: NgForm) {
+        let school = remote.getGlobal('school');
         if (!form.valid) {
             return;
         }
 
         this.disabled = true;
 
-        this.clientServer.saveClient(form.value).subscribe(
+        this.clientServer.saveClient({
+            ...form.value,
+            school: school,
+        }).subscribe(
             (next) => {
                 this.disabled = false;
                 this.store.dispatch(new AddClient(new Client(next)));

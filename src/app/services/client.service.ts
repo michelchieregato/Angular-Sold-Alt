@@ -36,7 +36,8 @@ export class ClientService {
     }
 
     getClients(query: string) {
-        return this.http.get<Client[]>(remote.getGlobal('default_url') + 'client/', {params: {'search': query}}).pipe(map(
+        let school = remote.getGlobal('school');
+        return this.http.get<Client[]>(remote.getGlobal('default_url') + 'client/', {params: {'search': query, school}}).pipe(map(
             (response) => {
                 return response.map(p => new Client(p));
             })

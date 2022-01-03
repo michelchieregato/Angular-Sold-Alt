@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import { getStoreOptions } from 'src/app/utils';
 import {ClientService} from '../../../services/client.service';
 import {TypeaheadMatch} from 'ngx-bootstrap';
 import {Product} from '../../../models/product.model';
@@ -23,18 +24,24 @@ export class StockTransferComponent implements OnInit {
     products = [];
     selectedProducts = [];
     currentStore = remote.getGlobal('store');
-    store = ['Verbo Divino', 'Perdizes', 'Aclimação', 'Itaim'].filter(store => store !== this.currentStore)[0];
+    stores = [];
+    store: string;
 
     constructor(private clientServer: ClientService, public dialog: MatDialog) {
     }
 
     ngOnInit() {
+        this.stores = getStoreOptions(false);
         this.clientServer.getProducts(true, false).subscribe(
             (response) => {
                 this.products = response;
                 this.ready = true;
             }
         );
+    }
+
+    get storesOptions() {
+        return this.stores.filter(store => store !== this.currentStore);
     }
 
     onTypeaheadSelect(e: TypeaheadMatch) {
@@ -77,6 +84,17 @@ export class StockTransferComponent implements OnInit {
                     'type': 'ok-face',
                     'title': 'Nenhum produto selecionado!',
                     'text': 'Adicione algum produto.'
+                }
+            });
+            return;
+        } else if (!this.store) {
+            this.dialog.open(PopupComponent, {
+                width: '625px',
+                height: '350px',
+                data: {
+                    'type': 'ok-face',
+                    'title': 'Nenhuma loja selecionada!',
+                    'text': 'Selecione.'
                 }
             });
             return;
