@@ -27,7 +27,7 @@
         "@handsontable/angular": "^5.1.0",
         "@ng-bootstrap/ng-bootstrap": "^4.0.1",
         "@ngrx/store": "^7.0.0",
-        "async": "^2.6.1",
+        "async": "^3.2.2",
         "bootstrap": "^4.1.1",
         "bootstrap-sass": "^3.3.7",
         "core-js": "^2.5.4",
