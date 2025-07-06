@@ -1,68 +1,72 @@
 const electron = require('electron');
-
-// Module to control application life.
-const {app, ipcMain, net} = electron;
-// Essa a gente que criou
+const { app, ipcMain, net } = electron;
 const mainWindow = require('./mainWindow');
 const mainOrder = require('./mainOrder');
 const mainReport = require('./mainReport');
 const mainSale = require('./mainSale');
-
-// para mexer com o config file
+const Store = require('./storage');
 const ini = require('ini');
 const fs = require('fs');
 const path = require('path');
 const url = require('url');
 
+const PUERI = 0;
+const RIO = 1;
+
 const config_path = (electron.app || electron.remote.app).getPath('userData') + '/config.ini';
-console.log(config_path);
-const config = ini.parse(fs.readFileSync(config_path, 'utf-8'));
 
+// garante defaults
+let config = {
+    storeName: 'Verbo Divino',
+    school: PUERI
+};
 
-const PUERI = 0
-const RIO = 1
+// tenta carregar o arquivo ini
+if (fs.existsSync(config_path)) {
+    try {
+        const parsed = ini.parse(fs.readFileSync(config_path, 'utf-8'));
+        config = {
+            storeName: parsed.storeName || 'Verbo Divino',
+            school: parsed.school !== undefined ? parseInt(parsed.school) : PUERI
+        };
+    } catch (e) {
+        console.error("Erro ao ler config.ini, usando defaults:", e);
+    }
+} else {
+    // se não existir, cria o arquivo com defaults
+    const defaultIniContent = ini.stringify({
+        storeName: 'Verbo Divino',
+        school: PUERI
+    });
+    fs.writeFileSync(config_path, defaultIniContent);
+}
 
 global['default_url'] = '/api/';
 global['angular_path'] = 'http://localhost:4200/';
-
-// global['default_url'] = 'http://www.pueristore.kinghost.net/sold_alt/';
-// global['angular_path'] = url.format({
-//     pathname: path.join(__dirname, '..', 'angular', 'index.html'),
-//     protocol: 'file:',
-//     slashes: true
-// });
-console.log(global['angular_path'])
 global['user'] = {};
 global['store'] = config.storeName;
-global['school'] = config.school || PUERI;
+global['school'] = config.school;
 
+console.log('Config carregada:', config);
 
 app.on('ready', () => {
-    mainWindow.createWindow({'url': 'login.html'});
-
-    // Check for updates after 2 seconds
-    // setTimeout(updater.check, 2000);
+    mainWindow.createWindow({ 'url': 'login.html' });
 });
 
-// Quit when all windows are closed.
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
-        app.quit()
+        app.quit();
     }
 });
 
 app.on('activate', () => {
     if (mainWindow === null) {
-        mainWindow.createWindow()
+        mainWindow.createWindow();
     }
 });
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
-
-// Comunicação login
 ipcMain.on('ready', () => {
-    mainWindow.createWindow({'url': 'login.html'})
+    mainWindow.createWindow({ 'url': 'login.html' });
 });
 
 ipcMain.on('setUser', (event, user) => {
@@ -77,17 +81,14 @@ ipcMain.on('setSchool', (event, school) => {
     global['school'] = school;
 });
 
-// Tela de venda
 ipcMain.on('open-sale-screen', (e, args) => {
-    mainSale.createWindow()
+    mainSale.createWindow();
 });
 
-// Tela de venda
 ipcMain.on('open-order-screen', (e, args) => {
-    mainOrder.createWindow(args)
+    mainOrder.createWindow(args);
 });
 
-// Tela pdf
 ipcMain.on('pdf', (e, args) => {
     mainReport.createWindow(args);
 });
@@ -103,21 +104,18 @@ ipcMain.on('update-json', (e, args) => {
 
         request.on('response', (response) => {
             response.on('data', (chunk) => {
-                console.log(Object.keys(JSON.parse(chunk)).length === 0)
-                if (!(Object.keys(JSON.parse(chunk)).length === 0)) {
-                    console.log('I am here')
-                    users.set(JSON.parse(chunk)['response'])
+                if (Object.keys(JSON.parse(chunk)).length !== 0) {
+                    users.set(JSON.parse(chunk)['response']);
                 }
             });
             response.on('end', () => {
-                console.log('No more data in response.')
-            })
+                console.log('No more data in response.');
+            });
         });
         request.end();
     } catch (e) {
-        console.log(e)
+        console.log(e);
     }
-
 });
 
 ipcMain.on('get-json', (e, args) => {
@@ -126,5 +124,5 @@ ipcMain.on('get-json', (e, args) => {
         defaults: []
     });
 
-    ipcMain.send('retreive-json', {'back': users.get()})
-})
+    ipcMain.send('retreive-json', { 'back': users.get() });
+});
