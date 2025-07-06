@@ -3,13 +3,13 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {select, Store} from '@ngrx/store';
 import {AppState} from '../../../store/state/app.state';
 import {selectDiscount} from '../../../store/selectors/sale.selectors';
-import {UpdateDiscount, UpdateFullSale} from '../../../store/actions/sale.actions';
+import {UpdateFullSale} from '../../../store/actions/sale.actions';
 import {TypeOfSale} from '../../../constants/enums';
-import {UpdateFullTrade, UpdateTradeDiscount} from '../../../store/actions/trade.actions';
+import {UpdateFullTrade} from '../../../store/actions/trade.actions';
 import {selectTradeDiscount} from '../../../store/selectors/trade.selectors';
 import {Sale} from '../../../models/sale.model';
 import {Trade} from '../../../models/trade.model';
-import * as _ from 'lodash';
+import {deepClone} from '../../../utils';
 
 @Component({
     selector: 'app-discount',
@@ -30,7 +30,7 @@ export class DiscountComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.transaction = _.cloneDeep(this.data);
+        this.transaction = deepClone(this.data);
 
         if (this.transaction.clientDiscount) {
             this.clientDiscount = this.transaction.clientDiscount;

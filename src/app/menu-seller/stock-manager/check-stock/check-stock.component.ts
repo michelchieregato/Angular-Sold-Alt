@@ -1,12 +1,12 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ClientService} from '../../../services/client.service';
 import {Product} from '../../../models/product.model';
-import * as _ from 'lodash';
 import {MatDialog} from '@angular/material';
 import {ConfirmStockComponent} from '../confirm-stock/confirm-stock.component';
 import {User} from '../../../models/user.model';
 import {StockType} from '../../../constants/enums';
 import {PopupComponent} from '../../../modals/popup/popup.component';
+import {deepClone} from '../../../utils';
 
 declare const window: any;
 const {remote} = window.require('electron');
@@ -103,7 +103,7 @@ export class CheckStockComponent implements OnInit {
 
         for (let i = 0; i < this.data.length; i++) {
             if (this.data[i].stock !== this.data[i].oldStock) {
-                productsToUpdate.push(_.cloneDeep(this.data[i]));
+                productsToUpdate.push(deepClone(this.data[i]));
             }
         }
 
@@ -144,7 +144,7 @@ export class CheckStockComponent implements OnInit {
 
         for (let i = 0; i < this.data.length; i++) {
             if (this.data[i].stock !== 0) {
-                productsToUpdate.push(_.cloneDeep(this.data[i]));
+                productsToUpdate.push(deepClone(this.data[i]));
             }
         }
 

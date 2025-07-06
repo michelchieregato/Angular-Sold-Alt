@@ -4,7 +4,6 @@ import {ClientService} from '../../services/client.service';
 import {Sale} from '../../models/sale.model';
 import {SaleDetailComponent} from '../search-sale/sale-detail/sale-detail.component';
 import {MatDialog} from '@angular/material/dialog';
-import * as _ from 'lodash';
 import {Router} from '@angular/router';
 import {getProductsFromBackend} from '../../models/product.model';
 import {SIZES} from '../../constants/enums';
@@ -40,7 +39,7 @@ export class CheckOrdersComponent implements OnInit {
             (next) => {
                 this.sales = next;
                 this.sales.map((sale) => sale.products = getProductsFromBackend(sale.products));
-                this.displaySales = _.clone(this.sales);
+                this.displaySales = [...this.sales];
                 this.calculateProducts();
                 this.loading = false;
             },
@@ -86,11 +85,11 @@ export class CheckOrdersComponent implements OnInit {
         this.orderProducts = [];
         this.displaySales.forEach((sale) => {
             sale.products.forEach((product) => {
-                const hasInNewSale = _.some(this.orderProducts, (p) => {
+                const hasInNewSale = this.orderProducts.some((p) => {
                     return product.id === p.id;
                 });
                 if (!hasInNewSale) {
-                    this.orderProducts.push(_.clone(product));
+                    this.orderProducts.push({...product});
                 } else {
                     this.orderProducts.forEach((saleProduct) => {
                         if (saleProduct.id === product.id) {

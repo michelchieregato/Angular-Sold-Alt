@@ -7,9 +7,9 @@ import {Trade} from '../../../models/trade.model';
 
 declare const window: any;
 const {ipcRenderer, remote} = window.require('electron');
-import * as _ from 'lodash';
 import {TypeOfSale} from '../../../constants/enums';
 import {PopupComponent} from '../../../modals/popup/popup.component';
+import {deepClone} from '../../../utils';
 
 export interface SaleDetailData {
     transaction: Sale;
@@ -57,7 +57,7 @@ export class SaleDetailComponent implements OnInit {
     }
 
     private getUpdatedSale() {
-        this.updatedSale = _.cloneDeep(this.sale);
+        this.updatedSale = deepClone(this.sale);
         if (this.sale.trades.length) {
             let returnedProducts = [], purchasedProducts = [];
             this.sale.trades.forEach(

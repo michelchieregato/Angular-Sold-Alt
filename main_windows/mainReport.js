@@ -11,7 +11,12 @@ exports.createWindow = (args) => {
         width: 1200,
         height: 600,
         frame: true,
-        show: false
+        show: false,
+        webPreferences: {
+            nodeIntegration: true,
+            contextIsolation: false,
+            enableRemoteModule: true // necessária <14
+        }
     };
 
     this.win = new BrowserWindow(windowOptions);

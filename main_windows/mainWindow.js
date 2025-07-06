@@ -1,14 +1,17 @@
 // Modules
-const {BrowserWindow} = require('electron');
+const { BrowserWindow } = require('electron');
 const path = require('path');
 const url = require('url');
+const remoteMain = require('@electron/remote/main');  // ✅ import no main process
+
+remoteMain.initialize(); // inicializa o remote no main
 
 // BrowserWindow instance
-exports.win
+exports.win;
 
 exports.showUrl = (args) => {
     const someArgs = args;
-    const indexPath = path.resolve(__dirname, '..', 'src', 'html', args['url']);
+    const indexPath = path.resolve(__dirname, '..', 'src', 'html', args.url);
     const indexUrl = url.format({
         protocol: 'file',
         pathname: indexPath,
@@ -18,9 +21,7 @@ exports.showUrl = (args) => {
     this.win.loadURL(indexUrl);
 };
 
-// mainWindow createWindow fn
 exports.createWindow = (args) => {
-
     const windowOptions = {
         width: 1300,
         height: 800,
@@ -28,15 +29,18 @@ exports.createWindow = (args) => {
         minHeight: 600,
         autoHideMenuBar: true,
         fullscreen: false,
+        webPreferences: {
+            nodeIntegration: true,
+            contextIsolation: false,
+            enableRemoteModule: true // necessária <14
+        }
     };
 
     this.win = new BrowserWindow(windowOptions);
 
-    this.win.loadURL(global['angular_path']);
+    this.win.loadURL(global.angular_path);
 
-    // this.win.webContents.openDevTools();
-    // // Handle window closed
     this.win.on('closed', () => {
-        this.win = null
-    })
+        this.win = null;
+    });
 };

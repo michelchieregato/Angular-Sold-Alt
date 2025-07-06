@@ -6,7 +6,6 @@ import {Store} from '@ngrx/store';
 import {AppState} from '../../../store/state/app.state';
 import {ClientService} from '../../../services/client.service';
 import {Product} from '../../../models/product.model';
-import {TypeaheadMatch} from 'ngx-bootstrap';
 import {Trade} from '../../../models/trade.model';
 import {UpdateFullTrade} from '../../../store/actions/trade.actions';
 import {PopupComponent} from '../../../modals/popup/popup.component';
@@ -105,7 +104,7 @@ export class TradeComponent implements OnInit, DoCheck {
         }
     }
 
-    onTypeaheadSelect(e: TypeaheadMatch) {
+    onTypeaheadSelect(e: any) {
         this.typeaheadItem = new Product(e.item);
         this.typeaheadText += (' ' + e.item.size);
     }

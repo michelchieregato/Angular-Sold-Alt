@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import { getStoreOptions } from 'src/app/utils';
 import {ClientService} from '../../../services/client.service';
-import {TypeaheadMatch} from 'ngx-bootstrap';
 import {Product} from '../../../models/product.model';
 import {MatDialog} from '@angular/material/dialog';
 import {ConfirmTransferComponent} from '../confirm-transfer/confirm-transfer.component';
@@ -44,7 +43,7 @@ export class StockTransferComponent implements OnInit {
         return this.stores.filter(store => store !== this.currentStore);
     }
 
-    onTypeaheadSelect(e: TypeaheadMatch) {
+    onTypeaheadSelect(e: any) {
         this.selectedItem = new Product(e.item);
         this.typeaheadText += (' ' + e.item.size);
     }

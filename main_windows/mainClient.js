@@ -28,6 +28,11 @@ exports.createWindow = (args) => {
         minHeight: 600,
         autoHideMenuBar: true,
         fullscreen: false,
+        webPreferences: {
+            nodeIntegration: true,
+            contextIsolation: false,
+            enableRemoteModule: true // necessária <14
+        }
     };
 
     const someArgs = args;

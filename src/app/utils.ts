@@ -1,4 +1,5 @@
-import { School } from 'src/app/models/enum';
+import {School} from 'src/app/models/enum';
+
 declare const window: any;
 const {remote} = window.require('electron');
 
@@ -17,4 +18,8 @@ export const getStoreOptions = (allOptions = false) => {
     }
 
     return options;
+};
+
+export const deepClone = (obj: any): any => {
+    return JSON.parse(JSON.stringify(obj));
 };

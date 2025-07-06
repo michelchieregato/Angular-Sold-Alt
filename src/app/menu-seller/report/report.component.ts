@@ -5,7 +5,7 @@ import {Router} from '@angular/router';
 import {FormControl} from '@angular/forms';
 import {DateAdapter, MAT_DATE_FORMATS} from '@angular/material';
 import {APP_DATE_FORMATS, AppDateAdapter} from '../search-sale/search-sale.component';
-import * as _ from 'lodash';
+import {deepClone} from '../../utils';
 
 declare const window: any;
 const {remote} = window.require('electron');
@@ -46,10 +46,10 @@ export class ReportComponent implements OnInit {
 
     prepareData(dateType: string) {
         this.loading = true;
-        let auxInitial = _.cloneDeep(this['initialDate' + dateType].value);
+        let auxInitial = deepClone(this['initialDate' + dateType].value);
         auxInitial.setHours(0, 0, 0);
         auxInitial = this.transformDate(auxInitial);
-        let auxFinal = _.cloneDeep(this['finalDate' + dateType].value);
+        let auxFinal = deepClone(this['finalDate' + dateType].value);
         auxFinal.setHours(23, 59, 59);
         auxFinal = this.transformDate(auxFinal);
 
