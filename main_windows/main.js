@@ -7,6 +7,8 @@ const mainSale = require('./mainSale');
 const Store = require('./storage');
 const ini = require('ini');
 const fs = require('fs');
+const path = require('path');
+const url = require('url')
 
 const PUERI = 0;
 const RIO = 1;
@@ -40,13 +42,13 @@ if (fs.existsSync(config_path)) {
 }
 
 global['default_url'] = 'http://pdstore.us-east-1.elasticbeanstalk.com/';
-// global['angular_path'] = url.format({
-//     pathname: path.join(__dirname, '..', 'angular', 'index.html'),
-//     protocol: 'file:',
-//     slashes: true
-// });
+global['angular_path'] = url.format({
+    pathname: path.join(__dirname, '..', 'angular', 'index.html'),
+    protocol: 'file:',
+    slashes: true
+});
 // global['default_url'] = '/api/';
-global['angular_path'] = 'http://localhost:4200/';
+// global['angular_path'] = 'http://localhost:4200/';
 global['user'] = {};
 global['store'] = config.storeName;
 global['school'] = config.school;
@@ -94,6 +96,7 @@ ipcMain.on('open-order-screen', (e, args) => {
 });
 
 ipcMain.on('pdf', (e, args) => {
+    console.log('crianndoo');
     mainReport.createWindow(args);
 });
 

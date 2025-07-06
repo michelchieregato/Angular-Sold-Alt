@@ -20,6 +20,27 @@ export const getStoreOptions = (allOptions = false) => {
     return options;
 };
 
-export const deepClone = (obj: any): any => {
-    return JSON.parse(JSON.stringify(obj));
+export const deepClone = (value: any): any => {
+    if (value === null || typeof value !== 'object') {
+        return value;
+    }
+
+    // Clone Date
+    if (value instanceof Date) {
+        return new Date(value.getTime()) as any;
+    }
+
+    // Clone Array
+    if (Array.isArray(value)) {
+        return value.map(item => deepClone(item)) as any;
+    }
+
+    // Clone Object
+    const clonedObj: any = {};
+    for (const key in value) {
+        if (Object.prototype.hasOwnProperty.call(value, key)) {
+            clonedObj[key] = deepClone((value as any)[key]);
+        }
+    }
+    return clonedObj;
 };
