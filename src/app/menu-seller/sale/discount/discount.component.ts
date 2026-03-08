@@ -30,7 +30,11 @@ export class DiscountComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.transaction = deepClone(this.data);
+        if (this.data.TYPE === TypeOfSale.SALE) {
+            this.transaction = new Sale(deepClone(this.data));
+        } else {
+            this.transaction = new Trade(deepClone(this.data), (this.data as Trade).saleID);
+        }
 
         if (this.transaction.clientDiscount) {
             this.clientDiscount = this.transaction.clientDiscount;
@@ -61,8 +65,6 @@ export class DiscountComponent implements OnInit {
 
         this.transaction.discount = this.discount;
         this.transaction.value = this.transaction.calculateValue();
-        console.log(this.transaction.getClientDiscount());
-        console.log(this.transaction);
 
         if (this.transaction.TYPE === TypeOfSale.SALE) {
             this.store.dispatch(new UpdateFullSale(this.transaction));

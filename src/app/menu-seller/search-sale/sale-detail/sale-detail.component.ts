@@ -57,7 +57,7 @@ export class SaleDetailComponent implements OnInit {
     }
 
     private getUpdatedSale() {
-        this.updatedSale = deepClone(this.sale);
+        this.updatedSale = new Sale(deepClone(this.sale));
         if (this.sale.trades.length) {
             let returnedProducts = [], purchasedProducts = [];
             this.sale.trades.forEach(
