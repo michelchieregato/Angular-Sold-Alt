@@ -1,7 +1,8 @@
 {
     "name": "PDStore",
-    "version": "0.0.1",
+    "version": "0.3.0",
     "main": "main_windows/main.js",
+    "asar": true,
     "scripts": {
         "ng": "ng",
         "start": "ng serve --proxy-config=proxy.config.js",
@@ -86,10 +87,13 @@
     ],
     "build": {
         "appId": "br.com.pueristore.angular_sold_alt",
+        "productName": "PDStore",
         "directories": {
             "buildResources": "build"
         },
         "win": {
+            "icon": "uniform_pueri.ico",
+            "target": ["portable", "zip"],
             "publish": [
                 "github"
             ],
