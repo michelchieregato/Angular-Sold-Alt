@@ -16,10 +16,9 @@ import {SalePayments} from '../../../models/payment.model';
 
 import {Trade} from '../../../models/trade.model';
 import {selectTrade} from '../../../store/selectors/trade.selectors';
-
-declare const window: any;
-const {ipcRenderer, remote} = window.require('electron');
-const async = require('async');
+import {PrintService} from '../../../services/print.service';
+import * as asyncLib from 'async';
+const async: any = asyncLib; // sem tipos, como o require original
 
 
 @Component({
@@ -46,7 +45,8 @@ export class FinishSaleComponent implements OnInit {
 
     constructor(private clientServer: ClientService, private store: Store<AppState>,
                 private saleCommunicationService: SaleCommunicationService,
-                public dialog: MatDialog, private router: Router) {
+                public dialog: MatDialog, private router: Router,
+                private printService: PrintService) {
         switch (this.router.url.split('?')[0]) {
             case '/sale/order':
                 this.type = TypeOfSale.ORDER;
@@ -144,7 +144,7 @@ export class FinishSaleComponent implements OnInit {
             urlTree.queryParams.type = this.type;
         }
 
-        ipcRenderer.send('pdf', {'url': urlTree.toString().substring(1)});
+        this.printService.print(urlTree.toString().substring(1));
     }
 
     finalize() {
@@ -329,8 +329,7 @@ export class FinishSaleComponent implements OnInit {
             this.makeTaxCupom();
             this.restartSale();
             this.sending = false;
-            const win = remote.getCurrentWindow();
-            win.close();
+            window.close();
         });
     }
 
@@ -432,8 +431,7 @@ export class FinishSaleComponent implements OnInit {
             }
             this.makeTaxCupom();
             this.sending = false;
-            const win = remote.getCurrentWindow();
-            win.close();
+            window.close();
         });
     }
 }

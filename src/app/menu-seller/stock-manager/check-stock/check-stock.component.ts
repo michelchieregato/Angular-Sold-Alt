@@ -7,9 +7,7 @@ import {User} from '../../../models/user.model';
 import {StockType} from '../../../constants/enums';
 import {PopupComponent} from '../../../modals/popup/popup.component';
 import {deepClone} from '../../../utils';
-
-declare const window: any;
-const {remote} = window.require('electron');
+import {SessionService} from '../../../services/session.service';
 
 @Component({
     selector: 'app-check-stock',
@@ -23,12 +21,14 @@ export class CheckStockComponent implements OnInit {
     data: StockProduct[] = [];
     displayData: DisplayedProducts[] = [];
     displayedColumns = ['name', '00', '02', '04', '06', '08', '10', '12', '14', 'PP', 'P', 'M', 'G', 'GG'];
-    user = new User(remote.getGlobal('user'));
+    user: User;
     @Input() type: StockType;
     stockType = StockType;
 
 
-    constructor(private clientServer: ClientService, public dialog: MatDialog) {
+    constructor(private clientServer: ClientService, public dialog: MatDialog,
+                private session: SessionService) {
+        this.user = this.session.getUser();
     }
 
     prepareData() {
@@ -59,7 +59,7 @@ export class CheckStockComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.store = remote.getGlobal('store');
+        this.store = this.session.getStore();
         this.clientServer.getProducts(true, false).subscribe(
             (results) => {
                 this.products = results;

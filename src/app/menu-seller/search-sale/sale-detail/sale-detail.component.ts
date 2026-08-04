@@ -4,12 +4,11 @@ import {ClientService} from '../../../services/client.service';
 import {Sale} from '../../../models/sale.model';
 import {Router} from '@angular/router';
 import {Trade} from '../../../models/trade.model';
-
-declare const window: any;
-const {ipcRenderer, remote} = window.require('electron');
 import {TypeOfSale} from '../../../constants/enums';
 import {PopupComponent} from '../../../modals/popup/popup.component';
-import {deepClone} from '../../../utils';
+import {deepClone, openTab} from '../../../utils';
+import {SessionService} from '../../../services/session.service';
+import {PrintService} from '../../../services/print.service';
 
 export interface SaleDetailData {
     transaction: Sale;
@@ -31,7 +30,8 @@ export class SaleDetailComponent implements OnInit {
     constructor(public dialogRef: MatDialogRef<SaleDetailComponent>,
                 @Inject(MAT_DIALOG_DATA) public data: SaleDetailData,
                 private clientService: ClientService, private router: Router,
-                public dialog: MatDialog) {
+                public dialog: MatDialog, private session: SessionService,
+                private printService: PrintService) {
     }
 
     ngOnInit() {
@@ -93,21 +93,21 @@ export class SaleDetailComponent implements OnInit {
     }
 
     finishOrder() {
-        ipcRenderer.send('open-order-screen', {'url': this.getUrlToGo('order')});
+        openTab('/' + this.getUrlToGo('order'));
 
         this.dialogRef.close();
     }
 
     tradeProducts() {
-        ipcRenderer.send('open-order-screen', {'url': this.getUrlToGo('trade')});
+        openTab('/' + this.getUrlToGo('trade'));
         this.dialogRef.close();
     }
 
     generateTaxCupom() {
         const a = this.router.createUrlTree(['tax-cupom']);
         this.data.transaction.products = this.sale.products;
-        this.data.transaction.user = remote.getGlobal('user');
-        this.data.transaction.store = remote.getGlobal('store');
+        this.data.transaction.user = this.session.getUser();
+        this.data.transaction.store = this.session.getStore();
         const change = this.totalReceived - this.data.transaction.value;
         a.queryParams = {
             sale: JSON.stringify(this.data.transaction),
@@ -115,7 +115,7 @@ export class SaleDetailComponent implements OnInit {
             change: Math.round(change * 100) / 100,
             type: TypeOfSale.SALE
         };
-        ipcRenderer.send('pdf', {'url': a.toString().substring(1)});
+        this.printService.print(a.toString().substring(1));
     }
 
     deleteSale() {

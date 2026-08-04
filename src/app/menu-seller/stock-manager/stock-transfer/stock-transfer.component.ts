@@ -5,9 +5,7 @@ import {Product} from '../../../models/product.model';
 import {MatDialog} from '@angular/material/dialog';
 import {ConfirmTransferComponent} from '../confirm-transfer/confirm-transfer.component';
 import {PopupComponent} from '../../../modals/popup/popup.component';
-
-declare const window: any;
-const {remote} = window.require('electron');
+import {SessionService} from '../../../services/session.service';
 
 @Component({
     selector: 'app-stock-transfer',
@@ -22,11 +20,13 @@ export class StockTransferComponent implements OnInit {
     qnt = 1;
     products = [];
     selectedProducts = [];
-    currentStore = remote.getGlobal('store');
+    currentStore: string;
     stores = [];
     store: string;
 
-    constructor(private clientServer: ClientService, public dialog: MatDialog) {
+    constructor(private clientServer: ClientService, public dialog: MatDialog,
+                private session: SessionService) {
+        this.currentStore = this.session.getStore();
     }
 
     ngOnInit() {

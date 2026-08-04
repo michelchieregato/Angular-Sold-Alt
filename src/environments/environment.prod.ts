@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  apiUrl: 'http://pdstore.us-east-1.elasticbeanstalk.com/'
 };

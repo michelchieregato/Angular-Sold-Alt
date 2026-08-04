@@ -2,9 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {WithdrawComponent} from '../withdraw/withdraw.component';
 import {Router} from '@angular/router';
-
-declare const window: any;
-const {ipcRenderer, remote} = window.require('electron');
+import {openTab} from '../../utils';
 
 @Component({
     selector: 'app-menu',
@@ -20,7 +18,7 @@ export class MenuComponent implements OnInit {
     }
 
     openSaleScreen() {
-        ipcRenderer.send('open-sale-screen');
+        openTab('/sale/new-sale');
     }
 
     openWithdrawModal() {

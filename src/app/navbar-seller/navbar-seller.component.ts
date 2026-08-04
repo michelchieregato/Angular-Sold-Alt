@@ -4,9 +4,7 @@ import {filter} from 'rxjs/operators';
 import {User} from '../models/user.model';
 import {MatDialog} from '@angular/material/dialog';
 import {ChangeStoreComponent} from '../modals/change-store/change-store.component';
-
-declare const window: any;
-const {remote} = window.require('electron');
+import {SessionService} from '../services/session.service';
 
 @Component({
     selector: 'app-navbar-seller',
@@ -18,9 +16,10 @@ export class NavbarSellerComponent implements OnInit {
     isMenu = true;
     open = false;
     store: string;
-    user = new User(remote.getGlobal('user'));
+    user: User;
 
-    constructor(private router: Router, public dialog: MatDialog) {
+    constructor(private router: Router, public dialog: MatDialog, private session: SessionService) {
+        this.user = this.session.getUser();
         router.events.pipe(
             filter(e => {
                 return e instanceof NavigationEnd;
@@ -29,20 +28,20 @@ export class NavbarSellerComponent implements OnInit {
             this.isMenu = false;
             switch (value['url']) {
                 case '/seller/report':
-                    this.title = 'Relatórios - ' + remote.getGlobal('store');
+                    this.title = 'Relatórios - ' + this.session.getStore();
                     break;
                 case '/seller/search-sale':
-                    this.title = 'Pesquisar Venda - ' + remote.getGlobal('store');
+                    this.title = 'Pesquisar Venda - ' + this.session.getStore();
                     break;
                 case '/seller/stock-transfer':
-                    this.title = 'Estoque - ' + remote.getGlobal('store');
+                    this.title = 'Estoque - ' + this.session.getStore();
                     break;
                 case '/seller/check-orders':
-                    this.title = 'Encomendas - ' + remote.getGlobal('store');
+                    this.title = 'Encomendas - ' + this.session.getStore();
                     break;
                 default:
                     this.isMenu = true;
-                    this.title = 'Menu Principal - ' + remote.getGlobal('store');
+                    this.title = 'Menu Principal - ' + this.session.getStore();
                     break;
             }
 
@@ -65,7 +64,7 @@ export class NavbarSellerComponent implements OnInit {
         });
 
         dialogRef.afterClosed().subscribe(result => {
-            this.title = 'Menu Principal - ' + remote.getGlobal('store');
+            this.title = 'Menu Principal - ' + this.session.getStore();
         });
     }
 

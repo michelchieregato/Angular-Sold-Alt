@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
+import {triggerPrintIfRequested} from '../../../utils';
 
 @Component({
     selector: 'app-product-report',
@@ -27,6 +28,8 @@ export class ProductReportComponent implements OnInit {
             this.finalDate = this.router.snapshot.queryParams.finalDate;
             this.returnedProducts = JSON.parse(this.router.snapshot.queryParams.returnedProducts);
         }
+
+        triggerPrintIfRequested(this.router.snapshot.queryParams);
     }
 
 }

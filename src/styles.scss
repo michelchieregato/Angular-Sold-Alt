@@ -342,3 +342,17 @@ button.orange {
     box-shadow: none;
     outline: none;
 }
+
+/* Impressão via browser (substitui o printToPDF do Electron):
+   esconde controles de UI nas rotas de impressão */
+@media print {
+    .no-print,
+    button,
+    app-navbar-seller {
+        display: none !important;
+    }
+
+    body {
+        -webkit-print-color-adjust: exact;
+    }
+}

@@ -1,8 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { School } from 'src/app/models/enum';
-declare const window: any;
-const {ipcRenderer, remote} = window.require('electron');
+import {SessionService} from '../../services/session.service';
 
 
 @Component({
@@ -19,13 +18,13 @@ export class ChangeStoreComponent implements OnInit {
     storeSelected;
     schoolSelected;
 
-    constructor(public dialogRef: MatDialogRef<any>) {
+    constructor(public dialogRef: MatDialogRef<any>, private session: SessionService) {
     }
 
     ngOnInit() {
-        const school = remote.getGlobal('school');
+        const school = this.session.getSchool();
 
-        const isAdmin = remote.getGlobal('user').is_admin;
+        const isAdmin = this.session.getUser().is_admin;
 
         if (isAdmin) {
             this.stores = [
@@ -35,7 +34,7 @@ export class ChangeStoreComponent implements OnInit {
         } else {
             this.stores = this.storeOptions[school];
         }
-        this.storeSelected = remote.getGlobal('store');
+        this.storeSelected = this.session.getStore();
     }
 
     close() {
@@ -45,9 +44,8 @@ export class ChangeStoreComponent implements OnInit {
             this.schoolSelected = School.Rio;
         }
 
-        ipcRenderer.send('setStore', this.storeSelected);
-        ipcRenderer.send('setSchool', this.schoolSelected);
-        console.log(this.schoolSelected);
+        this.session.setStore(this.storeSelected);
+        this.session.setSchool(this.schoolSelected);
         this.dialogRef.close();
     }
 

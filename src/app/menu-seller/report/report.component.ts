@@ -6,10 +6,8 @@ import {FormControl} from '@angular/forms';
 import {DateAdapter, MAT_DATE_FORMATS} from '@angular/material';
 import {APP_DATE_FORMATS, AppDateAdapter} from '../search-sale/search-sale.component';
 import {deepClone} from '../../utils';
-
-declare const window: any;
-const {remote} = window.require('electron');
-const {ipcRenderer} = window.require('electron');
+import {SessionService} from '../../services/session.service';
+import {PrintService} from '../../services/print.service';
 
 @Component({
     selector: 'app-report',
@@ -33,7 +31,8 @@ export class ReportComponent implements OnInit {
     store;
 
     constructor(private datePipe: DatePipe, private clientServer: ClientService,
-                private router: Router) {
+                private router: Router, private session: SessionService,
+                private printService: PrintService) {
     }
 
     transformDate(date) {
@@ -41,7 +40,7 @@ export class ReportComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.store = remote.getGlobal('store');
+        this.store = this.session.getStore();
     }
 
     prepareData(dateType: string) {
@@ -73,7 +72,7 @@ export class ReportComponent implements OnInit {
                     finalDate: auxFinal,
                     store: this.store
                 };
-                ipcRenderer.send('pdf', {'url': customRoute.toString().substring(1)});
+                this.printService.print(customRoute.toString().substring(1));
             },
             (error) => {
                 this.loading = false;
@@ -101,7 +100,7 @@ export class ReportComponent implements OnInit {
                     finalDate: auxFinal,
                     store: this.store
                 };
-                ipcRenderer.send('pdf', {'url': customRoute.toString().substring(1)});
+                this.printService.print(customRoute.toString().substring(1));
             },
             (error) => {
                 this.loading = false;

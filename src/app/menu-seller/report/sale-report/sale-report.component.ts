@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
+import {triggerPrintIfRequested} from '../../../utils';
 
 @Component({
     selector: 'app-sale-report',
@@ -14,6 +15,8 @@ export class SaleReportComponent implements OnInit {
 
     ngOnInit() {
         this.infos = JSON.parse(this.router.snapshot.queryParams.infos);
+
+        triggerPrintIfRequested(this.router.snapshot.queryParams);
     }
 
 }

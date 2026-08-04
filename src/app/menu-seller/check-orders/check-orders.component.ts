@@ -7,9 +7,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {Router} from '@angular/router';
 import {getProductsFromBackend} from '../../models/product.model';
 import {SIZES} from '../../constants/enums';
-
-declare const window: any;
-const {ipcRenderer} = window.require('electron');
+import {PrintService} from '../../services/print.service';
 
 @Component({
     selector: 'app-check-orders',
@@ -25,7 +23,7 @@ export class CheckOrdersComponent implements OnInit {
     sales = [];
 
     constructor(private clientServer: ClientService, public dialog: MatDialog,
-                private router: Router) {
+                private router: Router, private printService: PrintService) {
     }
 
     ngOnInit() {
@@ -124,7 +122,7 @@ export class CheckOrdersComponent implements OnInit {
         a.queryParams = {
             infos: JSON.stringify(infos)
         };
-        ipcRenderer.send('pdf', {'url': a.toString().substring(1)});
+        this.printService.print(a.toString().substring(1));
     }
 
     generateOrderReport() {
@@ -136,7 +134,7 @@ export class CheckOrdersComponent implements OnInit {
             order: true,
             store: this.storeSelected
         };
-        ipcRenderer.send('pdf', {'url': a.toString().substring(1)});
+        this.printService.print(a.toString().substring(1));
     }
 
 }

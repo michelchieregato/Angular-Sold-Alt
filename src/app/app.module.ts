@@ -8,7 +8,8 @@ import {NavbarSellerComponent} from './navbar-seller/navbar-seller.component';
 import {MenuSellerComponent} from './menu-seller/menu-seller.component';
 import {MenuComponent} from './menu-seller/menu/menu.component';
 import {SaleComponent} from './menu-seller/sale/sale.component';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {AuthInterceptor} from './services/auth.interceptor';
 import {PopupComponent} from './modals/popup/popup.component';
 import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -125,7 +126,10 @@ import { ConfirmTransferComponent } from './menu-seller/stock-manager/confirm-tr
         MatCheckboxModule,
         HotTableModule.forRoot()
     ],
-    providers: [MatDialog, MatDatepickerModule, DatePipe, {provide: MAT_DATE_LOCALE, useValue: 'pt'}],
+    providers: [
+        MatDialog, MatDatepickerModule, DatePipe, {provide: MAT_DATE_LOCALE, useValue: 'pt'},
+        {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
+    ],
     bootstrap: [AppComponent],
     entryComponents: [
         PopupComponent,

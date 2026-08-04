@@ -1,10 +1,8 @@
 import {School} from 'src/app/models/enum';
-
-declare const window: any;
-const {remote} = window.require('electron');
+import {getSessionSchool} from './session-storage';
 
 export const getStoreOptions = (allOptions = false) => {
-    const school = remote.getGlobal('school');
+    const school = getSessionSchool();
 
     const storeOptions = {
         [School.Pueri]: ['Verbo Divino', 'Aclimação', 'Itaim', 'Perdizes'],
@@ -18,6 +16,23 @@ export const getStoreOptions = (allOptions = false) => {
     }
 
     return options;
+};
+
+// Abre uma rota do app em nova aba (equivalente web das BrowserWindow do Electron).
+// Compatível com o hash routing: a rota vira o fragmento da URL atual.
+export const openTab = (route: string): Window => {
+    return window.open(window.location.origin + window.location.pathname + '#' + route, '_blank');
+};
+
+// Usado pelas rotas de impressão (tax-cupom e relatórios): quando abertas com print=1
+// pelo PrintService, disparam o diálogo de impressão e fecham a aba ao final.
+export const triggerPrintIfRequested = (queryParams: any) => {
+    if (queryParams.print === '1') {
+        setTimeout(() => {
+            window.onafterprint = () => window.close();
+            window.print();
+        });
+    }
 };
 
 export const deepClone = (value: any): any => {

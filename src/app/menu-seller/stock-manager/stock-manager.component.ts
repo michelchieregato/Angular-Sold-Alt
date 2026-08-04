@@ -1,9 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {StockType} from '../../constants/enums';
 import {User} from '../../models/user.model';
-
-declare const window: any;
-const {remote} = window.require('electron');
+import {SessionService} from '../../services/session.service';
 
 @Component({
     selector: 'app-stock-manager',
@@ -13,9 +11,10 @@ const {remote} = window.require('electron');
 export class StockManagerComponent implements OnInit {
     stockType = StockType;
     tabIndex = 0;
-    user = new User(remote.getGlobal('user'));
+    user: User;
 
-    constructor() {
+    constructor(private session: SessionService) {
+        this.user = this.session.getUser();
     }
 
     ngOnInit() {

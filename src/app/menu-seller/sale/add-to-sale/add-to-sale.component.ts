@@ -9,7 +9,8 @@ import {selectSale, selectTotal} from '../../../store/selectors/sale.selectors';
 import {PopupComponent} from '../../../modals/popup/popup.component';
 import {Sale} from '../../../models/sale.model';
 
-const async = require('async');
+import * as asyncLib from 'async';
+const async: any = asyncLib; // sem tipos, como o require original
 
 @Component({
     selector: 'app-add-to-sale',

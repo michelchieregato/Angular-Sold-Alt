@@ -5,7 +5,8 @@ import {PopupComponent} from '../../modals/popup/popup.component';
 import {Withdraw} from '../../models/withdraw.model';
 import {WithdrawHistoryComponent} from './withdraw-history/withdraw-history.component';
 
-const async = require('async');
+import * as asyncLib from 'async';
+const async: any = asyncLib; // sem tipos, como o require original
 
 @Component({
     selector: 'app-withdraw',

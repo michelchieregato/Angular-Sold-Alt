@@ -16,10 +16,11 @@ import {CheckOrdersComponent} from './menu-seller/check-orders/check-orders.comp
 import {SaleReportComponent} from './menu-seller/report/sale-report/sale-report.component';
 import {TradeComponent} from './menu-seller/sale/trade/trade.component';
 import {StockManagerComponent} from './menu-seller/stock-manager/stock-manager.component';
+import {AuthGuard} from './services/auth.guard';
 
 const appRoutes: Routes = [
     {
-        path: 'seller', component: MenuSellerComponent, children: [
+        path: 'seller', component: MenuSellerComponent, canActivate: [AuthGuard], children: [
             {path: 'menu', component: MenuComponent},
             {path: 'search-sale', component: SearchSaleComponent},
             {path: 'stock-transfer', component: StockManagerComponent},
@@ -28,16 +29,16 @@ const appRoutes: Routes = [
         ]
     },
     {
-        path: 'sale', component: SaleComponent, children: [
+        path: 'sale', component: SaleComponent, canActivate: [AuthGuard], children: [
             {path: 'new-sale', component: AddToSaleComponent},
             {path: 'order', component: OrderComponent},
             {path: 'trade', component: TradeComponent}
         ],
     },
-    {path: 'tax-cupom', component: TaxCupomComponent},
-    {path: 'payment-report', component: PaymentReportComponent},
-    {path: 'product-report', component: ProductReportComponent},
-    {path: 'sale-report', component: SaleReportComponent},
+    {path: 'tax-cupom', component: TaxCupomComponent, canActivate: [AuthGuard]},
+    {path: 'payment-report', component: PaymentReportComponent, canActivate: [AuthGuard]},
+    {path: 'product-report', component: ProductReportComponent, canActivate: [AuthGuard]},
+    {path: 'sale-report', component: SaleReportComponent, canActivate: [AuthGuard]},
     {path: '', component: LoginComponent},
 ];
 

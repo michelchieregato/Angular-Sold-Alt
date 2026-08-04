@@ -14,7 +14,8 @@ import {TradeDetailComponent} from './trade-detail/trade-detail.component';
 
 registerLocaleData(ptBr);
 
-const async = require('async');
+import * as asyncLib from 'async';
+const async: any = asyncLib; // sem tipos, como o require original
 
 export class AppDateAdapter extends NativeDateAdapter {
     parse(value: any): Date | null {

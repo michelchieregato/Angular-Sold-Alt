@@ -1,8 +1,7 @@
 import {Sale} from '../../models/sale.model';
 import {Client} from '../../models/client.model';
 import {User} from '../../models/user.model';
-declare const window: any;
-const {remote} = window.require('electron');
+import {getSessionStore, getSessionUser} from '../../session-storage';
 
 export interface SaleState {
     sale: Sale;
@@ -11,12 +10,12 @@ export interface SaleState {
 
 export const initialSaleState = {
     sale: new Sale({
-        user: new User(remote.getGlobal('user')),
+        user: new User(getSessionUser()),
         client: new Client({
             id: 0,
             name: 'Cliente (Não Identificado)'
         }),
-        store: remote.getGlobal('store'),
+        store: getSessionStore(),
         value: 0,
         original_value: 0,
         products: [],

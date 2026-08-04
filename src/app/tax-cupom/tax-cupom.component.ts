@@ -7,9 +7,8 @@ import {Trade} from '../models/trade.model';
 import {Product} from '../models/product.model';
 import {User} from '../models/user.model';
 import {roundTo} from '../models/payment.model';
-declare const window: any;
-const {remote} = window.require('electron');
-let user = remote.getGlobal('user');
+import {SessionService} from '../services/session.service';
+import {triggerPrintIfRequested} from '../utils';
 
 @Component({
     selector: 'app-tax-cupom',
@@ -34,7 +33,7 @@ export class TaxCupomComponent implements OnInit {
     products: Product[] = [];
     type: TypeOfSale;
 
-    constructor(private router: ActivatedRoute) {
+    constructor(private router: ActivatedRoute, private session: SessionService) {
     }
 
     ngOnInit() {
@@ -49,7 +48,7 @@ export class TaxCupomComponent implements OnInit {
             this.products = this.sale.products;
             this.store = this.sale.store;
             this.value = this.sale.value;
-            this.user = user;
+            this.user = this.session.getUser();
             this.client = new Client(this.sale.client);
             this.date = (this.sale.datetime ? new Date(this.sale.datetime) : this.date);
             this.total_value = this.sale.original_value;
@@ -62,7 +61,7 @@ export class TaxCupomComponent implements OnInit {
             this.products = this.trade.purchasedProducts;
             this.store = this.trade.store;
             this.value = this.trade.value;
-            this.user = user;
+            this.user = this.session.getUser();
             this.client = new Client(this.trade.client);
             this.date = (this.trade.datetime ? new Date(this.trade.datetime) : this.date);
             this.discount = this.trade.discount;
@@ -83,6 +82,8 @@ export class TaxCupomComponent implements OnInit {
 
         this.payments = JSON.parse(this.router.snapshot.queryParams.payments);
         this.change = parseFloat(this.router.snapshot.queryParams.change);
+
+        triggerPrintIfRequested(this.router.snapshot.queryParams);
     }
 
 }

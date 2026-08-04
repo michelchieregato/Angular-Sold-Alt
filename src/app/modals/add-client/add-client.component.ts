@@ -7,9 +7,7 @@ import {Client} from '../../models/client.model';
 import {Store} from '@ngrx/store';
 import {AppState} from '../../store/state/app.state';
 import {AddClient} from '../../store/actions/sale.actions';
-
-declare const window: any;
-const {remote} = window.require('electron');
+import {SessionService} from '../../services/session.service';
 
 @Component({
     selector: 'app-add-client',
@@ -21,14 +19,14 @@ export class AddClientComponent implements OnInit {
 
     constructor(public dialogRef: MatDialogRef<AddClientComponent>, private store: Store<AppState>,
                 @Inject(MAT_DIALOG_DATA) public data: DialogData, private clientServer: ClientService,
-                public dialog: MatDialog) {
+                public dialog: MatDialog, private session: SessionService) {
     }
 
     ngOnInit() {
     }
 
     onSubmit(form: NgForm) {
-        let school = remote.getGlobal('school');
+        let school = this.session.getSchool();
         if (!form.valid) {
             return;
         }

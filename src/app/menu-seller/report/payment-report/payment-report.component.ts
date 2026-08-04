@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import * as _ from 'lodash';
+import {triggerPrintIfRequested} from '../../../utils';
 
 @Component({
     selector: 'app-payment-report',
@@ -26,6 +27,8 @@ export class PaymentReportComponent implements OnInit {
             this.values[key] = value['value__sum'] || 0;
             this.total += this.values[key];
         }
+
+        triggerPrintIfRequested(this.router.snapshot.queryParams);
     }
 
 }
