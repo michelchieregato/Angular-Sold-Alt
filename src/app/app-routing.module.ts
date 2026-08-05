@@ -17,6 +17,8 @@ import {SaleReportComponent} from './menu-seller/report/sale-report/sale-report.
 import {TradeComponent} from './menu-seller/sale/trade/trade.component';
 import {StockManagerComponent} from './menu-seller/stock-manager/stock-manager.component';
 import {AuthGuard} from './services/auth.guard';
+import {AdminGuard} from './services/admin.guard';
+import {ProductAdminComponent} from './menu-seller/product-admin/product-admin.component';
 
 const appRoutes: Routes = [
     {
@@ -25,7 +27,8 @@ const appRoutes: Routes = [
             {path: 'search-sale', component: SearchSaleComponent},
             {path: 'stock-transfer', component: StockManagerComponent},
             {path: 'report', component: ReportComponent},
-            {path: 'check-orders', component: CheckOrdersComponent}
+            {path: 'check-orders', component: CheckOrdersComponent},
+            {path: 'product-admin', component: ProductAdminComponent, canActivate: [AdminGuard]}
         ]
     },
     {

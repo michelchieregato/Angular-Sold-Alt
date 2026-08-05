@@ -1,0 +1,33 @@
+.new-product {
+    padding: 10px;
+
+    h2 {
+        margin-bottom: 20px;
+    }
+
+    .hint {
+        color: #777;
+        font-size: 13px;
+    }
+
+    .similar {
+        background-color: #fff7ef;
+        border: 1px solid #e8955c;
+        border-radius: 4px;
+        padding: 10px 15px;
+        margin-bottom: 15px;
+        font-size: 13px;
+    }
+
+    .actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .orange {
+        background-color: #e8955c;
+        color: white;
+    }
+}

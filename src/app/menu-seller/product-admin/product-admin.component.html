@@ -1,0 +1,115 @@
+<app-loading-mask *ngIf="loading"></app-loading-mask>
+
+<div class="product-admin container-fluid">
+    <div class="toolbar row">
+        <div class="col-md-3">
+            <label>Escola</label>
+            <select class="form-control" [(ngModel)]="schoolSelected" (change)="changeSchool()">
+                <option *ngFor="let school of schools" [ngValue]="school.value">{{ school.label }}</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label>Buscar produto</label>
+            <input type="text" class="form-control" placeholder="Nome do produto"
+                   [(ngModel)]="search">
+        </div>
+        <div class="col-md-2 archived-toggle">
+            <label>
+                <input type="checkbox" [(ngModel)]="showArchived"> Mostrar arquivados
+            </label>
+        </div>
+        <div class="col-md-3 text-right">
+            <button class="btn orange btn-new" (click)="openNewProductModal()">+ Novo produto</button>
+        </div>
+    </div>
+
+    <div class="empty" *ngIf="!loading && !displayGroups.length">
+        Nenhum produto encontrado.
+    </div>
+
+    <div class="group card" *ngFor="let group of displayGroups" [class.archived]="group.archived">
+        <div class="group-header" (click)="group.expanded = !group.expanded">
+            <span class="expander">{{ group.expanded ? '▾' : '▸' }}</span>
+            <span class="name">{{ group.name }}</span>
+            <span class="badge badge-archived" *ngIf="group.archived">Arquivado</span>
+            <span class="sizes-count">{{ group.sizes.length }} tamanho(s)</span>
+            <span class="spacer"></span>
+            <button class="btn btn-sm btn-outline-secondary" *ngIf="group.sizes.length"
+                    (click)="$event.stopPropagation(); toggleArchive(group)">
+                {{ group.archived ? 'Desarquivar' : 'Arquivar' }}
+            </button>
+        </div>
+
+        <div class="group-body" *ngIf="group.expanded">
+            <table class="table table-sm" *ngIf="group.sizes.length">
+                <thead>
+                <tr>
+                    <th>Tamanho</th>
+                    <th>Preço de custo (R$)</th>
+                    <th>Preço de venda (R$)</th>
+                    <th class="remove-col"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let row of group.sizes" [class.dirty]="isDirty(row)">
+                    <td class="size">{{ row.size }}</td>
+                    <td><input type="number" step="0.01" min="0" class="form-control input-sm"
+                               [(ngModel)]="row.price_cost"></td>
+                    <td><input type="number" step="0.01" min="0" class="form-control input-sm"
+                               [(ngModel)]="row.price_sell"></td>
+                    <td class="remove-col">
+                        <button class="btn btn-sm btn-outline-secondary" title="Remover tamanho"
+                                (click)="removeSize(group, row)">✕
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div class="add-panel" *ngIf="group.adding">
+                <div class="add-title">Adicionar tamanhos a "{{ group.name }}":</div>
+                <div class="sizes">
+                    <button class="size-chip" *ngFor="let size of availableSizes(group)"
+                            [class.selected]="group.addSizes.includes(size)"
+                            (click)="toggleAddSize(group, size)">
+                        {{ size }}
+                    </button>
+                    <span class="all-used" *ngIf="!availableSizes(group).length">
+                        Todos os tamanhos já foram criados.
+                    </span>
+                </div>
+                <div class="add-prices">
+                    <input type="number" step="0.01" min="0" class="form-control input-sm"
+                           placeholder="Custo (R$)" [(ngModel)]="group.addCost">
+                    <input type="number" step="0.01" min="0" class="form-control input-sm"
+                           placeholder="Venda (R$)" [(ngModel)]="group.addSell">
+                    <button class="btn btn-sm orange" [disabled]="!canConfirmAdd(group) || group.saving"
+                            (click)="confirmAdd(group)">
+                        {{ group.saving ? 'Adicionando...' : 'Adicionar' }}
+                    </button>
+                    <button class="btn btn-sm btn-outline-secondary" (click)="cancelAdding(group)">
+                        Cancelar
+                    </button>
+                    <span class="add-hint">O preço vale para os tamanhos marcados — ajuste depois na tabela se precisar.</span>
+                </div>
+            </div>
+
+            <div class="actions-bar">
+                <button class="btn btn-sm btn-outline-secondary" *ngIf="!group.adding"
+                        (click)="startAdding(group)">+ Adicionar tamanhos
+                </button>
+
+                <span class="spacer"></span>
+
+                <button class="btn btn-sm btn-outline-secondary" *ngIf="hasChanges(group)"
+                        (click)="discardGroup(group)">Descartar
+                </button>
+                <button class="btn btn-sm orange" *ngIf="group.sizes.length"
+                        [disabled]="!hasChanges(group) || group.saving"
+                        (click)="saveGroup(group)">
+                    {{ group.saving ? 'Salvando...' : 'Salvar alterações' }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

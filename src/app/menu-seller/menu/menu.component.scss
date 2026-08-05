@@ -15,6 +15,29 @@
             height: 200px;
             border-radius: 0;
         }
+
+        // Fileira extra de administração: o container cresce para ela caber
+        // (altura fixa de 400px só comporta as duas fileiras originais)
+        &.with-admin {
+            height: 500px;
+
+            .btn-group:last-child {
+                height: 100px;
+
+                .btn {
+                    font-size: 1.2em;
+                    padding-top: 35px;
+
+                    img {
+                        display: none;
+                    }
+
+                    br {
+                        display: none;
+                    }
+                }
+            }
+        }
     }
 
     .btn {

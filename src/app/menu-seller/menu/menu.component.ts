@@ -3,6 +3,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {WithdrawComponent} from '../withdraw/withdraw.component';
 import {Router} from '@angular/router';
 import {openTab} from '../../utils';
+import {SessionService} from '../../services/session.service';
 
 @Component({
     selector: 'app-menu',
@@ -10,8 +11,11 @@ import {openTab} from '../../utils';
     styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent implements OnInit {
+    isAdmin = false;
 
-    constructor(public dialog: MatDialog, private router: Router) {
+    constructor(public dialog: MatDialog, private router: Router,
+                private session: SessionService) {
+        this.isAdmin = this.session.getUser().is_admin;
     }
 
     ngOnInit() {

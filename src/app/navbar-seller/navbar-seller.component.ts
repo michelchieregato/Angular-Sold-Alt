@@ -39,6 +39,9 @@ export class NavbarSellerComponent implements OnInit {
                 case '/seller/check-orders':
                     this.title = 'Encomendas - ' + this.session.getStore();
                     break;
+                case '/seller/product-admin':
+                    this.title = 'Administração de Produtos';
+                    break;
                 default:
                     this.isMenu = true;
                     this.title = 'Menu Principal - ' + this.session.getStore();

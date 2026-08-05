@@ -1,6 +1,6 @@
 <div id="menu">
     <div id="footer">
-        <div class="container-fluid menu">
+        <div class="container-fluid menu" [class.with-admin]="isAdmin">
             <div class="btn-group btn-group-justified">
                 <a class="btn" id="sale" (click)="openSaleScreen()">
                     <img src="assets/images/register.png" alt="">
@@ -28,6 +28,13 @@
                 <a [routerLink]="['/seller/check-orders']" class="btn" id="log-out">
                     <img src="assets/images/list.png" alt="">
                     <br><br> Encomenda
+                </a>
+            </div>
+
+            <div class="btn-group btn-group-justified" *ngIf="isAdmin">
+                <a class="btn" [routerLink]="['/seller/product-admin']">
+                    <img src="assets/images/register.png" alt="">
+                    <br><br> Administração de Produtos
                 </a>
             </div>
         </div>

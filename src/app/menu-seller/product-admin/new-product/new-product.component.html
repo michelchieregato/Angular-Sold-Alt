@@ -1,0 +1,35 @@
+<div class="new-product">
+    <h2>Novo produto — {{ schoolLabel }}</h2>
+
+    <div class="form-group">
+        <label>Nome do produto</label>
+        <input type="text" class="form-control" placeholder="Ex.: CAMISETA DRY-FIT"
+               [(ngModel)]="name" style="text-transform: uppercase"
+               (keyup.enter)="confirm()">
+    </div>
+
+    <div class="alert alert-danger" *ngIf="duplicated">
+        Já existe um produto com esse nome. Para mexer nos tamanhos dele,
+        use o próprio grupo na listagem.
+    </div>
+
+    <div class="similar" *ngIf="!duplicated && similarNames.length">
+        <strong>Parecidos que já existem:</strong>
+        <span *ngFor="let similar of similarNames; let last = last">
+            {{ similar }}{{ last ? '' : ', ' }}
+        </span>
+        <br>Confira se não é um deles antes de criar — os tamanhos são adicionados no próprio grupo.
+    </div>
+
+    <p class="hint">
+        Depois de criar, você adiciona os tamanhos e preços dentro do grupo —
+        o nome não é digitado de novo, então não tem risco de criar grupos separados.
+    </p>
+
+    <div class="actions">
+        <button class="btn btn-outline-secondary" (click)="dialogRef.close(null)">Cancelar</button>
+        <button class="btn orange" [disabled]="!cleanName || duplicated" (click)="confirm()">
+            Criar e adicionar tamanhos
+        </button>
+    </div>
+</div>
