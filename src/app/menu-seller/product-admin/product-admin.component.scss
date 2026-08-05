@@ -56,6 +56,24 @@
             font-weight: 600;
         }
 
+        .btn-rename {
+            border: none;
+            background: none;
+            color: #e8955c;
+            margin-left: 6px;
+            cursor: pointer;
+            font-size: 14px;
+
+            &:hover {
+                color: #c97435;
+            }
+        }
+
+        .rename-input {
+            max-width: 350px;
+            margin-right: 8px;
+        }
+
         .badge-archived {
             margin-left: 10px;
             background-color: #999;

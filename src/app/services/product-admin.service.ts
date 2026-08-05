@@ -44,4 +44,8 @@ export class ProductAdminService {
     deleteSize(id: number) {
         return this.http.delete(apiUrl + 'product/admin/delete/' + id + '/');
     }
+
+    rename(name: string, school: School, newName: string) {
+        return this.http.post(apiUrl + 'product/admin/rename/', {name, school, new_name: newName});
+    }
 }

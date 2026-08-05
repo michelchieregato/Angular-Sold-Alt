@@ -26,6 +26,8 @@ interface ProductGroup {
     addSizes: string[];
     addCost: number;
     addSell: number;
+    renaming: boolean;
+    newName: string;
 }
 
 @Component({
@@ -79,7 +81,8 @@ export class ProductAdminComponent implements OnInit {
     private emptyGroup(name: string): ProductGroup {
         return {
             name, archived: false, expanded: true, sizes: [],
-            saving: false, adding: true, addSizes: [], addCost: null, addSell: null
+            saving: false, adding: true, addSizes: [], addCost: null, addSell: null,
+            renaming: false, newName: ''
         };
     }
 
@@ -258,6 +261,43 @@ export class ProductAdminComponent implements OnInit {
                 }
             );
         });
+    }
+
+    // ---- renomear (muda todos os tamanhos do grupo juntos, no servidor) ----
+
+    startRename(group: ProductGroup) {
+        group.renaming = true;
+        group.newName = group.name;
+    }
+
+    cancelRename(group: ProductGroup) {
+        group.renaming = false;
+    }
+
+    confirmRename(group: ProductGroup) {
+        const newName = (group.newName || '').trim().toUpperCase();
+        if (!newName || newName === group.name) {
+            group.renaming = false;
+            return;
+        }
+        if (group.saving) {
+            return;
+        }
+
+        group.saving = true;
+        this.adminService.rename(group.name, this.schoolSelected, newName).subscribe(
+            () => {
+                group.saving = false;
+                group.renaming = false;
+                group.name = newName;
+                this.groups.sort((a, b) => a.name.localeCompare(b.name));
+            },
+            (error) => {
+                group.saving = false;
+                this.openPopup('sad', 'Não foi possível renomear',
+                    (error.error && error.error.error) || 'Verifique a conexão.');
+            }
+        );
     }
 
     toggleArchive(group: ProductGroup) {

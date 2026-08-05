@@ -28,13 +28,36 @@
     </div>
 
     <div class="group card" *ngFor="let group of displayGroups" [class.archived]="group.archived">
-        <div class="group-header" (click)="group.expanded = !group.expanded">
+        <div class="group-header" (click)="group.renaming || (group.expanded = !group.expanded)">
             <span class="expander">{{ group.expanded ? '▾' : '▸' }}</span>
-            <span class="name">{{ group.name }}</span>
+
+            <ng-container *ngIf="!group.renaming">
+                <span class="name">{{ group.name }}</span>
+                <button class="btn-rename" title="Renomear (muda todos os tamanhos juntos)"
+                        (click)="$event.stopPropagation(); startRename(group)">✎
+                </button>
+            </ng-container>
+
+            <ng-container *ngIf="group.renaming">
+                <input type="text" class="form-control input-sm rename-input"
+                       [(ngModel)]="group.newName"
+                       (click)="$event.stopPropagation()"
+                       (keyup.enter)="confirmRename(group)"
+                       (keyup.escape)="cancelRename(group)"
+                       style="text-transform: uppercase">
+                <button class="btn btn-sm orange" [disabled]="group.saving"
+                        (click)="$event.stopPropagation(); confirmRename(group)">
+                    {{ group.saving ? 'Salvando...' : 'Renomear' }}
+                </button>
+                <button class="btn btn-sm btn-outline-secondary"
+                        (click)="$event.stopPropagation(); cancelRename(group)">Cancelar
+                </button>
+            </ng-container>
+
             <span class="badge badge-archived" *ngIf="group.archived">Arquivado</span>
             <span class="sizes-count">{{ group.sizes.length }} tamanho(s)</span>
             <span class="spacer"></span>
-            <button class="btn btn-sm btn-outline-secondary" *ngIf="group.sizes.length"
+            <button class="btn btn-sm btn-outline-secondary" *ngIf="group.sizes.length && !group.renaming"
                     (click)="$event.stopPropagation(); toggleArchive(group)">
                 {{ group.archived ? 'Desarquivar' : 'Arquivar' }}
             </button>
